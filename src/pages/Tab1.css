@@ -1,0 +1,15 @@
+.genreCard {
+    height: 85px;
+    text-align: center;
+    align-items: center;
+    
+}
+
+.genreTitle {
+    position: relative;
+    top: 30%;
+}
+
+.genreSwiper {
+    align-items: center;
+}
