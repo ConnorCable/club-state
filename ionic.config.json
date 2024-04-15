@@ -1,0 +1,7 @@
+{
+  "name": "ClubState",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
