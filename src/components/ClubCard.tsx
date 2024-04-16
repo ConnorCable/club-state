@@ -2,15 +2,18 @@ import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle }
 import React from "react";
 
 
+interface clickableClubCard {
+    onClick: () => void
+}
 
 
 
 
-export const ClubCard = () => {
+export const ClubCard : React.FC<clickableClubCard>= ({onClick}) => {
 
 
     return (
-        <IonCard>
+        <IonCard onClick={onClick}>
             <IonCardHeader>
                 <IonCardTitle>Club 1</IonCardTitle>
                 <IonCardSubtitle>1234 Mystery Way | Rap | Techno | Dance</IonCardSubtitle>
