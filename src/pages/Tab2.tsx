@@ -6,9 +6,11 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonViewWillEnter,
+  withIonLifeCycle
 
 } from "@ionic/react";
-
+import { Geolocation } from '@capacitor/geolocation';
 import { useEffect, useRef, useState } from "react";
 import "./Tab2.css";
 import Map from "../components/Map";
@@ -16,6 +18,20 @@ import { MarkerMap } from "../components/MarkerMap";
 
 
 const Tab2: React.FC = () => {
+  const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0})
+
+  const fetchUserLocation = async () => {
+    const coordinates = await Geolocation.getCurrentPosition();
+    setUserLocation({ lat: coordinates.coords.latitude, lng: coordinates.coords.longitude });
+  };
+  useIonViewWillEnter(() => {
+    const fetchUserLocation = async () => {
+      const coordinates = await Geolocation.getCurrentPosition();
+      setUserLocation({ lat: coordinates.coords.latitude, lng: coordinates.coords.longitude });
+    };
+
+    fetchUserLocation()
+  })
 
   return (
     <IonPage>
@@ -30,7 +46,7 @@ const Tab2: React.FC = () => {
             <IonTitle size="large">Map</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <MarkerMap  coordinate={{lat: 38.581573, lng: -121.494400 }}/>
+        <MarkerMap  coordinate={{lat: userLocation.lat, lng: userLocation.lng }}/>
       </IonContent>
       
     </IonPage>

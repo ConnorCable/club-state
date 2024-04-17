@@ -1,6 +1,6 @@
 import { IonChip, IonIcon, IonLabel } from "@ionic/react";
 import GoogleMap from "google-maps-react-markers";
-import { pin } from "ionicons/icons";
+import { homeOutline, homeSharp, pin } from "ionicons/icons";
 import { useRef, useState } from "react";
 
 interface MarkerProps {
@@ -8,28 +8,12 @@ interface MarkerProps {
   lng: number;
 }
 
-const Divcomp: React.FC<MarkerProps> = () => (
-  <div
-    style={{
-      color: "white",
-      background: "grey",
-      padding: "15px 10px",
-      display: "inline-flex",
-      textAlign: "center",
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: "100%",
-      transform: "translate(-50%, -50%)",
-    }}
-  >
-    Marker
-  </div>
-);
-
 const LocationChip: React.FC<MarkerProps> = () => {
   return (
 
-    <IonChip color="success">Primary</IonChip>
+    <IonChip color="primary" >
+      <IonIcon icon={homeSharp} />
+    </IonChip>
 
   );
 };
@@ -38,11 +22,7 @@ export const MarkerMap = (coordinates: any) => {
   const mapRef = useRef(null);
   const [mapReady, setMapReady] = useState(false);
 
-  /**
-   * @description This function is called when the map is ready
-   * @param {Object} map - reference to the map instance
-   * @param {Object} maps - reference to the maps library
-   */
+
   const onGoogleApiLoaded = ({ map, maps }: any) => {
     mapRef.current = map;
     setMapReady(true);
@@ -51,7 +31,7 @@ export const MarkerMap = (coordinates: any) => {
   return (
     <>
       <GoogleMap
-        apiKey=""
+        apiKey="AIzaSyA09rOO1u5io_qURoy9I3bKWEf1kv5oWrQ"
         defaultCenter={{ lat: 45.4046987, lng: 12.2472504 }}
         defaultZoom={5}
         mapMinHeight="100vh"
