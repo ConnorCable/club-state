@@ -1,35 +1,60 @@
-import { GoogleMap } from '@capacitor/google-maps';
-import { IonButton } from '@ionic/react';
-import { useEffect, useRef } from 'react';
+import React from "react";
+import GoogleMapReact from 'google-map-react';
 
-const MapComponent = () => {
-    useEffect(() => {
-      const createMap = async () => {
-        const mapRef = document.getElementById('map');
-        if (mapRef){
-            const map = await GoogleMap.create({
-                element: mapRef,
-                apiKey: 'YOUR_API_KEY', // Replace with your API key
-                config: {
-                    center: {
-                        lat: 37.7749, // Initial latitude
-                        lng: -122.4194 // Initial longitude
-                    },
-                    zoom: 12 // Initial zoom level
-                },
-                id: ''
-            });
-        }
-        else{
-            console.error('Element with id "map" not found');
-        }
-        
-      };
-  
-      createMap();
-    }, []);
-  
-    return <div id="map" style={{ width: '100%', height: '300px' }}></div>;
+
+interface Map {
+  lat: number,
+  lng: number,
+  text: string,
+}
+
+interface marker {
+  lat: number,
+  lng: number,
+  text: string
+}
+
+const Divcomp: React.FC<marker> = ({lat,lng,text}) => (
+  <div style={{
+    color: 'white', 
+    background: 'grey',
+    padding: '15px 10px',
+    display: 'inline-flex',
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '100%',
+    transform: 'translate(-50%, -50%)'
+  }}>
+    {text}
+  </div>
+);
+
+
+export default function Map(){
+  const defaultProps = {
+    center: {
+      lat: 38.677959,
+      lng: -121.176056
+    },
+    zoom: 11
   };
-  
-  export default MapComponent;
+
+  return (
+    // Important! Always set the container height explicitly
+    <div style={{ height: '100vh', width: '100%' }}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: "AIzaSyA09rOO1u5io_qURoy9I3bKWEf1kv5oWrQ" }}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
+        yesIWantToUseGoogleMapApiInternals
+
+      >  
+      <Divcomp lat={38.581573} lng={-121.494400} text="sacramento"/>
+      </GoogleMapReact>
+    </div>
+  );
+}
+
+
+

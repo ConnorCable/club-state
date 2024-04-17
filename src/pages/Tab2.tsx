@@ -1,10 +1,22 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { GoogleMap } from '@capacitor/google-maps';
-import { useRef } from 'react';
-import './Tab2.css';
-import MyMap from '../components/Map';
+import {
+  IonButton,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+
+} from "@ionic/react";
+
+import { useEffect, useRef, useState } from "react";
+import "./Tab2.css";
+import Map from "../components/Map";
+import { MarkerMap } from "../components/MarkerMap";
+
 
 const Tab2: React.FC = () => {
+
   return (
     <IonPage>
       <IonHeader>
@@ -18,9 +30,11 @@ const Tab2: React.FC = () => {
             <IonTitle size="large">Map</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <MyMap />
+        <MarkerMap  coordinate={{lat: 38.581573, lng: -121.494400 }}/>
       </IonContent>
+      
     </IonPage>
+    
   );
 };
 
