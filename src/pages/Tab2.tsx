@@ -46,7 +46,7 @@ const Tab2: React.FC = () => {
             <IonTitle size="large">Map</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <MarkerMap  coordinate={{lat: userLocation.lat, lng: userLocation.lng }}/>
+        <MarkerMap  coordinates={{...userLocation}}/>
       </IonContent>
       
     </IonPage>

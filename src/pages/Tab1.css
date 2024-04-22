@@ -19,3 +19,21 @@
     color:#fff
     
 }
+
+.club-subtitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; /* Adjust alignment as needed */
+    align-items: center; /* Adjust alignment as needed */
+  }
+
+
+.club-photo-container {
+  display: flex;
+  justify-content: center;
+}
+
+.club-photo-container img {
+  max-width: 100%; /* Optionally set maximum width for the image */
+  max-height: 100%; /* Optionally set maximum height for the image */
+}
