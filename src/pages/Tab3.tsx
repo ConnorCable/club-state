@@ -1,6 +1,9 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 
 import './Tab3.css';
+import { RecordingCard } from '../components/RecordingCard';
+
+// Validate Recording VIA Geofencing from selected card
 
 const Tab3: React.FC = () => {
   return (
@@ -16,7 +19,9 @@ const Tab3: React.FC = () => {
             <IonTitle size="large">Tab 3</IonTitle>
           </IonToolbar>
         </IonHeader>
-
+      <RecordingCard onClick={function (): void {
+          throw new Error('Function not implemented.');
+        } }></RecordingCard>
       </IonContent>
     </IonPage>
   );

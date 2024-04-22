@@ -22,7 +22,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "./Tab1.css";
 import { ClubCard } from "../components/ClubCard";
 import { useState } from "react";
-import { ClubModal } from "../components/ClubModal";
+import ClubModal from "../components/ClubModal";
 
 const Tab1: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,7 @@ const Tab1: React.FC = () => {
   }
 
   return (
-    <IonPage>
+    <IonPage >
       <IonHeader>
         <IonToolbar>
           <IonTitle>Home</IonTitle>

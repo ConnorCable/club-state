@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   IonModal,
   IonContent,
@@ -6,30 +7,46 @@ import {
   IonButton,
   IonIcon,
   IonTitle,
-  IonCard,
   IonCardTitle,
-  IonCardContent,
   IonGrid,
   IonRow,
   IonCol,
   IonCardSubtitle,
+  IonFabButton,
+  IonFab,
+  IonFooter
 } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 import "swiper/css";
 import "swiper/css/grid";
 import { SwiperSlide, Swiper } from "swiper/react";
-import { Grid, Pagination } from "swiper/modules";
 import { ClubStateCard } from "./ClubStateCard";
+import RecordingModal from "./RecordingModal";
 
-interface ClubModal {
-  isOpen: boolean;
-  setIsOpen: (arg0: boolean) => void;
-}
+const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; }> = ({ isOpen, setIsOpen }) => {
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [isRecordingModalOpen, setIsRecordingModalOpen] = useState(false); // State for recording modal visibility
 
-export const ClubModal: React.FC<ClubModal> = ({ isOpen, setIsOpen }) => {
+  const handleScroll = (e: CustomEvent) => {
+    // Check if the user is scrolling
+    if (e.detail.scrollTop > 0 && !isScrolling) {
+      setIsScrolling(true); // User started scrolling
+    } else if (e.detail.scrollTop === 0 && isScrolling) {
+      setIsScrolling(false); // User stopped scrolling
+    }
+  };
+
+  const openRecordingModal = () => {
+    setIsRecordingModalOpen(true);
+  };
+
+  const closeRecordingModal = () => {
+    setIsRecordingModalOpen(false);
+  };
+
   return (
     <IonModal isOpen={isOpen}>
-      <IonContent>
+      <IonContent onIonScroll={(e: CustomEvent) => handleScroll(e)}>
         <IonHeader>
           <IonToolbar color="primary">
             <IonButton color={"primary"} onClick={() => setIsOpen(false)}>
@@ -65,42 +82,25 @@ export const ClubModal: React.FC<ClubModal> = ({ isOpen, setIsOpen }) => {
         <div className="ion-text-center">Club Stats</div>
         <IonGrid>
           <IonRow>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Cleanliness <IonCardSubtitle>5</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Loudness<IonCardSubtitle>5</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Ratio <IonCardSubtitle>5</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Hostility <IonCardSubtitle>5</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Fullness <IonCardSubtitle>5</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Fun<IonCardSubtitle>5</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
+            {/* Your IonCol components */}
           </IonRow>
         </IonGrid>
         <div className="ion-text-center">Current Club States</div>
         <ClubStateCard />
         <ClubStateCard />
       </IonContent>
+      {/* Hide the footer when scrolling */}
+      {!isScrolling && (
+        <IonFooter>
+          {/* Open recording modal on IonFabButton click */}
+          <IonFabButton className="ion-fab-button" onClick={openRecordingModal}>Record</IonFabButton>
+        </IonFooter>
+      )}
+
+      {/* Rendering RecordingModal */}
+      <RecordingModal isOpen={isRecordingModalOpen} onClose={closeRecordingModal} />
     </IonModal>
   );
 };
+
+export default ClubModal;
