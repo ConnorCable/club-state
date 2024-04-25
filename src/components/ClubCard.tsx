@@ -14,15 +14,15 @@ interface ClickableClubCard {
 
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick }) => {
   return (
-    <IonCard onClick={onClick}>
+    <IonCard onClick={onClick} className="ion-margin-bottom">
       <IonCardHeader>
         <IonCardTitle>Club 1</IonCardTitle>
         <IonCardSubtitle className="club-subtitle ion-align-self-auto">
           {/* Render information in a horizontal row */}
           
-          <IonChip>1234 Mystery Way</IonChip>
-          <IonChip>State</IonChip>
-          <IonChip>Distance</IonChip>
+          <span>1234 Mystery Way</span>
+          <span>State</span>
+          <span>Distance</span>
           {/* Add more elements as needed */}
         </IonCardSubtitle>
       </IonCardHeader>
