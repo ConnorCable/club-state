@@ -29,7 +29,6 @@ const Tab1: React.FC = () => {
   const [clubStats, setClubStats] = useState({})
   const [clubItems, setclubItems] = useState<string[]>([])
 
-  setclubItems(["1","2","3","4"])
   
 
   const closeModal = () => {
