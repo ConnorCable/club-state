@@ -1,5 +1,7 @@
 CLUB STATE (WEB/MOBILE) - in development by low-ranking professionals
 
+- Geofencing free for all 
+
 * Ionic
 * Capacitor
 * React
