@@ -60,11 +60,11 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
     <IonModal isOpen={isOpen}>
       <IonContent onIonScroll={(e: CustomEvent) => handleScroll(e)}>
         <IonHeader>
-          <IonToolbar color="primary">
+          <IonToolbar color="primary ion-padding-bottom ion-align-items-center">
             <IonButton color={"primary"} onClick={() => setIsOpen(false)}>
               <IonIcon icon={arrowBack} />
             </IonButton>
-            <IonTitle >Club Info</IonTitle>
+            <IonTitle className="ion-text-center">Club Info</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonCardTitle className="ion-padding ion-text-center">

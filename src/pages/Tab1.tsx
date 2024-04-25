@@ -27,6 +27,9 @@ import ClubModal from "../components/ClubModal";
 const Tab1: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clubStats, setClubStats] = useState({})
+  const [clubItems, setclubItems] = useState<string[]>([])
+
+  setclubItems(["1","2","3","4"])
   
 
   const closeModal = () => {
@@ -71,6 +74,7 @@ const Tab1: React.FC = () => {
           <ClubCard  onClick={() => setIsOpen(true)} />
           <ClubCard  onClick={() => setIsOpen(true)}/>
           <ClubCard  onClick={() => setIsOpen(true)}/>
+          // TODO: Add Infinite Scroll component to manaage incoming club cards
         </IonList>
       </IonContent>
       <ClubModal  isOpen={isOpen} setIsOpen={setIsOpen}/>

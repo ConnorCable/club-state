@@ -5,6 +5,7 @@ import {
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
+  IonChip,
 } from "@ionic/react";
 
 interface ClickableClubCard {
@@ -16,11 +17,12 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick }) => {
     <IonCard onClick={onClick}>
       <IonCardHeader>
         <IonCardTitle>Club 1</IonCardTitle>
-        <IonCardSubtitle className="club-subtitle">
+        <IonCardSubtitle className="club-subtitle ion-align-self-auto">
           {/* Render information in a horizontal row */}
-          <span>1234 Mystery Way</span>
-          <span>State</span>
-          <span>Distance</span>
+          
+          <IonChip>1234 Mystery Way</IonChip>
+          <IonChip>State</IonChip>
+          <IonChip>Distance</IonChip>
           {/* Add more elements as needed */}
         </IonCardSubtitle>
       </IonCardHeader>
