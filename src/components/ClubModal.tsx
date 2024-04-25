@@ -14,7 +14,8 @@ import {
   IonCardSubtitle,
   IonFabButton,
   IonFab,
-  IonFooter
+  IonFooter,
+  useIonLoading
 } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
 import "swiper/css";
@@ -26,6 +27,8 @@ import RecordingModal from "./RecordingModal";
 const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; }> = ({ isOpen, setIsOpen }) => {
   const [isScrolling, setIsScrolling] = useState(false);
   const [isRecordingModalOpen, setIsRecordingModalOpen] = useState(false); // State for recording modal visibility
+  const [present, dismiss] = useIonLoading();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleScroll = (e: CustomEvent) => {
     // Check if the user is scrolling
@@ -35,6 +38,15 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
       setIsScrolling(false); // User stopped scrolling
     }
   };
+
+  const handleRecordClick = () => {
+    present({
+      message: 'Looking for coordinate match...',
+      duration: 1000,
+      onDidDismiss: () => setIsRecordingModalOpen(true),
+  }); 
+    
+  }
 
   const openRecordingModal = () => {
     setIsRecordingModalOpen(true);
@@ -52,7 +64,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
             <IonButton color={"primary"} onClick={() => setIsOpen(false)}>
               <IonIcon icon={arrowBack} />
             </IonButton>
-            <IonTitle>Club Info</IonTitle>
+            <IonTitle >Club Info</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonCardTitle className="ion-padding ion-text-center">
@@ -85,7 +97,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
             {/* Your IonCol components */}
           </IonRow>
         </IonGrid>
-        <div className="ion-text-center">Current Club States</div>
+        
         <ClubStateCard />
         <ClubStateCard />
       </IonContent>
@@ -93,7 +105,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
       {!isScrolling && (
         <IonFooter>
           {/* Open recording modal on IonFabButton click */}
-          <IonFabButton className="ion-fab-button" onClick={openRecordingModal}>Record</IonFabButton>
+          <IonFabButton className="ion-fab-button" onClick={handleRecordClick}>Record</IonFabButton>
         </IonFooter>
       )}
 

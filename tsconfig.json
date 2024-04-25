@@ -17,6 +17,9 @@
     "jsx": "react-jsx",
     
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "node_modules/capacitor-voice-recorder" // Add this line if not already present
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

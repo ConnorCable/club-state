@@ -1,5 +1,5 @@
 .genreCard {
-    height: 85px;
+    height: 80px;
     text-align: center;
     align-items: center;
     
@@ -37,3 +37,5 @@
   max-width: 100%; /* Optionally set maximum width for the image */
   max-height: 100%; /* Optionally set maximum height for the image */
 }
+
+

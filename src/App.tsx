@@ -37,7 +37,7 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonApp style={{"max-width": 1100, "margin": "auto", "padding": "50px"}}>
+  <IonApp style={{"maxWidth": 1100, "margin": "auto", "padding": "50px"}}>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
