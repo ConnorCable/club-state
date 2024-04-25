@@ -1,4 +1,4 @@
-CLUB STATE (WEB/MOBILE)
+CLUB STATE (WEB/MOBILE) - in development by non professionals
 
 * Ionic
 * Capacitor
