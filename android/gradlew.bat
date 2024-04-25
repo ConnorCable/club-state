@@ -27,7 +27,7 @@ if "%OS%"=="Windows_NT" setlocal
 set DIRNAME=%~dp0
 if "%DIRNAME%"=="" set DIRNAME=.
 @rem This is normally unused
-set APP_BASE_NAME=%~n0
+set APP_BASE_NAME=                %~n0
 set APP_HOME=%DIRNAME%
 
 @rem Resolve any "." and ".." in APP_HOME to make it shorter.
@@ -56,7 +56,7 @@ set JAVA_HOME=%JAVA_HOME:"=%
 set JAVA_EXE=%JAVA_HOME%/bin/java.exe
 
 if exist "%JAVA_EXE%" goto execute
-
+ 
 echo.
 echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME%
 echo.

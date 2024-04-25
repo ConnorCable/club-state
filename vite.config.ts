@@ -12,5 +12,18 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
+  },
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: false,
+        drop_debugger: false,
+      },
+      format: {
+        comments: false
+      },
+    },
+    sourcemap: true,
   }
 })

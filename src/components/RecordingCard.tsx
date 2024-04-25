@@ -6,15 +6,11 @@ interface clickableClubCard {
     onClick: () => void
 }
 
-
-
-
 export const RecordingCard : React.FC<clickableClubCard>= ({onClick}) => {
 
 
     return (
         <IonContent>
-            {/* NEED TO VALIDATE VIA GEOFENCING */}
             <IonChip >+</IonChip>
         </IonContent>
     )

@@ -12,7 +12,13 @@ import {
   IonRow,
   IonCol,
   IonCardSubtitle,
+  IonLoading,
+  IonItemDivider,
+  IonText,
+  useIonLoading,
 } from "@ionic/react";
+import { arrowBack, arrowBackCircleOutline } from "ionicons/icons";
+import { RecordingPage } from "../pages/RecordingPage";
 
 interface RecordingModalProps {
   isOpen: boolean;
@@ -25,17 +31,16 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
+  
   return (
-    <IonModal isOpen={isOpen}>
+    <IonModal isOpen={isOpen} animated={false}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Recording</IonTitle>
-          <IonButton slot="end" onClick={handleClose}>Close</IonButton>
+          <IonIcon size="large" slot="end" onClick={handleClose} icon={arrowBackCircleOutline}></IonIcon>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* Add your recording component or content here */}
-        <IonTitle>This is the recording modal</IonTitle>
+        <RecordingPage></RecordingPage>
       </IonContent>
     </IonModal>
   );
