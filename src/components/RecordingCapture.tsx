@@ -143,7 +143,7 @@ const RecordingCapture: React.FC = () => {
                 
             </IonGrid>
             <IonButton disabled={recordingCaptured} onClick={playAudio2}>Playback Capture</IonButton>
-            <IonButton disabled={recordingCaptured} onClick={sendAudio}>Send Song</IonButton>
+            {/* <IonButton disabled={recordingCaptured} onClick={sendAudio}>Send Song</IonButton> */}
             <IonButton  onClick={() => setIsOpen(true)}>Continue</IonButton>
             <IonModal isOpen={isOpen}>
           <IonHeader>

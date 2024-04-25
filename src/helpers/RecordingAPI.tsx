@@ -4,7 +4,7 @@ const detectSong = async(song : any) => {
         method: 'POST',
         headers: {
             'content-type': 'text/plain',
-            'X-RapidAPI-Key': 'f9d53d2b3amsh4a21366eebf54a3p1c9de3jsn5518b22f1c12',
+            'X-RapidAPI-Key': 'REDACTED',
             'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
         },
         body: song
@@ -32,7 +32,7 @@ const songDetect2 = async (song: any) => {
     const options = {
         method: 'POST',
         headers: {
-            'X-RapidAPI-Key': 'f9d53d2b3amsh4a21366eebf54a3p1c9de3jsn5518b22f1c12',
+            'X-RapidAPI-Key': 'REDACTED',
             'X-RapidAPI-Host': 'shazam-api7.p.rapidapi.com'
         },
         body: data
