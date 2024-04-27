@@ -1,5 +1,6 @@
 .genreCard {
-    height: 80px;
+    height: 87px;
+    width: 190px;
     text-align: center;
     align-items: center;
     
@@ -11,10 +12,12 @@
 }
 
 .genreSwiper {
+    padding-top: 50px;
     align-items: center;
 }
 
 .clubDivider {
+    height: 1px;
     background-color: #0163aa;
     color:#fff
     
@@ -27,6 +30,12 @@
     align-items: center; /* Adjust alignment as needed */
   }
 
+.cardSwiper {
+    padding-top: 10px;
+    align-items: center;
+}
+
+
 
 .club-photo-container {
   display: flex;
@@ -36,6 +45,10 @@
 .club-photo-container img {
   max-width: 100%; /* Optionally set maximum width for the image */
   max-height: 100%; /* Optionally set maximum height for the image */
+}
+
+.filterButtons{
+  align-content: center;
 }
 
 

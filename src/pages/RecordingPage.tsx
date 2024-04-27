@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonText, IonChip, IonContent, IonBackdrop, IonTextarea, IonButton, IonToast } from "@ionic/react";
 import  RecordingCapture  from "../components/RecordingCapture";
 import { Filesystem } from "@capacitor/filesystem";
+import Record from "../components/Record";
 
 export const  RecordingPage: React.FC = () => {
     const [isRecording, setIsRecoding] = useState(false);
@@ -13,7 +14,7 @@ export const  RecordingPage: React.FC = () => {
         <IonContent>
             <IonCard style={{"height": 400}}></IonCard>
         <IonContent>
-        <RecordingCapture></RecordingCapture>
+        <Record></Record>
         </IonContent>
         </IonContent>
     );
@@ -21,7 +22,4 @@ export const  RecordingPage: React.FC = () => {
 
 
 
-function loadFiles() {
-    throw new Error("Function not implemented.");
-}
 

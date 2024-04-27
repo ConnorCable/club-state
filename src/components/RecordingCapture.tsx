@@ -1,15 +1,11 @@
 import { IonBreadcrumb, IonButton, IonButtons, IonCard, IonCardContent, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { radioButtonOnOutline } from 'ionicons/icons';
+import { arrowBack, radioButtonOnOutline, send } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { VoiceRecorder, VoiceRecorderPlugin, RecordingData, GenericResponse, CurrentRecordingStatus } from 'capacitor-voice-recorder';
-import RecordingPlayback from '../helpers/RecordingPlayback';
 import { Directory, FileInfo, Filesystem } from '@capacitor/filesystem';
 import songDetect2 from '../helpers/RecordingAPI';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './components.css'
-
-
-
 
 const RecordingCapture: React.FC = () => {
     const [recordingStatus, setRecordingStatus] = useState("");
@@ -19,9 +15,15 @@ const RecordingCapture: React.FC = () => {
     const [recordingCaptured, setRecordingCaptured] = useState(true);
     const [detectedSong, setDetectedSong] = useState<string | undefined>("")
     const [isOpen, setIsOpen] = useState(false);
+    const [surveyState, setSurveyState] = useState(
+        {
+            cleanliness: 0,
+            ratio: 0,
+            hostility: 0
+        }
+    )
 
     var snd = new Audio("data:audio/wav;base64," + recordedData);
-
 
     const playAudio2 = async () => {
         snd.play();
@@ -65,6 +67,12 @@ const RecordingCapture: React.FC = () => {
       }
 
     
+    const captureState = async () => {
+        
+        startRecording();
+        setTimeout(stopRecording, 3000);
+    }
+
     const startRecording = async () => {
         setRecordingCaptured(true);
         try {
@@ -94,6 +102,8 @@ const RecordingCapture: React.FC = () => {
                 setRecordingCaptured(false);
             }
             console.log(recordedData);
+
+            sendAudio();
     
         } catch (error) {
             console.error('Failed to stop recording:', error);
@@ -103,7 +113,6 @@ const RecordingCapture: React.FC = () => {
     const sendAudio = async () => {
         songDetect2(recordedData)
     }
-    
 
     const resumeRecording = async () => {
         try {
@@ -116,13 +125,16 @@ const RecordingCapture: React.FC = () => {
     };
 
     const handleRecordingButton = () => {
-        console.log("HELLO");
+        
         if (recordingStatus === 'RECORDING') {
+            console.log("stopping");
             stopRecording();
         } else if (recordingStatus === 'PAUSED') {
             resumeRecording();
+            console.log("paused");
         } else {
-            startRecording();
+            console.log("playing");
+            captureState();
         }
     };
 
@@ -132,9 +144,9 @@ const RecordingCapture: React.FC = () => {
                 <IonRow>
                     <IonCol style={{ paddingTop: '70px' }}></IonCol>
                     <IonCol style={{ backgroundColor: '#000000', borderRadius: 18 }}>
-                        <IonButton size="large" color="danger" onClick={handleRecordingButton}>
+                        <IonButton size="large" color="danger" onClick={handleRecordingButton} disabled={recordingStatus === "RECORDING"}>
                             <IonIcon slot="start" icon={radioButtonOnOutline} />
-                            {recordingStatus === 'RECORDING' ? 'STOP' : recordingStatus === 'PAUSED' ? 'RESUME' : 'REC'}
+                            {recordingStatus === 'RECORDING' ? 'CAPTURING' : recordingStatus === 'PAUSED' ? 'RESUME' : 'REC'}
                         </IonButton>
                     </IonCol>
                     <IonCol></IonCol>
@@ -154,14 +166,17 @@ const RecordingCapture: React.FC = () => {
               </IonButtons>
             </IonToolbar>
           </IonHeader>
-    
           <IonContent className=' centered'  >
             <div >
             <Swiper>
                 <SwiperSlide >
                     <IonCard className="surveyCard">
                         <IonCardTitle>How Clean was the club?</IonCardTitle>
-                        <IonCardContent>Slide 1</IonCardContent> 
+                        <IonCardContent>
+                            <IonButton> Clean </IonButton>
+                            <IonButton> Decent </IonButton>
+                            <IonButton> Dirty </IonButton>
+                        </IonCardContent> 
                     </IonCard>
                 </SwiperSlide >
                 <SwiperSlide >

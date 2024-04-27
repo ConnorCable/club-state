@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, homeOutline, mapOutline, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
+import Tab1 from './pages/HomePage';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 
@@ -37,7 +37,7 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonApp style={{"maxWidth": 600, "margin": "auto", "padding": "50px"}}>
+  <IonApp style={{"maxWidth": 400, "maxHeight": 900, "margin": "auto", "padding": "50px"}}>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>

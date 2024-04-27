@@ -1,0 +1,20 @@
+.record-animation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: bounce 1s linear infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
+  }
+  
+  .record-button {
+    font-size: 24px; /* Adjust as needed */
+  }
+
+  .captureButtons{
+    padding-bottom: 3px;
+  }
