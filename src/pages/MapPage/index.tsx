@@ -12,9 +12,9 @@ import {
 } from "@ionic/react";
 import { Geolocation } from '@capacitor/geolocation';
 import { useEffect, useRef, useState } from "react";
-import "./Tab2.css";
-import Map from "../components/Map";
-import { MarkerMap } from "../components/MarkerMap";
+import "./index.css";
+import Map from "../../components/Map";
+import { MarkerMap } from "../../components/MarkerMap";
 
 
 const Tab2: React.FC = () => {
@@ -48,9 +48,7 @@ const Tab2: React.FC = () => {
         </IonHeader>
         <MarkerMap  coordinates={{...userLocation}}/>
       </IonContent>
-      
-    </IonPage>
-    
+    </IonPage>  
   );
 };
 

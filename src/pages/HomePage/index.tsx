@@ -29,7 +29,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "./index.css";
 import { ClubCard } from "../../components/ClubCard";
 import { useState } from "react";
-import ClubModal from "../../components/ClubModal";
+import ClubModal from "../../components/ClubStateModal";
 import React, { useRef, useEffect } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -85,10 +85,11 @@ const Tab1: React.FC = () => {
         </Swiper>
         
        <div className="filterButtons">
-        <IonChip className="ion-text-center ion-text-capitalize " >Clubs Near You</IonChip>
-        <IonChip className="ion-text-center ion-text-capitalize " >$$$</IonChip>
-        <IonChip className="ion-text-center ion-text-capitalize " >Fullness</IonChip>
-        <IonChip className="ion-text-center ion-text-capitalize " >Hostility</IonChip>
+        <IonChip className="ion-text-center ion-text-capitalize " outline={true}>$$$</IonChip>
+        <IonChip className="ion-text-center ion-text-capitalize "outline={true} >Fullness</IonChip>
+        <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Hostility</IonChip>
+        <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance Away</IonChip>
+        
       </div>
 
         

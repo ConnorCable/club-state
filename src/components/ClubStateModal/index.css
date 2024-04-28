@@ -18,3 +18,17 @@
   .captureButtons{
     padding-bottom: 3px;
   }
+
+  .full-width-list {
+    width: 100%;
+  }
+
+  .club-image {
+    width: 20%;
+    height: 20%;
+  }
+
+  .club-photos {
+    height: 50px;
+    height: 50px;
+  }
