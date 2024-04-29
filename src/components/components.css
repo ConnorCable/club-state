@@ -17,7 +17,7 @@
 
 .centeredSurvey {
   position: fixed;
-    top: 40%;
+    top: 30%;
     margin-top: -50px;
     margin-left: -100px;
   
@@ -25,4 +25,9 @@
 
 .surveyCard {
   width: 300px;
+  justify-content: center;
+}
+
+.surveySubmit {
+  align-self: center;
 }
