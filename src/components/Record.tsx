@@ -1,10 +1,8 @@
-import { IonBreadcrumb, IonButton, IonButtons, IonCard, IonCardContent, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { arrowBack, radioButtonOnOutline, send } from 'ionicons/icons';
+import { IonContent, IonModal } from '@ionic/react';
 import React, { useState } from 'react';
-import { VoiceRecorder, VoiceRecorderPlugin, RecordingData, GenericResponse, CurrentRecordingStatus } from 'capacitor-voice-recorder';
-import { Directory, FileInfo, Filesystem } from '@capacitor/filesystem';
+import { VoiceRecorder, RecordingData, GenericResponse } from 'capacitor-voice-recorder';
+import { FileInfo } from '@capacitor/filesystem';
 import songDetect2 from '../helpers/RecordingAPI';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import './components.css'
 
 const Record: React.FC = () => {

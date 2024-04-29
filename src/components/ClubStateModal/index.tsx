@@ -12,24 +12,17 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonCardSubtitle,
-  IonFabButton,
-  IonFab,
   IonFooter,
-  IonToast,
   useIonLoading,
   IonAccordionGroup,
   IonAccordion,
   IonItem,
   IonLabel,
-  IonList,
-  IonText,
   IonChip,
 } from "@ionic/react";
-import { arrowBack, navigateCircleOutline, radioButtonOnOutline, recordingOutline } from "ionicons/icons";
+import { arrowBack, navigateCircleOutline, radioButtonOnOutline } from "ionicons/icons";
 import "swiper/css";
 import "swiper/css/grid";
-import { SwiperSlide, Swiper } from "swiper/react";
 import { ClubStateCard } from "../ClubStateCard";
 import RecordingModal from "../RecordingModal";
 

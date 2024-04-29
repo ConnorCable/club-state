@@ -1,6 +1,6 @@
-import { IonChip, IonIcon, IonLabel } from "@ionic/react";
+import { IonChip, IonIcon } from "@ionic/react";
 import GoogleMap from "google-maps-react-markers";
-import { homeOutline, homeSharp, pin } from "ionicons/icons";
+import { homeSharp } from "ionicons/icons";
 import { useRef, useState } from "react";
 
 interface MarkerProps {

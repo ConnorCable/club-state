@@ -1,23 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IonModal,
   IonContent,
   IonHeader,
   IonToolbar,
-  IonButton,
   IonIcon,
-  IonTitle,
-  IonCardTitle,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonCardSubtitle,
-  IonLoading,
-  IonItemDivider,
-  IonText,
-  useIonLoading,
 } from "@ionic/react";
-import { arrowBack, arrowBackCircleOutline } from "ionicons/icons";
+import { arrowBackCircleOutline } from "ionicons/icons";
 import { RecordingPage } from "../pages/RecordingPage";
 
 interface RecordingModalProps {
