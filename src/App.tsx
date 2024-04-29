@@ -33,6 +33,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { SurveyModal } from './components/SurveyModal';
 
 setupIonicReact();
 
@@ -52,6 +53,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/">
             <Redirect to="/tab1" />
+          </Route>
+          <Route exact path="/survey">
+            <SurveyModal />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">

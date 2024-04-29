@@ -25,6 +25,7 @@ import "swiper/css";
 import "swiper/css/grid";
 import { ClubStateCard } from "../ClubStateCard";
 import RecordingModal from "../RecordingModal";
+import { useHistory } from 'react-router-dom';
 
 
 const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; }> = ({ isOpen, setIsOpen }) => {
@@ -34,6 +35,12 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const [isLoading, setIsLoading] = useState(true);
   const [captureEligibility, setCaptureElgibility] = useState(false);
   const accordionContentRef = useRef<HTMLDivElement>(null); // Ref for accordion content
+  const [isSurveyModalOpen,setIsSurveyModalOpen] = useState(false)
+  const history = useHistory();
+  
+  const goToSurveyPage = () => {
+    history.push('/survey');
+  };
 
   const handleScroll = (e: CustomEvent) => {
     // Check if the user is scrolling
@@ -48,8 +55,9 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
     present({
       message: 'Capturing Audio...',
       duration: 1000,
-      onDidDismiss: () => setCaptureElgibility(false),
+      onDidDismiss: () => openSurveyModal(),
     }); 
+    
   }
 
   const handleLocationClick = () => {
@@ -68,6 +76,16 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const closeRecordingModal = () => {
     setIsRecordingModalOpen(false);
   };
+
+  const openSurveyModal = () => {
+    setCaptureElgibility(false)
+    setIsOpen(false)
+    history.push('/survey');
+  }
+
+  const closeSurveyModal = () => {
+    setIsSurveyModalOpen(false)
+  }
 
   useEffect(() => {
     // Scroll to center of accordion content when expanded
