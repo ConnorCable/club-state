@@ -1,28 +1,10 @@
 import {
-  IonAccordion,
-  IonAccordionGroup,
-  IonBackButton,
-  IonButton,
-  IonButtons,
   IonCard,
-  IonCardContent,
-  IonCardSubtitle,
   IonCardTitle,
   IonChip,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
-  IonIcon,
-  IonItem,
-  IonList,
-  IonLabel,
-  IonModal,
   IonPage,
-  IonRow,
-  IonSearchbar,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -33,7 +15,6 @@ import ClubModal from "../../components/ClubStateModal";
 import React, { useRef, useEffect } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
 
 
 

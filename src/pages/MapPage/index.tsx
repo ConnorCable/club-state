@@ -1,19 +1,14 @@
 import {
-  IonButton,
   IonContent,
-  IonFooter,
   IonHeader,
   IonPage,
   IonTitle,
   IonToolbar,
-  useIonViewWillEnter,
-  withIonLifeCycle
-
+  useIonViewWillEnter
 } from "@ionic/react";
 import { Geolocation } from '@capacitor/geolocation';
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import "./index.css";
-import Map from "../../components/Map";
 import { MarkerMap } from "../../components/MarkerMap";
 
 

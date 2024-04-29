@@ -1,8 +1,4 @@
-import { IonBreadcrumb, IonButton, IonButtons, IonCard, IonCardContent, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { arrowBack, radioButtonOnOutline, send } from 'ionicons/icons';
-import React, { useState } from 'react';
-import { VoiceRecorder, VoiceRecorderPlugin, RecordingData, GenericResponse, CurrentRecordingStatus } from 'capacitor-voice-recorder';
-import { Directory, FileInfo, Filesystem } from '@capacitor/filesystem';
+import { VoiceRecorder, RecordingData, GenericResponse } from 'capacitor-voice-recorder';
 
 export class AudioRecording {
     private recordingStatus: string = 'NONE';

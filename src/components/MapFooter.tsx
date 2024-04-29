@@ -1,7 +1,6 @@
 import {
   IonFooter,
   IonToolbar,
-  IonTitle,
   IonButton,
   IonButtons,
 } from "@ionic/react";
