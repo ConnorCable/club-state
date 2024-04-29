@@ -23,11 +23,12 @@ import { useState } from "react";
 export const SurveyModal: React.FC = () => {
   const [surveyState, setSurveyState] = useState({
     cover: false,
-    line: 0,
-    cleanliness: 0,
-    hostility: 0,
-    ratio: 0,
-    loudness: 0,
+    line: false,
+    price: "",
+    cleanliness: "",
+    hostility: "",
+    ratio: "",
+    loudness: "",
   });
 
   const addToSurvey: any = (quality: string, amount: boolean | number) => {
@@ -61,7 +62,7 @@ export const SurveyModal: React.FC = () => {
                   </IonButton>
                   <IonButton
                     color="success"
-                    onClick={() => addToSurvey("cover", true)}
+                    onClick={() => addToSurvey("cover", false)}
                   >
                     No
                   </IonButton>
@@ -71,26 +72,20 @@ export const SurveyModal: React.FC = () => {
             <SwiperSlide>
               <IonCard>
                 <IonCardHeader className="ion-text-center">
-                  How long was the line?
+                  Was there a line?
                 </IonCardHeader>
                 <IonCardContent className="ion-text-center">
                   <IonButton
                     color="danger"
-                    onClick={() => addToSurvey("line", 2)}
+                    onClick={() => addToSurvey("line", "Yes")}
                   >
-                    Long
-                  </IonButton>
-                  <IonButton
-                    color="warning"
-                    onClick={() => addToSurvey("line", 1)}
-                  >
-                    Medium
+                    Yes
                   </IonButton>
                   <IonButton
                     color="success"
-                    onClick={() => addToSurvey("line", 0)}
+                    onClick={() => addToSurvey("line", "No")}
                   >
-                    Short / None
+                    No
                   </IonButton>
                 </IonCardContent>
               </IonCard>
@@ -103,19 +98,19 @@ export const SurveyModal: React.FC = () => {
                 <IonCardContent className="ion-text-center">
                   <IonButton
                     color="danger"
-                    onClick={() => addToSurvey("cleanliness", 2)}
+                    onClick={() => addToSurvey("cleanliness", "Dirty")}
                   >
                     Dirty
                   </IonButton>
                   <IonButton
                     color="warning"
-                    onClick={() => addToSurvey("cleanliness", 1)}
+                    onClick={() => addToSurvey("cleanliness", "Decent")}
                   >
                     Decent
                   </IonButton>
                   <IonButton
                     color="success"
-                    onClick={() => addToSurvey("cleanliness", 0)}
+                    onClick={() => addToSurvey("cleanliness", "Clean")}
                   >
                     Clean
                   </IonButton>
@@ -130,19 +125,19 @@ export const SurveyModal: React.FC = () => {
                 <IonCardContent className="ion-text-center">
                   <IonButton
                     color="danger"
-                    onClick={() => addToSurvey("hostility", 2)}
+                    onClick={() => addToSurvey("hostility", "Dangerous")}
                   >
                     Dangerous
                   </IonButton>
                   <IonButton
                     color="warning"
-                    onClick={() => addToSurvey("hostility", 1)}
+                    onClick={() => addToSurvey("hostility", "Decent")}
                   >
                     Decent
                   </IonButton>
                   <IonButton
                     color="success"
-                    onClick={() => addToSurvey("hostility", 0)}
+                    onClick={() => addToSurvey("hostility", "Peaceful")}
                   >
                     Peaceful
                   </IonButton>
@@ -157,19 +152,19 @@ export const SurveyModal: React.FC = () => {
                 <IonCardContent className="ion-text-center">
                   <IonButton
                     color="danger"
-                    onClick={() => addToSurvey("ratio", 2)}
+                    onClick={() => addToSurvey("ratio", "Dickfest")}
                   >
                     Dickfest
                   </IonButton>
                   <IonButton
                     color="warning"
-                    onClick={() => addToSurvey("ratio", 1)}
+                    onClick={() => addToSurvey("ratio", "Decent")}
                   >
                     Decent
                   </IonButton>
                   <IonButton
                     color="success"
-                    onClick={() => addToSurvey("ratio", 0)}
+                    onClick={() => addToSurvey("ratio", "Dames")}
                   >
                     Dames
                   </IonButton>
@@ -184,19 +179,19 @@ export const SurveyModal: React.FC = () => {
                 <IonCardContent className="ion-text-center">
                   <IonButton
                     color="danger"
-                    onClick={() => addToSurvey("loudness", 2)}
+                    onClick={() => addToSurvey("loudness", "Loud")}
                   >
                     Loud
                   </IonButton>
                   <IonButton
                     color="warning"
-                    onClick={() => addToSurvey("loudness", 2)}
+                    onClick={() => addToSurvey("loudness", "Medium")}
                   >
                     Medium
                   </IonButton>
                   <IonButton
                     color="success"
-                    onClick={() => addToSurvey("loudness", 2)}
+                    onClick={() => addToSurvey("loudness", "Quiet")}
                   >
                     Quiet
                   </IonButton>
@@ -206,27 +201,31 @@ export const SurveyModal: React.FC = () => {
             <SwiperSlide className="surveyCard">
               <IonCard>
                 <IonList >
+                <IonItem className="surveyResultsTitle">
+                    <IonLabel>Survey Results</IonLabel>
+                  </IonItem>
                   <IonItem>
                     <IonLabel>Cover Charge:  {surveyState.cover.toString()}</IonLabel>
                   </IonItem>
                   <IonItem>
-                    <IonLabel>Line: {surveyState.line == 0 ? "None" : surveyState.line == 1 ? "Medium" : "Long" }</IonLabel>
+                    <IonLabel>Line: {surveyState.line}</IonLabel>
                   </IonItem>
                   <IonItem>
-                    <IonLabel>Cleanliness : {surveyState.cleanliness == 0 ? "Clean" : surveyState.cleanliness == 1 ? "Decent" : "Dirty"}</IonLabel>
+                    <IonLabel>Cleanliness : {surveyState.cleanliness}</IonLabel>
                   </IonItem>
                   <IonItem>
-                    <IonLabel>Hostility : {surveyState.hostility == 0 ? "Peaceful" : surveyState.cleanliness == 1 ? "Decent" : "Dangerous"}</IonLabel>
+                    <IonLabel>Hostility : {surveyState.hostility}</IonLabel>
                   </IonItem>
                   <IonItem>
-                    <IonLabel>Ratio : {surveyState.ratio == 0 ? "Dames" : surveyState.cleanliness == 1 ? "Decent" : "Dickfest"}</IonLabel>
+                    <IonLabel>Ratio : {surveyState.ratio}</IonLabel>
                   </IonItem>
                   <IonItem>
-                    <IonLabel>Loudness : {surveyState.loudness == 0 ? "Loud" : surveyState.cleanliness == 1 ? "Decent" : "Quiet"}</IonLabel>
+                    <IonLabel>Loudness : {surveyState.loudness}</IonLabel>
                   </IonItem>
                 </IonList>
-                <div className="surveySubmit">
-                    <IonButton color="success" className="surveySubmit" >Submit</IonButton>
+                
+                <div className="surveyResultsTitle ion-padding-top ion-padding">
+                    <IonButton color="success" expand="block" className="ion-align-self-center" >Submit</IonButton>
                 </div>
                 
               </IonCard>

@@ -17,7 +17,7 @@
 
 .centeredSurvey {
   position: fixed;
-    top: 30%;
+    top: 20%;
     margin-top: -50px;
     margin-left: -100px;
   
@@ -28,6 +28,6 @@
   justify-content: center;
 }
 
-.surveySubmit {
-  align-self: center;
+.surveyResultsTitle {
+  text-align: center; 
 }
