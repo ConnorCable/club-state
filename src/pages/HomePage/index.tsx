@@ -34,15 +34,44 @@ import React, { useRef, useEffect } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
+import { Geolocation, Position } from "@capacitor/geolocation";
+import { initializeApp } from 'firebase/app';
 
 
 
 
+interface ClubModalProps {
+  Line: boolean,
+  Cover: boolean,
+  Name: string,
+  Cleanliness: string,
+  Price: string,
+  Fullness: string,
+  Hostility: string,
+  Ratio: string,
+  Genre: string,
+  Loudness: string,
+  Location: Position | null,
+}
 
-const Tab1: React.FC = () => {
+const fakeClubPropData: ClubModalProps = {
+  Name: "Club 1",
+  Cleanliness: "Dirty",
+  Cover: true,
+  Line: true,
+  Price: "$$$",
+  Fullness: "Medium",
+  Loudness: "Medium",
+  Location: null,
+  Hostility: "Dangerous",
+  Ratio: "Decent",
+  Genre: "House",
+}
+
+const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clubStats, setClubStats] = useState({})
-  
+  const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
 
   const closeModal = () => {
     setIsOpen(false)
@@ -56,16 +85,14 @@ const Tab1: React.FC = () => {
     if (!accordionGroup.current) {
       return;
     }
-
     accordionGroup.current.value = ['first', 'third'];
   }, []);
 
   return (
-    <IonPage >
+    <IonPage>
       <IonHeader>
       </IonHeader>
       <IonContent fullscreen>
-      
         <Swiper className="genreSwiper" slidesPerView={2} loop={true}>
           <SwiperSlide>
             <IonCard className="genreCard" color={"primary"}>
@@ -89,44 +116,32 @@ const Tab1: React.FC = () => {
         <IonChip className="ion-text-center ion-text-capitalize "outline={true} >Fullness</IonChip>
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Hostility</IonChip>
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance Away</IonChip>
-        
       </div>
 
-        
-        
-    
         <Swiper direction={"horizontal"} className="clubSwiper">
           <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)}/> 
+          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/> 
           </SwiperSlide>
           <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)}/>  
+          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
           </SwiperSlide>
           <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)}/>  
+          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
           </SwiperSlide>
           <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)}/>  
+          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
           </SwiperSlide>
           <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)}/>  
+          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
           </SwiperSlide>
           <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)}/>  
+          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
           </SwiperSlide>
-          <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)}/>  
-          </SwiperSlide>
-          <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)}/>  
-          </SwiperSlide>
-          
         </Swiper>
-        
       </IonContent>
-      <ClubModal  isOpen={isOpen} setIsOpen={setIsOpen}/>
+      <ClubModal  isOpen={isOpen} setIsOpen={setIsOpen} clubProps={fakeClubPropData}/>
     </IonPage>
   );
 };
 
-export default Tab1;
+export default HomePage;

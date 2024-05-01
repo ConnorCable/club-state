@@ -56,7 +56,11 @@ const songDetect2 = async (base64AudioString: any) => {
     try {
         const response = await fetch(url, options);
         const result = await response.text();
-        console.log(result);
+        const resultJSON = JSON.parse(result);
+        const { title, subtitle } = resultJSON.track;
+        console.log(resultJSON);
+        console.log(title);
+        console.log(subtitle);
     } catch (error) {
         console.error(error);
     }

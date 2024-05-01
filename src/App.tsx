@@ -10,10 +10,10 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, homeOutline, mapOutline, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/HomePage';
+import { ellipse, homeOutline, mapOutline, personOutline, square, triangle } from 'ionicons/icons';
+import HomePage from './pages/HomePage';
 import Tab2 from './pages/MapPage';
-import Tab3 from './pages/Tab3';
+import Tab3 from './pages/AdminPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -30,47 +30,95 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-
+import { Geolocation } from '@capacitor/geolocation';
+import { useDataStore } from './models/DataStore';
 /* Theme variables */
 import './theme/variables.css';
+import { useEffect, useState } from 'react';
+import { create } from 'zustand'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import * as geofirestore from 'geofirestore';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp style={{"maxWidth": 400, "maxHeight": 900, "margin": "auto", "padding": "50px"}}>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={homeOutline} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={mapOutline} />
-            <IonLabel>Map</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const [geolocationFetched, setGeolocationFetched] = useState(false);
+  const { location, setLocation } = useDataStore();
+
+
+  firebase.initializeApp({
+
+    apiKey: "AIzaSyA09rOO1u5io_qURoy9I3bKWEf1kv5oWrQ",
+  
+    authDomain: "clubstate.firebaseapp.com",
+  
+    projectId: "clubstate",
+  
+    storageBucket: "clubstate.appspot.com",
+  
+    messagingSenderId: "689308612538",
+  
+    appId: "1:689308612538:web:2ff89cd3549a2614b30f83"
+  
+  });
+
+  useEffect(() => {
+    fetchGeolocation();
+  }, []);
+
+  
+  const fetchGeolocation = async () => {
+    try {
+      // HOME ACCESS GEOFENCE
+      const coordinates = await Geolocation.getCurrentPosition();      
+      setLocation(coordinates);
+      setGeolocationFetched(true);
+    } catch (error) {
+      console.error('Error fetching geolocation:', error);
+    }
+  };
+
+  return (
+    <IonApp style={{ maxWidth: 400, maxHeight: 900, margin: 'auto', padding: '50px' }}>
+      <IonReactRouter>
+        {geolocationFetched ? (
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route exact path="/tab1">
+                <HomePage />
+              </Route>
+              <Route exact path="/tab2">
+                <Tab2 />
+              </Route>
+              <Route path="/tab3">
+                <Tab3 />
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/tab1" />
+              </Route>
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              <IonTabButton tab="tab1" href="/tab1">
+                <IonIcon aria-hidden="true" icon={homeOutline} />
+                <IonLabel>Home</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="tab2" href="/tab2">
+                <IonIcon aria-hidden="true" icon={mapOutline} />
+                <IonLabel>Map</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="tab3" href="/tab3">
+                <IonIcon aria-hidden="true" icon={personOutline} />
+                <IonLabel>Admin</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
+        ) : (
+          <div>Loading...</div>
+        )}
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

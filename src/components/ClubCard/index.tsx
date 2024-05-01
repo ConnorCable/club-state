@@ -15,18 +15,21 @@ import {
 } from "@ionic/react";
 import { checkmark, playCircleOutline, square } from "ionicons/icons";
 import { IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/react';
+import { Position } from "@capacitor/geolocation";
+import { ClubModalProps } from "../../models/ClubModalProps";
+
 
 interface ClickableClubCard {
   onClick: () => void;
-  
+  ClubModalProps: ClubModalProps
+
 }
 
 const click = () => {
   console.log("Clicked");
 }
 
-
-export const ClubCard: React.FC<ClickableClubCard> = ({ onClick }) => {
+export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps}) => {
   return (
     <>
     <IonCard>
