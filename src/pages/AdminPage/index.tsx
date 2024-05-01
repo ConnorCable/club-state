@@ -42,7 +42,7 @@ const Tab3: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Admin Page</IonTitle>
+          <IonTitle className="ion-text-center">Admin Page</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
