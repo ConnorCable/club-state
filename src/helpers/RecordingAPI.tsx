@@ -1,7 +1,6 @@
 import saveAs from "file-saver";
 
 
-
 const detectSong = async(song : any) => {
     const url = 'https://shazam.p.rapidapi.com/songs/detect';
     const options: RequestInit = {
@@ -58,9 +57,8 @@ const songDetect2 = async (base64AudioString: any) => {
         const result = await response.text();
         const resultJSON = JSON.parse(result);
         const { title, subtitle } = resultJSON.track;
-        console.log(resultJSON);
-        console.log(title);
-        console.log(subtitle);
+        const { genres } = resultJSON.track;
+        
     } catch (error) {
         console.error(error);
     }

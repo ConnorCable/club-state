@@ -44,8 +44,6 @@ import { VoiceRecorder, VoiceRecorderPlugin, RecordingData, GenericResponse, Cur
 import songDetect2 from "../../helpers/RecordingAPI";
 
 
-
-
 const ClubAccordionItem: React.FC<{ id: string }> = ({ id }) => (
   <IonAccordion value={id}>
     <IonItem slot="header" color="light">
@@ -65,7 +63,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const [pageNumber, setPageNumber] = useState(1);
   const accordionContentRef = useRef<HTMLDivElement>(null);
   const screenHeight = window.innerWidth;
-  const { location, setLocation, isLoading, setIsLoading  } = useDataStore();
+  const { location, setLocation, isLocationLoading, setIsLocationLoading  } = useDataStore();
 
   const [recordingStatus, setRecordingStatus] = useState("");
   const [recordedData, setRecordedData] = useState("");
@@ -168,11 +166,11 @@ const handleRecordClick = async () => {
 
 const handleLocationClick = async () => {
   // Activate Loading Components 
-  setIsLoading(true);
+  setIsLocationLoading(true);
 
   // Handle Geoverification
   const position = await Geolocation.getCurrentPosition();
-  console.log(position.coords);
+  console.log(position);
   const firestore = firebase.firestore();
 
   // Create a GeoFirestore reference
@@ -181,25 +179,34 @@ const handleLocationClick = async () => {
   // Create a GeoCollection reference
   const geocollection = GeoFirestore.collection('geo-clubs');
 
-  // 1609 km roughly 1 mi
-  const query = geocollection.near({ center: new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude), radius: 2 });
+  // 1609 km roughly 1 mi (Currently testing 0.02km ~ 0.01 miles)
+  const query = geocollection.near({ center: new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude), radius: 0.86});
 
-    // Get query (as Promise)
   query.get().then((value) => {
     const valueCount = value.docs.length;
+    console.log(value.docs);
     // All GeoDocument returned by GeoQuery, like the GeoDocument added above
-    console.log(value.docs[valueCount-1].distance);
-    
-    (value.docs[valueCount-1].distance) < 0.00883427277203622 ? setCaptureEligibility(true)
+    try{
+      var nearestClubs = value.docs.filter((element) => {
+        return element.distance <= 0.01;
+      })
+      
+      if(nearestClubs.length > 0)
+        {
+          nearestClubs.sort((a, b) => a.distance - b.distance);
+          console.log(nearestClubs[0].id);
+        }
+      
+      (nearestClubs[0].distance) < 0.01 ? setCaptureEligibility(true)
     : console.log(false);
+    }catch(e){
+      console.log("Failed to Return Nearby Clubs")
+    }
 
   });
-    
-  setLocation(position);
-  setCaptureEligibility(true);
 
-  // Finish Loading
-  setIsLoading(false);
+  setLocation(position);
+  setIsLocationLoading(false);
 }
 
   return (
@@ -253,7 +260,8 @@ const handleLocationClick = async () => {
           </IonRow>
         </IonGrid>
       </IonFooter>
-      <LoadingOverlay isOpen={isLoading} message="Veryfing Location" />
+      <LoadingOverlay isOpen={isLocationLoading} message="Verifying Location" />
+      
     </IonModal>
   );
 };

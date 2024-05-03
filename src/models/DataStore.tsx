@@ -4,18 +4,22 @@ import { Position } from "@capacitor/geolocation";
 interface StoreState
 {
     location: Position | null
-    isLoading: boolean
+    isLocationLoading: boolean
+    isRecordingLoading: boolean
     activeClub: string | null
     setLocation: (location: Position) => void
-    setIsLoading: (isLoading: boolean) => void
+    setIsLocationLoading: (isLocationLoading: boolean) => void
+    setIsRecordingLoading: (isRecordingLoading: boolean) => void
     setActiveClub: (activeClub: string) => void
 }
 
 export const useDataStore = create<StoreState>()((set) => ({
     location: null,
-    isLoading: false,
+    isLocationLoading: false,
+    isRecordingLoading: false,
     activeClub: null,
-    setIsLoading: (isLoading: boolean) => set({ isLoading }),
+    setIsLocationLoading: (isLocationLoading: boolean) => set({ isLocationLoading }),
+    setIsRecordingLoading: (isRecordingLoading: boolean) => set({ isRecordingLoading }),
     setLocation: (location: Position) => set({ location }),
     setActiveClub: (activeClub: string) => set({ activeClub}),
 }));
