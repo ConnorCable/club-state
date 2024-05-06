@@ -23,6 +23,7 @@ import {
   IonSearchbar,
   IonTitle,
   IonToolbar,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,6 +37,10 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { Geolocation, Position } from "@capacitor/geolocation";
 import { initializeApp } from 'firebase/app';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import * as geofirestore from 'geofirestore';
+import { useDataStore } from "../../models/DataStore";
 
 
 
@@ -72,7 +77,8 @@ const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clubStats, setClubStats] = useState({})
   const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
-
+  const {location, setLocation} = useDataStore();
+  const [clubCards, setClubCards] = useState([])
   const closeModal = () => {
     setIsOpen(false)
     console.log("Modal Closed")
@@ -80,13 +86,48 @@ const HomePage: React.FC = () => {
   }
 
   const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
-
+  
   useEffect(() => {
     if (!accordionGroup.current) {
       return;
     }
     accordionGroup.current.value = ['first', 'third'];
   }, []);
+
+
+  useIonViewWillEnter( () => {
+  const fetchClubCardCollection = async () => {
+    var vals: any =  await getClubCardCollection();
+    setClubCards(vals);
+    console.log(vals);
+  }
+    
+    fetchClubCardCollection();
+  })
+
+
+  const getClubCardCollection = async () => {
+    // Handle Geoverification
+
+        const firestore = firebase.firestore();
+
+        // Declare GeoFirestore variable
+        const GeoFirestore = geofirestore.initializeApp(firestore);
+
+        // Create a GeoCollection reference
+        const geocollection = GeoFirestore.collection('geo-clubs');
+        console.log("My location : {lat: " + location.coords.latitude + ", lng: " + location.coords.longitude )
+        // 1609 km roughly 1 mi
+        const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location.coords.latitude, location.coords.longitude), radius: 200 });
+        let clubCardArray: any[] = []
+        query.get().then((value : any) => {
+            value.docs.forEach((doc : any) => {
+            clubCardArray.push(doc.data() );
+            });
+        });
+        return clubCardArray;
+    }
+  
 
   return (
     <IonPage>

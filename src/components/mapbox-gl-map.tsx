@@ -10,7 +10,7 @@ import { useDataStore } from '../models/DataStore';
 
 const MapGL: React.FC = () => {
     const [locationChips, setLocationChips] = React.useState<any>([]);
-    const {location, setLocation} = useDataStore();
+    const {location} = useDataStore();
 
     useEffect(() => {
         const fetchData = async () => {

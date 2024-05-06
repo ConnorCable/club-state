@@ -50,24 +50,39 @@ const Tab3: React.FC = () => {
           }
   }
 
-
   const CreateNewClub = async (clubProps: ClubProps) => {
     try {
-            const firestore = firebase.firestore();
-            const GeoFirestore = geofirestore.initializeApp(firestore);
-            const geocollection = GeoFirestore.collection('geo-clubs');
-            await geocollection.add({
-              name: clubProps.Name,
-              address: clubProps.Address,
-              coordinates: new firebase.firestore.GeoPoint(parseFloat(clubProps.Latitude), parseFloat(clubProps.Longitude))
-            });
+      const firestore = firebase.firestore();
+      const GeoFirestore = geofirestore.initializeApp(firestore);
+      const geocollection = GeoFirestore.collection('geo-clubs');
+      const newClubRef = await geocollection.add({
+        name: clubProps.Name,
+        address: clubProps.Address,
+        coordinates: new firebase.firestore.GeoPoint(parseFloat(clubProps.Latitude), parseFloat(clubProps.Longitude)),
+      });
+  
+      const collection = firestore.collection("geo-clubs");
+      const docRef = collection.doc(newClubRef.id);
 
-            setIsAddingClub(false);
-    
-    
-          } catch (error) {
-            console.error('Error creating club:', error);
-          }
+      // Create a subcollection within the document
+      const subcollectionRef = docRef.collection("states");
+
+      
+      await subcollectionRef.add({
+      });
+      
+      
+      
+      
+      
+      
+      
+
+  
+      setIsAddingClub(false);
+    } catch (error) {
+      console.error('Error creating club:', error);
+    }
   }
   
   return (
@@ -98,7 +113,7 @@ const Tab3: React.FC = () => {
         </IonGrid>) : <NewStateForm onSubmit={CreateNewClubState} onCancel={() => setIsAddingState(false)} />}
         
 
-        
+
       </IonContent>
     </IonPage>
   );
