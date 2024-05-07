@@ -116,9 +116,9 @@ const HomePage: React.FC = () => {
 
         // Create a GeoCollection reference
         const geocollection = GeoFirestore.collection('geo-clubs');
-        console.log("My location : {lat: " + location.coords.latitude + ", lng: " + location.coords.longitude )
+        console.log("My location : {lat: " + location!.coords.latitude + ", lng: " + location!.coords.longitude )
         // 1609 km roughly 1 mi
-        const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location.coords.latitude, location.coords.longitude), radius: 200 });
+        const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
         let clubCardArray: any[] = []
         query.get().then((value : any) => {
             value.docs.forEach((doc : any) => {
