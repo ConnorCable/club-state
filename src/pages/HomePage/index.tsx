@@ -41,23 +41,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import { useDataStore } from "../../models/DataStore";
-
-
-
-
-interface ClubModalProps {
-  Line: boolean,
-  Cover: boolean,
-  Name: string,
-  Cleanliness: string,
-  Price: string,
-  Fullness: string,
-  Hostility: string,
-  Ratio: string,
-  Genre: string,
-  Loudness: string,
-  Location: Position | null,
-}
+import { ClubModalProps } from "../../models/ClubModalProps";
 
 const fakeClubPropData: ClubModalProps = {
   Name: "Club 1",
@@ -75,31 +59,44 @@ const fakeClubPropData: ClubModalProps = {
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [clubStats, setClubStats] = useState({})
+  const [clubStats, setClubStats] = useState({});
   const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
   const {location, setLocation} = useDataStore();
-  const [clubCards, setClubCards] = useState([])
+  const [clubCards, setClubCards] = useState([]);
+
   const closeModal = () => {
     setIsOpen(false)
-    console.log("Modal Closed")
-    console.log(isOpen)
   }
 
   const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
   
-  useEffect(() => {
-    if (!accordionGroup.current) {
-      return;
-    }
-    accordionGroup.current.value = ['first', 'third'];
-  }, []);
-
+  const {locationChips, setLocationChips} = useDataStore();
 
   useIonViewWillEnter( () => {
+
   const fetchClubCardCollection = async () => {
     var vals: any =  await getClubCardCollection();
     setClubCards(vals);
-    console.log(vals);
+  }
+
+  const getChipCollection = async () => {
+
+    const firestore = firebase.firestore();
+  
+    const GeoFirestore = geofirestore.initializeApp(firestore);
+  
+    const geocollection = GeoFirestore.collection('geo-clubs');
+    
+    // 1609 km roughly 1 mi
+    const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
+    let chipsArray: any[] = []
+    query.get().then((value : any) => {
+        value.docs.forEach((doc : any) => {
+        chipsArray.push(doc.data() );
+        });
+    });
+    
+    return chipsArray;
   }
     
     fetchClubCardCollection();

@@ -16,27 +16,25 @@ import { useEffect, useRef, useState } from "react";
 import "./index.css";
 // import Map from "../../components/Map";
 import { MarkerMap } from "../../components/MarkerMap";
- import MapGL from "../../components/mapbox-gl-map";
+ import MapGL from "../../components/Map";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
+import { useDataStore } from "../../models/DataStore";
 
 
 
 const Tab2: React.FC = () => {
-  const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0})
+  const {location, setLocation} = useDataStore();
   
-  const fetchUserLocation = async () => {
-    const coordinates = await Geolocation.getCurrentPosition();
-    setUserLocation({ lat: coordinates.coords.latitude, lng: coordinates.coords.longitude });
-  };
   useIonViewWillEnter(() => {
+
     const fetchUserLocation = async () => {
       const coordinates = await Geolocation.getCurrentPosition();
-      setUserLocation({ lat: coordinates.coords.latitude, lng: coordinates.coords.longitude });
+      setLocation(coordinates);
     };
 
     fetchUserLocation()
-  })
+  });
 
   return (
     <IonPage>
@@ -45,12 +43,10 @@ const Tab2: React.FC = () => {
           <IonTitle>Map</IonTitle>
         </IonToolbar>
       </IonHeader>
-                <IonContent fullscreen>
-                    <div>
-                      <MapGL>
-                      </MapGL>
-                    </div>
-                </IonContent>
+      <IonContent>
+        <MapGL>
+        </MapGL>
+      </IonContent>
     </IonPage>  
   );
 };
