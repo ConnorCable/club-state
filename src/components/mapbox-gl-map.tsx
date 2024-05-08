@@ -50,11 +50,12 @@ const MapGL: React.FC = () => {
         <Map
             mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsczhlNm85eDJnanYya2xkaGZsOTVtM24ifQ.EIQu35Kqy8hO7CH_m2W0MQ"
             initialViewState={{
-            longitude: -100,
-            latitude: 40,
-            zoom: 3.5
+            longitude: location?.coords.longitude,
+            latitude: location?.coords.latitude,
+            zoom: 15
             }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
+            
         >
     {locationChips.map((chip: any) => (
       <Marker key={chip.g.geohash} longitude={chip.coordinates._long} latitude={chip.coordinates._lat} anchor="bottom" >
