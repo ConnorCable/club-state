@@ -17,7 +17,8 @@ import {
   IonTabs,
   IonText,
   IonTitle,
-  setupIonicReact
+  setupIonicReact,
+  IonProgressBar,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, homeOutline, mapOutline, personOutline, square, triangle } from 'ionicons/icons';
@@ -56,7 +57,7 @@ setupIonicReact();
 const App: React.FC = () => {
   const [geolocationFetched, setGeolocationFetched] = useState(false);
   const { location, setLocation } = useDataStore();
-
+  const [showProgressBar, setShowProgressBar] = useState(false);
 
   firebase.initializeApp({
 
@@ -79,12 +80,16 @@ const App: React.FC = () => {
   const fetchGeolocation = async () => {
     try {
       // HOME ACCESS GEOFENCE
+      setShowProgressBar(true)
       if(await Geolocation.checkPermissions())
         {
           const coordinates = await Geolocation.getCurrentPosition();      
           setLocation(coordinates);
           setGeolocationFetched(true);
         }
+        setTimeout(() => {
+          setShowProgressBar(false);
+        }, 1000);
       
     } catch (error) {
       console.error('Error fetching geolocation:', error);
@@ -130,13 +135,14 @@ const App: React.FC = () => {
                 <IonGrid>
                   <IonRow>
                     <IonCol></IonCol>
-                    <IonCol size="large"><img src={logo} style={{width:  200, height: 200}}></img></IonCol>
+                    <IonCol size="large"><img src={logo} style={{width:  500, height: 500}}></img></IonCol>
                     <IonCol></IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol></IonCol>
                     <IonCol>
                       <IonButton color="light" onClick={fetchGeolocation} size='small'>provide location</IonButton>
+                      {showProgressBar && <IonProgressBar type="indeterminate" />}
                     </IonCol>
                     <IonCol></IonCol>
                   </IonRow>
