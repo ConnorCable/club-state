@@ -8,6 +8,7 @@ import * as geofirestore from 'geofirestore';
 import { useDataStore } from '../../models/DataStore';
 import logo from "../../../assets/clubStateLogo.gif";
 import MapCard from './MapCard';
+import './index.css'
 
 const MapGL: React.FC = () => {
   const [locationChips, setLocationChips] = React.useState<any>([]);
@@ -78,7 +79,7 @@ const MapGL: React.FC = () => {
                         closeOnClick={false}
                         onClose={() => setPopupInfo(null)}
                     >
-                        <IonCardSubtitle>{popupInfo.name}</IonCardSubtitle>
+                        <IonCardSubtitle className='mapPinSubtitle'>{popupInfo.name}</IonCardSubtitle>
                         <IonCardContent>
                             {popupInfo.address}
                             <IonCardSubtitle>{popupInfo.genre}</IonCardSubtitle>
