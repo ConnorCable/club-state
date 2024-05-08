@@ -9,14 +9,12 @@ import {
   IonToolbar,
   useIonViewWillEnter,
   withIonLifeCycle
-
 } from "@ionic/react";
+
 import { Geolocation } from '@capacitor/geolocation';
 import { useEffect, useRef, useState } from "react";
 import "./index.css";
-// import Map from "../../components/Map";
-import { MarkerMap } from "../../components/MarkerMap";
- import MapGL from "../../components/Map";
+import MapGL from "../../components/Map/index";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { useDataStore } from "../../models/DataStore";

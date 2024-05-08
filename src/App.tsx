@@ -7,6 +7,7 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonText,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -39,6 +40,7 @@ import { create } from 'zustand'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
+import logo from "../assets/clubStateLogo.gif";
 
 setupIonicReact();
 
@@ -114,7 +116,9 @@ const App: React.FC = () => {
             </IonTabBar>
           </IonTabs>
         ) : (
-          <div>Loading...</div>
+          <div>
+            <img src={logo}></img>
+          </div>
         )}
       </IonReactRouter>
     </IonApp>

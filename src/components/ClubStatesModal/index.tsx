@@ -144,7 +144,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
 
 
   const generateItems = () => {
-    const newItems = [];
+    const newItems: string[] = [];
     for (let i = 0; i < 10; i++) {
       newItems.push(`Item ${items.length + i + 1}`);
     }

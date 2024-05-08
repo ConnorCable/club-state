@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import mapboxgl from 'mapbox-gl';
 import Map, {Marker} from 'react-map-gl';
 import { homeOutline, homeSharp, locationOutline, pinSharp } from 'ionicons/icons';
 import { IonIcon } from '@ionic/react';
@@ -45,16 +44,15 @@ const getChipCollection = async () => {
 
 
   return (
-    <div>
-        <div id="map-container" style={{ height: '100vh', width: '100vh' }}>
+    
+        <div style={{height: "100vh", width: "100vh"}}>
           <Map
-              mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsczhlNm85eDJnanYya2xkaGZsOTVtM24ifQ.EIQu35Kqy8hO7CH_m2W0MQ"
+              mapboxAccessToken="pk.eyJ1IjoibXVra29pIziwiYSI6ImNsczhlNm85eDJnanYya2xkaGZsOTVtM24ifQ.EIQu35Kqy8hO7CH_m2W0MQ"
               initialViewState={{
               longitude: location?.coords.longitude,
               latitude: location?.coords.latitude,
               zoom: 15
               }}
-              mapStyle="mapbox://styles/mapbox/streets-v9"
               scrollZoom={true}
           >
               
@@ -66,7 +64,7 @@ const getChipCollection = async () => {
 
           </Map>
         </div>
-    </div>
+    
   );
 };
 
