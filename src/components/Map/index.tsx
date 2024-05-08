@@ -44,16 +44,19 @@ const getChipCollection = async () => {
 
 
   return (
-    
-        <div style={{height: "100vh", width: "100vh"}}>
+      
+        <div id="map-container" style={{height: "85vh", width: "90vh"}}>
           <Map
-              mapboxAccessToken="pk.eyJ1IjoibXVra29pIziwiYSI6ImNsczhlNm85eDJnanYya2xkaGZsOTVtM24ifQ.EIQu35Kqy8hO7CH_m2W0MQ"
+              mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsdng1bTZwczBnbWoydm82bTE1MXN5YmEifQ.jVrPQmWmp5xMxQamxdASVA"
               initialViewState={{
               longitude: location?.coords.longitude,
               latitude: location?.coords.latitude,
               zoom: 15
+
               }}
+              mapStyle={"mapbox://styles/mukkoi/clvx641jj01qd01q1dh0074ny"}
               scrollZoom={true}
+              onRender={(event) => event.target.resize()}
           >
               
               {locationChips.map((chip: any) => (
@@ -63,7 +66,8 @@ const getChipCollection = async () => {
               ))}
 
           </Map>
-        </div>
+        
+      </div>
     
   );
 };

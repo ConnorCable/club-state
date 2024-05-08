@@ -1,13 +1,22 @@
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonGrid,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
+  IonRow,
   IonTabBar,
   IonTabButton,
   IonTabs,
   IonText,
+  IonTitle,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -65,17 +74,18 @@ const App: React.FC = () => {
   
   });
 
-  useEffect(() => {
-    fetchGeolocation();
-  }, []);
-
+  
   
   const fetchGeolocation = async () => {
     try {
       // HOME ACCESS GEOFENCE
-      const coordinates = await Geolocation.getCurrentPosition();      
-      setLocation(coordinates);
-      setGeolocationFetched(true);
+      if(await Geolocation.checkPermissions())
+        {
+          const coordinates = await Geolocation.getCurrentPosition();      
+          setLocation(coordinates);
+          setGeolocationFetched(true);
+        }
+      
     } catch (error) {
       console.error('Error fetching geolocation:', error);
     }
@@ -117,7 +127,16 @@ const App: React.FC = () => {
           </IonTabs>
         ) : (
           <div>
-            <img src={logo}></img>
+                <img src={logo}></img>
+                <IonGrid>
+                  <IonRow>
+                    <IonCol></IonCol>
+                    <IonCol>
+                      <IonButton color="light" onClick={fetchGeolocation}>E N T E R</IonButton>
+                    </IonCol>
+                    <IonCol></IonCol>
+                  </IonRow>
+                </IonGrid>            
           </div>
         )}
       </IonReactRouter>
