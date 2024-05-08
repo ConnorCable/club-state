@@ -210,7 +210,7 @@ const handleLocationClick = async () => {
 }
 
   return (
-    <IonModal isOpen={isOpen} canDismiss>
+    <IonModal isOpen={isOpen} backdropDismiss={false}>
       <IonContent>
         <IonHeader>
           <IonToolbar color="primary">
