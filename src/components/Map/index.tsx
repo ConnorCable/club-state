@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
-import Map, {Marker} from 'react-map-gl';
+import Map, {Marker, Popup} from 'react-map-gl';
 import { accessibilityOutline, homeOutline, homeSharp, locationOutline, navigateCircleOutline, person, pinSharp } from 'ionicons/icons';
-import { IonIcon, IonLoading, IonProgressBar } from '@ionic/react';
+import { IonIcon, IonProgressBar, IonCard, IonCardContent, IonCardTitle, IonCardSubtitle } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import { useDataStore } from '../../models/DataStore';
 import logo from "../../../assets/clubStateLogo.gif";
+import MapCard from './MapCard';
 
 const MapGL: React.FC = () => {
   const [locationChips, setLocationChips] = React.useState<any>([]);
   const { location } = useDataStore();
   const [isLoading, setIsLoading] = React.useState(true);
+  const [popupInfo, setPopupInfo] = React.useState<any>(null);
 
   const getChipCollection = async () => {
       const firestore = firebase.firestore();
@@ -59,16 +61,36 @@ const MapGL: React.FC = () => {
               mapStyle={"mapbox://styles/mukkoi/clvx641jj01qd01q1dh0074ny"}
               scrollZoom={true}
               onRender={(event) => event.target.resize()}
+
+
           >
               {locationChips.map((chip: any) => (
-                  <Marker key={chip.g.geohash} longitude={chip.coordinates._long} latitude={chip.coordinates._lat} anchor="bottom">
-                      <IonIcon icon={pinSharp} size="large" color='danger' />
+                  <Marker key={chip.g.geohash} longitude={chip.coordinates._long} latitude={chip.coordinates._lat} anchor="bottom"  onClick={(e) => {e.originalEvent.stopPropagation; setPopupInfo(chip)}}>
+                      <IonIcon icon={pinSharp} size="large" color='danger' style={{ cursor: 'pointer' }} />
                   </Marker>
               ))}
+                {popupInfo && (
+                    <Popup
+                        anchor='top'
+                        longitude={popupInfo.coordinates._long}
+                        latitude={popupInfo.coordinates._lat}
+                        closeButton={true}
+                        closeOnClick={false}
+                        onClose={() => setPopupInfo(null)}
+                    >
+                        <IonCardSubtitle>{popupInfo.name}</IonCardSubtitle>
+                        <IonCardContent>
+                            {popupInfo.address}
+                            <IonCardSubtitle>{popupInfo.genre}</IonCardSubtitle>
+                        </IonCardContent>
+                    </Popup>
+                )}
               {
               (location?.coords.longitude != undefined && location.coords.latitude != undefined) ? <Marker latitude={location.coords.latitude} longitude={location.coords.longitude}> <IonIcon icon={navigateCircleOutline} size="large" color='tertiary' /></Marker>  : <></>
-              }
+              } 
+
           </Map>
+                 
       </div>
   );
 };
