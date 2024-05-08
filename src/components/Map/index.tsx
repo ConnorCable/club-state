@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Map, {Marker} from 'react-map-gl';
-import { homeOutline, homeSharp, locationOutline, pinSharp } from 'ionicons/icons';
+import { accessibilityOutline, homeOutline, homeSharp, locationOutline, navigateCircleOutline, person, pinSharp } from 'ionicons/icons';
 import { IonIcon } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -59,6 +59,9 @@ const MapGL: React.FC = () => {
                       <IonIcon icon={pinSharp} size="large" color='danger' />
                   </Marker>
               ))}
+              {
+              (location?.coords.longitude != undefined && location.coords.latitude != undefined) ? <Marker latitude={location.coords.latitude} longitude={location.coords.longitude}> <IonIcon icon={navigateCircleOutline} size="large" color='tertiary' /></Marker>  : <></>
+              }
           </Map>
       </div>
   );

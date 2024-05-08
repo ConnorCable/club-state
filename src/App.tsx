@@ -127,12 +127,16 @@ const App: React.FC = () => {
           </IonTabs>
         ) : (
           <div>
-                <img src={logo}></img>
                 <IonGrid>
                   <IonRow>
                     <IonCol></IonCol>
+                    <IonCol size="large"><img src={logo} style={{width:  200, height: 200}}></img></IonCol>
+                    <IonCol></IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol></IonCol>
                     <IonCol>
-                      <IonButton color="light" onClick={fetchGeolocation}>E N T E R</IonButton>
+                      <IonButton color="light" onClick={fetchGeolocation} size='small'>provide location</IonButton>
                     </IonCol>
                     <IonCol></IonCol>
                   </IonRow>

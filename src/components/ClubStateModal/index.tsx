@@ -200,7 +200,8 @@ const handleLocationClick = async () => {
       (nearestClubs[0].distance) < 0.01 ? setCaptureEligibility(true)
     : console.log(false);
     }catch(e){
-      console.log("Failed to Return Nearby Clubs")
+      setCaptureEligibility(false);
+      setIsLocationLoading(false);
     }
 
   });
