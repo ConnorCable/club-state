@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import Map, {Marker} from 'react-map-gl';
 import { accessibilityOutline, homeOutline, homeSharp, locationOutline, navigateCircleOutline, person, pinSharp } from 'ionicons/icons';
-import { IonIcon } from '@ionic/react';
+import { IonIcon, IonLoading, IonProgressBar } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import { useDataStore } from '../../models/DataStore';
+import logo from "../../../assets/clubStateLogo.gif";
 
 const MapGL: React.FC = () => {
   const [locationChips, setLocationChips] = React.useState<any>([]);
@@ -38,7 +39,12 @@ const MapGL: React.FC = () => {
   }, [location]);
 
   if (isLoading) {
-      return <div>Loading...</div>;
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+          <img src={logo} style={{width:  500, height: 500}}></img>
+          <IonProgressBar type="indeterminate"/>
+        </div>
+      );
   }
 
   return (

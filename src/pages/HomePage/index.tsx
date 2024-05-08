@@ -77,6 +77,7 @@ const HomePage: React.FC = () => {
   const fetchClubCardCollection = async () => {
     var vals: any =  await getClubCardCollection();
     setClubCards(vals);
+    console.log(clubCards)
   }
 
   const getChipCollection = async () => {
