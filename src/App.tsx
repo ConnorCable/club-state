@@ -51,6 +51,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import logo from "../assets/clubStateLogo.gif";
+import "./App.css"
 
 setupIonicReact();
 
@@ -135,13 +136,14 @@ const App: React.FC = () => {
                 <IonGrid>
                   <IonRow>
                     <IonCol></IonCol>
-                    <IonCol size="large"><img src={logo} style={{width:  500, height: 500}}></img></IonCol>
+                    <IonCol></IonCol>
+                    <IonCol size="large" className='ion-padding-left'><img src={logo} style={{width:  600, height: 600}}></img></IonCol>
                     <IonCol></IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol></IonCol>
                     <IonCol>
-                      <IonButton color="light" onClick={fetchGeolocation} size='small'>provide location</IonButton>
+                    <button className='glowing-btn' onClick={fetchGeolocation}><span className='glowing-txt'>E<span className='faulty-letter'>N</span>TER</span></button>
                       {showProgressBar && <IonProgressBar type="indeterminate" />}
                     </IonCol>
                     <IonCol></IonCol>
