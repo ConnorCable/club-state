@@ -1,8 +1,9 @@
 .genreCard {
     height: 87px;
-    width: 190px;
+
     text-align: center;
     align-items: center;
+    margin: 7px;
     
 }
 
@@ -37,6 +38,10 @@
 
 .filterButtons{
   align-content: center;
+  display: flex;
+  justify-content:flex-start;
+  padding-left: 10px;
+  padding-top: 10px;
 }
 
 

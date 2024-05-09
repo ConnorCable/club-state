@@ -77,6 +77,7 @@ const HomePage: React.FC = () => {
   const fetchClubCardCollection = async () => {
     var vals: any =  await getClubCardCollection();
     setClubCards(vals);
+    console.log(clubCards)
   }
 
   const getChipCollection = async () => {
@@ -131,7 +132,7 @@ const HomePage: React.FC = () => {
       <IonHeader>
       </IonHeader>
       <IonContent fullscreen>
-        <Swiper className="genreSwiper" slidesPerView={2} loop={true}>
+        <Swiper className="genreSwiper "  spaceBetween={0} slidesPerView={2} loop={true}>
           <SwiperSlide>
             <IonCard className="genreCard" color={"primary"}>
               <IonCardTitle className="genreTitle">House</IonCardTitle>
@@ -147,13 +148,18 @@ const HomePage: React.FC = () => {
               <IonCardTitle className="genreTitle">Rap</IonCardTitle>
             </IonCard>
           </SwiperSlide>
+          <SwiperSlide>
+            <IonCard className="genreCard" color={"success"}>
+              <IonCardTitle className="genreTitle">Trance</IonCardTitle>
+            </IonCard>
+          </SwiperSlide>
         </Swiper>
         
-       <div className="filterButtons">
+       <div className="filterButtons ">
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>$$$</IonChip>
         <IonChip className="ion-text-center ion-text-capitalize "outline={true} >Fullness</IonChip>
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Hostility</IonChip>
-        <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance Away</IonChip>
+        <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance</IonChip>
       </div>
 
         <Swiper direction={"horizontal"} className="clubSwiper">

@@ -17,7 +17,8 @@ import {
   IonTabs,
   IonText,
   IonTitle,
-  setupIonicReact
+  setupIonicReact,
+  IonProgressBar,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, homeOutline, mapOutline, personOutline, square, triangle } from 'ionicons/icons';
@@ -50,13 +51,14 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import logo from "../assets/clubStateLogo.gif";
+import "./App.css"
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const [geolocationFetched, setGeolocationFetched] = useState(false);
   const { location, setLocation } = useDataStore();
-
+  const [showProgressBar, setShowProgressBar] = useState(false);
 
   firebase.initializeApp({
 
@@ -79,12 +81,16 @@ const App: React.FC = () => {
   const fetchGeolocation = async () => {
     try {
       // HOME ACCESS GEOFENCE
+      setShowProgressBar(true)
       if(await Geolocation.checkPermissions())
         {
           const coordinates = await Geolocation.getCurrentPosition();      
           setLocation(coordinates);
           setGeolocationFetched(true);
         }
+        setTimeout(() => {
+          setShowProgressBar(false);
+        }, 1000);
       
     } catch (error) {
       console.error('Error fetching geolocation:', error);
@@ -130,13 +136,15 @@ const App: React.FC = () => {
                 <IonGrid>
                   <IonRow>
                     <IonCol></IonCol>
-                    <IonCol size="large"><img src={logo} style={{width:  200, height: 200}}></img></IonCol>
+                    <IonCol></IonCol>
+                    <IonCol size="large" className='ion-padding-left'><img src={logo} style={{width:  600, height: 600}}></img></IonCol>
                     <IonCol></IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol></IonCol>
                     <IonCol>
-                      <IonButton color="light" onClick={fetchGeolocation} size='small'>provide location</IonButton>
+                    <button className='glowing-btn' onClick={fetchGeolocation}><span className='glowing-txt'>E<span className='faulty-letter'>N</span>TER</span></button>
+                      {showProgressBar && <IonProgressBar type="indeterminate" />}
                     </IonCol>
                     <IonCol></IonCol>
                   </IonRow>
