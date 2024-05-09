@@ -7,6 +7,7 @@ import './index.css';
 import { useState } from 'react';
 import { ClubProps } from '../../models/ClubProps';
 import { StateProps } from '../../models/StateProps';
+import { useDataStore } from '../../models/DataStore';
 
 const Tab3: React.FC = () => {
   const [isAddingClub, setIsAddingClub] = useState(false);
@@ -246,6 +247,7 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
   const [clubAddress, setClubAddress] = useState('');
   const [clubLongitude, setClubLongitude] = useState('');
   const [clubLatitude, setClubLatitude] = useState('');
+  const {location, setLocation } = useDataStore();
 
   const handleSubmit = () => {
     const newClub: ClubProps = {
@@ -256,6 +258,12 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
     };
     onSubmit(newClub);
   };
+
+  const setUserLocation = () => {
+
+    setClubLatitude(location.coords.latitude.toString())
+    setClubLongitude(location.coords.longitude.toString())
+  }
 
   return (
     <IonContent className="ion-padding-top ion-margin-top">
@@ -279,6 +287,7 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
           <IonItem>
             <IonButton onClick={handleSubmit}>Submit</IonButton>
             <IonButton onClick={onCancel}>Cancel</IonButton>
+            <IonButton onClick={setUserLocation}>Use Current Location</IonButton>
           </IonItem>
         </IonList>
       </IonGrid>  
