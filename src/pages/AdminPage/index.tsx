@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonPage, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
@@ -6,7 +6,7 @@ import * as geofirestore from 'geofirestore';
 import './index.css';
 import { useState } from 'react';
 import { ClubProps } from '../../models/ClubProps';
-import { StateProps } from '../../models/StateProps';
+import { ClubStateProps } from '../../models/ClubStateProps';
 import { useDataStore } from '../../models/DataStore';
 
 const Tab3: React.FC = () => {
@@ -17,7 +17,7 @@ const Tab3: React.FC = () => {
     setIsAddingClub(stateVal);
   }
 
-  const CreateNewClubState = async (stateProps: StateProps) => {
+  const CreateNewClubState = async (stateProps: ClubStateProps) => {
     try {
 
             setIsAddingState(true);
@@ -68,18 +68,9 @@ const Tab3: React.FC = () => {
       // Create a subcollection within the document
       const subcollectionRef = docRef.collection("states");
 
-      
       await subcollectionRef.add({
       });
       
-      
-      
-      
-      
-      
-      
-
-  
       setIsAddingClub(false);
     } catch (error) {
       console.error('Error creating club:', error);
@@ -112,9 +103,6 @@ const Tab3: React.FC = () => {
             <IonCol></IonCol>
           </IonRow>
         </IonGrid>) : <NewStateForm onSubmit={CreateNewClubState} onCancel={() => setIsAddingState(false)} />}
-        
-
-
       </IonContent>
     </IonPage>
   );
@@ -123,10 +111,9 @@ const Tab3: React.FC = () => {
 export default Tab3;
 
 interface NewStateFormProps {
-  onSubmit: (stateProps: StateProps) => void;
+  onSubmit: (stateProps: ClubStateProps) => void;
   onCancel: () => void;
 }
-
 
 const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
   const [clubName, setClubName] = useState('');
@@ -136,12 +123,12 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
 
   const [cleanliness, setCleanliness] = useState('');
   const [clubID, setClubID] = useState('');
-  const [cover, setCover] = useState('');
+  const [cover, setCover] = useState(false);
   const [fullness, setFullness] = useState('');
   const [genre, setGenre] = useState('');
   const [hostility, setHostility] = useState('');
   const [latitude, setLatitude] = useState('');
-  const [line, setLine] = useState('');
+  const [line, setLine] = useState(false);
   const [longitude, setLongitude] = useState('');
   const [loudness, setLoudness] = useState('');
   const [price, setPrice] = useState('');
@@ -152,7 +139,7 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
 
 
   const handleSubmit = () => {
-    const newState: StateProps = {
+    const newState: ClubStateProps = {
       Cleanliness: cleanliness,
       ClubID: clubID,
       Cover: cover,
@@ -177,7 +164,7 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
       <IonGrid>
         <IonList className="admin-grid">
           <IonItemDivider>
-            <IonLabel>------- New Club Form --------- </IonLabel>
+            <IonLabel>------- New State Form --------- </IonLabel>
           </IonItemDivider>
           <IonItem>
             <IonInput value={clubID} onIonChange={e => setClubID(e.detail.value!)} label="ClubID" placeholder="Club 1" />
@@ -198,19 +185,35 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
             <IonInput value={songTitle} onIonChange={e => setSongTitle(e.detail.value!)} label="Song title" placeholder="Trippin in Scratch" />
           </IonItem>
           <IonItem>
-            <IonInput value={cover} onIonChange={e => setCover(e.detail.value!)} label="Cover" placeholder="True / False" />
+            <IonSelect label="Cover?" onIonChange={e => setCover(e.detail.value)}>
+              <IonSelectOption value={true}>Yes</IonSelectOption>
+              <IonSelectOption value={false}>No</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={line} onIonChange={e => setLine(e.detail.value!)} label="Line" placeholder="True / False" />
+            <IonSelect label="Line?" onIonChange={e => setLine(e.detail.value)}>
+              <IonSelectOption value={true}>Yes</IonSelectOption>
+              <IonSelectOption value={false}>No</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={price} onIonChange={e => setPrice(e.detail.value!)} label="Price" placeholder="$ / $$ / $$$" />
+            <IonSelect label="Price?" onIonChange={e => setPrice(e.detail.value)}>
+              <IonSelectOption value={"$"}>$</IonSelectOption>
+              <IonSelectOption value={"$$"}>$$</IonSelectOption>
+              <IonSelectOption value={"$$$"}>$$$</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
             <IonInput value={genre} onIonChange={e => setGenre(e.detail.value!)} label="Genre" placeholder="House" />
           </IonItem>
           <IonItem>
-            <IonInput value={cleanliness} onIonChange={e => setCleanliness(e.detail.value!)} label="Cleanliness" placeholder="" />
+            <IonSelect label="Cleanliness?" onIonChange={e => setCleanliness(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
             <IonInput value={fullness} onIonChange={e => setFullness(e.detail.value!)} label="Fullness" placeholder="" />
@@ -261,8 +264,8 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
 
   const setUserLocation = () => {
 
-    setClubLatitude(location.coords.latitude.toString())
-    setClubLongitude(location.coords.longitude.toString())
+    setClubLatitude(location!.coords.latitude.toString())
+    setClubLongitude(location!.coords.longitude.toString())
   }
 
   return (

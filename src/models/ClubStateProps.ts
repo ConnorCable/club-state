@@ -1,6 +1,6 @@
 import { Position } from "@capacitor/geolocation";
 
-export interface StateProps {    
+export interface ClubStateProps {    
     Cleanliness: string,
     ClubID: string,
     Latitude: string,
@@ -14,8 +14,8 @@ export interface StateProps {
     SongAudioData: string,
     SongTitle: string,
     SongArtist: string,
-    Line: string,
-    Cover: string,
+    Line: boolean,
+    Cover: boolean,
     
 
   }

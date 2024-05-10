@@ -24,9 +24,13 @@ import {
   IonTitle,
   IonToolbar,
   useIonViewWillEnter,
+  IonText,
+  RefresherEventDetail,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/react";
 import "swiper/css";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import "./index.css";
 import { ClubCard } from "../../components/ClubCard";
 import { useState } from "react";
@@ -42,6 +46,7 @@ import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import { useDataStore } from "../../models/DataStore";
 import { ClubModalProps } from "../../models/ClubModalProps";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 const fakeClubPropData: ClubModalProps = {
   Name: "Club 1",
@@ -61,8 +66,15 @@ const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clubStats, setClubStats] = useState({});
   const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
-  const {location, setLocation} = useDataStore();
+  const {location, setLocation, currentClubs, setCurrentClubs} = useDataStore();
   const [clubCards, setClubCards] = useState([]);
+
+  function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.detail.complete();
+    }, 2000);
+  }
 
   const closeModal = () => {
     setIsOpen(false)
@@ -70,51 +82,28 @@ const HomePage: React.FC = () => {
 
   const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
   
-  const {locationChips, setLocationChips} = useDataStore();
-
-  useIonViewWillEnter( () => {
-
-  const fetchClubCardCollection = async () => {
-    var vals: any =  await getClubCardCollection();
-    setClubCards(vals);
-    console.log(clubCards)
-  }
-
-  const getChipCollection = async () => {
-
-    const firestore = firebase.firestore();
-  
-    const GeoFirestore = geofirestore.initializeApp(firestore);
-  
-    const geocollection = GeoFirestore.collection('geo-clubs');
-    
-    // 1609 km roughly 1 mi
-    const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
-    let chipsArray: any[] = []
-    query.get().then((value : any) => {
-        value.docs.forEach((doc : any) => {
-        chipsArray.push(doc.data() );
-        });
-    });
-    
-    return chipsArray;
-  }
-    
-    fetchClubCardCollection();
+  useEffect(() => {
   })
 
+  useIonViewWillEnter(() => {
+    if (!currentClubs || currentClubs.length === 0) {
+      fetchClubCardCollection();
+    }
+  }, [currentClubs]);
+
+  const fetchClubCardCollection = async () => {
+    var nearbyClubs: any =  await getClubCardCollection();
+    setCurrentClubs(nearbyClubs);
+  }
 
   const getClubCardCollection = async () => {
-    // Handle Geoverification
 
         const firestore = firebase.firestore();
 
-        // Declare GeoFirestore variable
         const GeoFirestore = geofirestore.initializeApp(firestore);
 
-        // Create a GeoCollection reference
         const geocollection = GeoFirestore.collection('geo-clubs');
-        console.log("My location : {lat: " + location!.coords.latitude + ", lng: " + location!.coords.longitude )
+
         // 1609 km roughly 1 mi
         const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
         let clubCardArray: any[] = []
@@ -123,18 +112,22 @@ const HomePage: React.FC = () => {
             clubCardArray.push(doc.data() );
             });
         });
+
         return clubCardArray;
     }
   
-
   return (
     <IonPage>
+
       <IonHeader>
       </IonHeader>
+
       <IonContent fullscreen>
-        <Swiper className="genreSwiper "  spaceBetween={0} slidesPerView={2} loop={true}>
+
+        {/* CLUB CARD GENRE FILTERS */}
+        <Swiper className="genreSwiper " spaceBetween={0} slidesPerView={2} loop={true}>
           <SwiperSlide>
-            <IonCard className="genreCard" color={"primary"}>
+            <IonCard className="genreCard" color={"primary"} onClick={() => {console.log(currentClubs)}}>
               <IonCardTitle className="genreTitle">House</IonCardTitle>
             </IonCard>
           </SwiperSlide>
@@ -155,6 +148,7 @@ const HomePage: React.FC = () => {
           </SwiperSlide>
         </Swiper>
         
+        {/* CLUB CARD SOCIAL FILTERS */}
        <div className="filterButtons ">
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>$$$</IonChip>
         <IonChip className="ion-text-center ion-text-capitalize "outline={true} >Fullness</IonChip>
@@ -162,26 +156,25 @@ const HomePage: React.FC = () => {
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance</IonChip>
       </div>
 
-        <Swiper direction={"horizontal"} className="clubSwiper">
-          <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/> 
-          </SwiperSlide>
-          <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
-          </SwiperSlide>
-          <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
-          </SwiperSlide>
-          <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
-          </SwiperSlide>
-          <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
-          </SwiperSlide>
-          <SwiperSlide>
-          <ClubCard  onClick={() => setIsOpen(true)} ClubModalProps={fakeClubPropData}/>  
-          </SwiperSlide>
-        </Swiper>
+        {/* CLUB CARD SWIPABLE*/}
+        
+        <div>
+          {(currentClubs!.length > 0) ? (<Swiper direction={"horizontal"} className="clubSwiper">
+            {currentClubs?.map((club: any) => (<SwiperSlide key={club.name}><ClubCard onClick={()=> setIsOpen(true)}ClubModalProps={fakeClubPropData} ClubProps={{
+              Name: club.name,
+              Address: club.address,
+              Coordinates: club.coordinates,
+            }}></ClubCard></SwiperSlide>))}
+          </Swiper>): (<LoadingOverlay isOpen={true} message="Retrieving Clubs"></LoadingOverlay>)}
+        </div>
+
+        {/*REFRESH FOR CLUB CARDS, NO FUNCTIONALITY - need to implement handleRefresh */}
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
+        
+
+
       </IonContent>
       <ClubModal  isOpen={isOpen} setIsOpen={setIsOpen} clubProps={fakeClubPropData}/>
     </IonPage>

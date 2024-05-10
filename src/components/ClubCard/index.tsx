@@ -17,28 +17,29 @@ import { checkmark, playCircleOutline, square } from "ionicons/icons";
 import { IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/react';
 import { Position } from "@capacitor/geolocation";
 import { ClubModalProps } from "../../models/ClubModalProps";
+import { ClubProps } from "../../models/ClubProps";
 
 
 interface ClickableClubCard {
   onClick: () => void;
   ClubModalProps: ClubModalProps
-
+  ClubProps: ClubProps
 }
 
 const click = () => {
   console.log("Clicked");
 }
 
-export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps}) => {
+export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps, ClubProps}) => {
   return (
     <>
     <IonCard>
       <IonCardHeader onClick={onClick}>
         <IonGrid fixed={true}>
           <IonRow>
-            <IonCol>
-            <IonCardTitle>Club 1</IonCardTitle>
-            </IonCol>
+            <IonCol><IonCardTitle>{ClubProps.Name}</IonCardTitle></IonCol>
+            </IonRow>
+          <IonRow className="ion-justify-content-start">
             <IonCol>
             <IonChip>
               Cover
@@ -51,7 +52,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps}
           </IonRow>
         </IonGrid>
         <IonCardSubtitle className="club-subtitle">
-          <span>1234 Mystery Way</span>
+          <span>{ClubProps.Address}</span>
           <span>Genre</span>
           <span>Distance</span>
         </IonCardSubtitle>
@@ -65,7 +66,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps}
             <IonRow>
               <IonCol size="13">
                 <IonChip>Fullness: 5 </IonChip>
-                <IonChip>Hositlity: 5</IonChip>
+                <IonChip>Hostility: 5</IonChip>
                 <IonChip>Ratio: 4</IonChip>
               </IonCol>
             </IonRow>

@@ -15,7 +15,6 @@ const MapCard: React.FC<MapCardProps> = ({ name, address }) => {
       <IonCardTitle>
         <h3>{name}</h3>
         <p>{address}</p>
-    <IonC
       </IonCardTitle>
     </IonCard>
   );
