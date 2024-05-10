@@ -27,6 +27,7 @@ import {
   IonChip,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { arrowBack, navigateCircleOutline, radioButtonOnOutline, recordingOutline } from "ionicons/icons";
 import "swiper/css";
@@ -42,6 +43,7 @@ import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import { VoiceRecorder, VoiceRecorderPlugin, RecordingData, GenericResponse, CurrentRecordingStatus } from 'capacitor-voice-recorder';
 import songDetect2 from "../../helpers/RecordingAPI";
+import useClubStore from "../../models/ClubStore";
 
 
 const ClubAccordionItem: React.FC<{ id: string }> = ({ id }) => (
@@ -56,7 +58,7 @@ const ClubAccordionItem: React.FC<{ id: string }> = ({ id }) => (
   </IonAccordion>
 );
 
-const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; clubProps: ClubModalProps }> = ({ isOpen, setIsOpen, clubProps }) => {
+const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; clubProps: ClubModalProps, activeClub: string | undefined}> = ({ isOpen, setIsOpen, clubProps, activeClub }) => {
   const [items, setItems] = useState<string[]>([]);
   const [captureEligbility, setCaptureEligibility] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -64,12 +66,48 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const accordionContentRef = useRef<HTMLDivElement>(null);
   const screenHeight = window.innerWidth;
   const { location, setLocation, isLocationLoading, setIsLocationLoading  } = useDataStore();
+  const {getClubRef} = useClubStore();
 
   const [recordingStatus, setRecordingStatus] = useState("");
   const [recordedData, setRecordedData] = useState("");
   const [recordingCaptured, setRecordingCaptured] = useState(true);
   const [detectedSong, setDetectedSong] = useState<string | undefined>("")
 
+
+  useIonViewWillEnter(() => {
+
+    const getStates = async () => {
+      const ref = getClubRef(activeClub!)
+      if(ref){
+        const states = await ref.collection("states").get();
+        console.log(states.docs);
+        states.forEach((doc) => {
+          console.log(doc.data())
+        })
+        setItems(states.docs.map((doc) => doc.id));
+      }
+    }
+
+    getStates()
+    // // console.log("Modal is getting refs");
+    // // const ref = getClubRef(activeClub!)
+    // // console.log(await ref?.collection("states").get())
+    // // if(ref){
+    // //   const unsubscribe = ref.onSnapshot(
+    // //     (doc) => {
+    // //       console.log(doc.data());
+    // //     },
+
+    // //     (error) => {
+    // //       console.error("Failed to listen");
+    // //     }
+    // //   );
+
+    //   return () => unsubscribe();
+    // } else {
+    //   console.error('Club Reference not found');
+    // }
+  },[isOpen, getClubRef, activeClub])
 
   const captureState = async () => {
       
@@ -143,17 +181,19 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   };
 
 
-  const generateItems = () => {
-    const newItems = [];
-    for (let i = 0; i < 10; i++) {
-      newItems.push(`Item ${items.length + i + 1}`);
-    }
-    setItems([...items, ...newItems]);
-  };
+  // const generateItems = () => {
+  //   const newItems = [];
+  //   for (let i = 0; i < 10; i++) {
+  //     newItems.push(`Item ${items.length + i + 1}`);
+  //   }
+  //   setItems([...items, ...newItems]);
+  // };
 
-  useEffect(() => {
-    generateItems();
-  }, [pageNumber]);
+  // useEffect(() => {
+  //   generateItems();
+  // }, [pageNumber]);
+
+
 
   const loadMore = () => {
     setPageNumber(pageNumber + 1);
@@ -165,6 +205,7 @@ const handleRecordClick = async () => {
 }
 
 const handleLocationClick = async () => {
+  console.log(activeClub);
   // Activate Loading Components 
   setIsLocationLoading(true);
 

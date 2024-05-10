@@ -59,7 +59,7 @@ const Tab3: React.FC = () => {
       const newClubRef = await geocollection.add({
         name: clubProps.Name,
         address: clubProps.Address,
-        coordinates: new firebase.firestore.GeoPoint(parseFloat(clubProps.Latitude), parseFloat(clubProps.Longitude)),
+        coordinates: new firebase.firestore.GeoPoint(parseFloat(clubProps.Coordinates.latitude.toString()), parseFloat(clubProps.Coordinates.longitude.toString())),
       });
   
       const collection = firestore.collection("geo-clubs");
@@ -254,10 +254,10 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
 
   const handleSubmit = () => {
     const newClub: ClubProps = {
+      Id: "",
       Name: clubName,
       Address: clubAddress,
-      Longitude: clubLongitude,
-      Latitude: clubLatitude,
+      Coordinates: {longitude: parseFloat(clubLongitude), latitude: parseFloat(clubLatitude)}
     };
     onSubmit(newClub);
   };

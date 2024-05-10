@@ -12,4 +12,5 @@ export interface ClubModalProps {
     Genre: string,
     Loudness: string,
     Location: Position | null,
+    activeClub: string | "",
   }

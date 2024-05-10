@@ -47,6 +47,7 @@ import * as geofirestore from 'geofirestore';
 import { useDataStore } from "../../models/DataStore";
 import { ClubModalProps } from "../../models/ClubModalProps";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import useClubStore from "../../models/ClubStore";
 
 const fakeClubPropData: ClubModalProps = {
   Name: "Club 1",
@@ -60,6 +61,7 @@ const fakeClubPropData: ClubModalProps = {
   Hostility: "Dangerous",
   Ratio: "Decent",
   Genre: "House",
+  activeClub: ""
 }
 
 const HomePage: React.FC = () => {
@@ -68,6 +70,8 @@ const HomePage: React.FC = () => {
   const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
   const {location, setLocation, currentClubs, setCurrentClubs} = useDataStore();
   const [clubCards, setClubCards] = useState([]);
+  const [activeClub, setActiveClub] = useState<string | undefined>();
+  
 
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
     setTimeout(() => {
@@ -96,6 +100,11 @@ const HomePage: React.FC = () => {
     setCurrentClubs(nearbyClubs);
   }
 
+  const handleClubCardClick = async (name : string) => {
+    // a function that gets the club id from the club name
+    // const clubRef = useClubStore.getState().getClubRef()
+  }
+
   const getClubCardCollection = async () => {
 
         const firestore = firebase.firestore();
@@ -109,8 +118,23 @@ const HomePage: React.FC = () => {
         let clubCardArray: any[] = []
         query.get().then((value : any) => {
             value.docs.forEach((doc : any) => {
-            clubCardArray.push(doc.data() );
+
+              const clubData = doc.data();
+              const clubId = doc.id;
+              
+              const clubRef = firestore.collection('geo-clubs').doc(clubId);
+              
+              useClubStore.getState().updateClubRefs(clubId, clubRef);
+              
+              clubRef.get().then((doc) => {
+                console.log(doc.data());
+              })
+
+              clubCardArray.push({id: doc.id, ...doc.data()});
+              
+
             });
+            
         });
 
         return clubCardArray;
@@ -160,23 +184,23 @@ const HomePage: React.FC = () => {
         
         <div>
           {(currentClubs!.length > 0) ? (<Swiper direction={"horizontal"} className="clubSwiper">
-            {currentClubs?.map((club: any) => (<SwiperSlide key={club.name}><ClubCard onClick={()=> setIsOpen(true)}ClubModalProps={fakeClubPropData} ClubProps={{
+            {currentClubs?.map((club: any) => (<SwiperSlide key={club.name}><ClubCard onClick={()=> {setActiveClub(club.id); setIsOpen(true)}}ClubModalProps={fakeClubPropData} ClubProps={{
+              Id: club.id,
               Name: club.name,
               Address: club.address,
               Coordinates: club.coordinates,
             }}></ClubCard></SwiperSlide>))}
           </Swiper>): (<LoadingOverlay isOpen={true} message="Retrieving Clubs"></LoadingOverlay>)}
         </div>
-
+        {/* onClick handler for the clubCard or Swiper Slide. setActiveClub(club.docId) now the modal is set to the active club. And now when the modal opens, it has a doc id to start listening */}
         {/*REFRESH FOR CLUB CARDS, NO FUNCTIONALITY - need to implement handleRefresh */}
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
         
-
-
       </IonContent>
-      <ClubModal  isOpen={isOpen} setIsOpen={setIsOpen} clubProps={fakeClubPropData}/>
+      {activeClub && <ClubModal isOpen={isOpen} setIsOpen={setIsOpen} clubProps={fakeClubPropData} activeClub={activeClub}/>}
+      
     </IonPage>
   );
 };
