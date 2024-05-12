@@ -74,7 +74,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const [detectedSong, setDetectedSong] = useState<string | undefined>("")
 
 
-  useIonViewWillEnter(() => {
+  useEffect(() => {
 
     const getStates = async () => {
       const ref = getClubRef(activeClub!)
@@ -107,7 +107,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
     // } else {
     //   console.error('Club Reference not found');
     // }
-  },[isOpen, getClubRef, activeClub])
+  },[ activeClub])
 
   const captureState = async () => {
       
