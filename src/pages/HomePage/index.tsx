@@ -100,10 +100,6 @@ const HomePage: React.FC = () => {
     setCurrentClubs(nearbyClubs);
   }
 
-  const handleClubCardClick = async (name : string) => {
-    // a function that gets the club id from the club name
-    // const clubRef = useClubStore.getState().getClubRef()
-  }
 
   const getClubCardCollection = async () => {
 

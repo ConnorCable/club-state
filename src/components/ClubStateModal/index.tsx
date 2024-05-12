@@ -251,6 +251,8 @@ const handleLocationClick = async () => {
   setIsLocationLoading(false);
 }
 
+
+
   return (
     <IonModal isOpen={isOpen} backdropDismiss={false}>
       <IonContent>
@@ -264,6 +266,8 @@ const handleLocationClick = async () => {
         <IonCardTitle className="ion-padding ion-text-center">
           Last Capture: Timestamp
         </IonCardTitle>
+
+        
         
         <div style={{ maxHeight: screenHeight * 1.6, overflowY: 'scroll' }}>
           <IonAccordionGroup expand="inset">
