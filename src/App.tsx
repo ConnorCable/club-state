@@ -52,6 +52,8 @@ import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import logo from "../assets/clubStateLogo.gif";
 import "./App.css"
+import { doc, onSnapshot } from "firebase/firestore";
+
 
 setupIonicReact();
 
@@ -59,6 +61,8 @@ const App: React.FC = () => {
   const [geolocationFetched, setGeolocationFetched] = useState(false);
   const { location, setLocation } = useDataStore();
   const [showProgressBar, setShowProgressBar] = useState(false);
+
+  
 
   firebase.initializeApp({
 
@@ -76,7 +80,23 @@ const App: React.FC = () => {
   
   });
 
-  
+  const firestore = firebase.firestore();
+
+  // firestore.collection("geo-clubs").onSnapshot((doc) => {
+  //   console.log(doc);
+  //   console.log("NEW SOMETHING ADED");
+  // })
+  firestore.collection("geo-clubs").onSnapshot((snapshot) => {
+    const newClubs: { id: string; }[] = [];
+    snapshot.forEach((doc) => {
+      newClubs.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+    console.log("Snapshot Querying")
+    console.log(newClubs);
+  });
   
   const fetchGeolocation = async () => {
     try {
