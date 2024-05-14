@@ -1,6 +1,4 @@
-CLUB STATE (WEB/MOBILE) - in development by low-ranking professionals
-
-<h2>Geofencing Free for all</h2>
+CLUB STATE (WEB/MOBILE) 
 
 * Ionic
 * Capacitor
@@ -8,6 +6,9 @@ CLUB STATE (WEB/MOBILE) - in development by low-ranking professionals
 * Typescript
 * Firebase
 * SHAZAM
+
+
+![club-state-demo-low](https://github.com/ConnorCable/club-state/assets/116330722/05de3224-44a2-4986-b262-32283acdea28)
 
 
 
