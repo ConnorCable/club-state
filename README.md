@@ -13,7 +13,7 @@ CLUB STATE (WEB/MOBILE) - in development by low-ranking professionals
 
 
 
-![club-state-demo-1(1)](https://github.com/ConnorCable/club-state/assets/116330722/1843edbd-fc3f-4126-b873-1648e8eb6365)
+
 
 
 
