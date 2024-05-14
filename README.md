@@ -9,6 +9,11 @@ CLUB STATE (WEB/MOBILE) - in development by low-ranking professionals
 * Firebase
 * SHAZAM
 
-![club-state-demo-1(1)](https://github.com/ConnorCable/club-state/assets/116330722/516f7d26-af4f-4c30-8190-b3ddaa3ee901)
+
+
+
+
+![club-state-demo-1(1)](https://github.com/ConnorCable/club-state/assets/116330722/c1d104c4-4ab0-46f1-acaf-d4e6fad952d6)
+
 
 
