@@ -8,7 +8,8 @@ CLUB STATE (WEB/MOBILE)
 * SHAZAM
 
 
-![club-state-demo-low](https://github.com/ConnorCable/club-state/assets/116330722/05de3224-44a2-4986-b262-32283acdea28)
+![club-state-demo-low(1)](https://github.com/ConnorCable/club-state/assets/116330722/f8defb96-270d-4fe5-acd3-6ccb56f99d9f)
+
 
 
 
