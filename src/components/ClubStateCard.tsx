@@ -1,4 +1,4 @@
-import { IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonGrid, IonRow, IonCol } from "@ionic/react"
+import { IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonGrid, IonRow, IonCol, IonChip } from "@ionic/react"
 
 
 
@@ -9,6 +9,9 @@ export const ClubStateCard: React.FC<{data: any}> = ({ data }) => {
         <IonCard className="ion-text-center ion-padding" color={"light"}>
                 <IonCardTitle>MAY 15 @ 10:50 PM</IonCardTitle>
                 <IonGrid>
+                  <IonChip>Line: {data.line ? "Yes" : "No"}</IonChip>
+                  <IonChip>Price: {data.price}</IonChip>
+                  <IonChip>Cover: {data.cover ? "Yes" : "No"}</IonChip>
           <IonRow>
             <IonCol>
               <IonCard className="ion-text-center ion-padding" color={"success"}>
