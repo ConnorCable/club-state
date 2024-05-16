@@ -216,16 +216,40 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
             </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={fullness} onIonChange={e => setFullness(e.detail.value!)} label="Fullness" placeholder="" />
+          <IonSelect label="Fullness?" onIonChange={e => setFullness(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={hostility} onIonChange={e => setHostility(e.detail.value!)} label="Hostility" placeholder="" />
+          <IonSelect label="Hostility?" onIonChange={e => setHostility(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={loudness} onIonChange={e => setLoudness(e.detail.value!)} label="Loudness" placeholder="" />
+          <IonSelect label="Loudness?" onIonChange={e => setLoudness(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={ratio} onIonChange={e => setLoudness(e.detail.value!)} label="Ratio" placeholder="" />
+          <IonSelect label="Ratio?" onIonChange={e => setRatio(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
             <IonButton onClick={handleSubmit}>Submit</IonButton>
