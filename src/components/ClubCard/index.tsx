@@ -30,7 +30,9 @@ const click = () => {
   console.log("Clicked");
 }
 
+
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps, ClubProps}) => {
+  console.log(ClubProps.Image)
   return (
     <>
     <IonCard>
@@ -59,7 +61,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps,
       </IonCardHeader>
       <IonCardContent>
         <div className="club-photo-container" onClick={onClick}>
-          <img src="\assets\Wikipedia_space_ibiza(03).jpg" alt="Club" />
+          <img src={ClubProps.Image} alt="Club" />
       </div>
       <div>
       <IonGrid className="overlay-grid">

@@ -4,7 +4,8 @@ export interface ClubProps {
     Name: string,
     Address: string,
     Coordinates: {latitude: number, longitude: number},
-    Id: string
+    Id: string,
+    Image: string,
     // RecentCapture: {
     //   [key: string]: ClubStateProps
     // }
