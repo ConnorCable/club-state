@@ -53,7 +53,7 @@ const ClubAccordionItem: React.FC<{ item: any }> = ({ item}) => (
       <IonChip>Genre</IonChip>
     </IonItem>
     <div className="ion-padding" slot="content">
-      <ClubStateCard />
+      <ClubStateCard data = {item.data()}/>
     </div>
   </IonAccordion>
 );
