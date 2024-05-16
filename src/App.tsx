@@ -82,10 +82,6 @@ const App: React.FC = () => {
 
   const firestore = firebase.firestore();
 
-  // firestore.collection("geo-clubs").onSnapshot((doc) => {
-  //   console.log(doc);
-  //   console.log("NEW SOMETHING ADED");
-  // })
   firestore.collection("geo-clubs").onSnapshot((snapshot) => {
     const newClubs: { id: string; }[] = [];
     snapshot.forEach((doc) => {
@@ -94,8 +90,6 @@ const App: React.FC = () => {
         ...doc.data()
       });
     });
-    console.log("Snapshot Querying")
-    console.log(newClubs);
   });
   
   const fetchGeolocation = async () => {
