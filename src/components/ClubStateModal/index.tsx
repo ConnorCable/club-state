@@ -46,6 +46,7 @@ import songDetect2 from "../../helpers/RecordingAPI";
 import useClubStore from "../../models/ClubStore";
 
 
+
 const ClubAccordionItem: React.FC<{ item: any }> = ({ item}) => (
   <IonAccordion value={item.id}>
     <IonItem slot="header" color="light">
@@ -80,10 +81,15 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
       const ref = getClubRef(activeClub!)
       console.log("Getting States")
       if(ref){
-        const states = await ref.collection("states").get();
+        const unsubscribe = await ref.collection("states").onSnapshot(snapshot => {
+          console.log("Snapshot")
+          const states = snapshot.docs;
+          console.log(states.length)
+          setItems(states.map((doc) => doc));
+        });
         //console.log(states.docs.length)
         //console.log(states.docs.forEach((doc) => console.log(doc.data())))
-        setItems(states.docs.map((doc) => doc));
+        return () => unsubscribe();
       }
     }
 
@@ -178,7 +184,6 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
           captureState();
       }
   };
-
 
   // const generateItems = () => {
   //   const newItems = [];

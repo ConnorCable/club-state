@@ -1,21 +1,19 @@
 import { Position } from "@capacitor/geolocation";
 
 export interface ClubStateProps {    
-    Cleanliness: string,
-    ClubID: string,
-    Latitude: string,
-    Longitude: string,
-    Fullness: string,
-    Genre: string,
-    Hostility: string,
-    Loudness: string,
-    Price: string,
-    Ratio: string,
-    SongAudioData: string,
-    SongTitle: string,
-    SongArtist: string,
-    Line: boolean,
-    Cover: boolean,
+    artist: string,
+    cleanliness: string,
+    clubId: string,
+    cover: boolean,
+    fullness: string,
+    genre: string,
+    hostility: string,
+    line: boolean,
+    latitude: string,
+    longitude: string,
+    loudness: string,
+    price: string,
+    ratio: string,
+    song: string,
     
-
   }
