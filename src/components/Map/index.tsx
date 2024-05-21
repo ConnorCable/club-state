@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Map, {Marker, Popup} from 'react-map-gl';
 import { accessibilityOutline, homeOutline, homeSharp, locationOutline, navigateCircleOutline, person, pinSharp } from 'ionicons/icons';
 import { IonIcon, IonProgressBar, IonCard, IonCardContent, IonCardTitle, IonCardSubtitle } from '@ionic/react';
@@ -11,10 +11,11 @@ import MapCard from './MapCard';
 import './index.css'
 
 const MapGL: React.FC = () => {
-  const [locationChips, setLocationChips] = React.useState<any>([]);
+  const [locationChips, setLocationChips] = useState<any>([]);
   const { location } = useDataStore();
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [popupInfo, setPopupInfo] = React.useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [popupInfo, setPopupInfo] = useState<any>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   const getChipCollection = async () => {
       const firestore = firebase.firestore();
@@ -41,6 +42,11 @@ const MapGL: React.FC = () => {
       fetchData();
   }, [location]);
 
+  const handleMapLoad = () => {
+    
+    setMapLoaded(true);
+  };
+
   if (isLoading) {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
@@ -51,7 +57,7 @@ const MapGL: React.FC = () => {
   }
 
   return (
-      <div id="map-container" style={{ height: "85vh", width: "90vh" }}>
+      <div id="map-container" style={{ height: "85vh", width: "90vh", visibility: mapLoaded ? 'visible' : 'hidden'}}>
           <Map
               mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsdng1bTZwczBnbWoydm82bTE1MXN5YmEifQ.jVrPQmWmp5xMxQamxdASVA"
               initialViewState={{
@@ -62,10 +68,10 @@ const MapGL: React.FC = () => {
               mapStyle={"mapbox://styles/mukkoi/clvx641jj01qd01q1dh0074ny"}
               scrollZoom={true}
               onRender={(event) => event.target.resize()}
-
+              onLoad={handleMapLoad}
 
           >
-              {locationChips.map((chip: any) => (
+              {mapLoaded && locationChips.map((chip: any) => (
                   <Marker key={chip.g.geohash} longitude={chip.coordinates._long} latitude={chip.coordinates._lat} anchor="bottom"  onClick={(e) => {e.originalEvent.stopPropagation; setPopupInfo(chip)}}>
                       <IonIcon icon={pinSharp} size="large" color='danger' style={{ cursor: 'pointer' }} />
                   </Marker>
@@ -87,7 +93,7 @@ const MapGL: React.FC = () => {
                     </Popup>
                 )}
               {
-              (location?.coords.longitude != undefined && location.coords.latitude != undefined) ? <Marker latitude={location.coords.latitude} longitude={location.coords.longitude}> <IonIcon icon={navigateCircleOutline} size="large" color='tertiary' /></Marker>  : <></>
+              (mapLoaded && location?.coords.longitude != undefined && location.coords.latitude != undefined) ? <Marker latitude={location.coords.latitude} longitude={location.coords.longitude}> <IonIcon icon={navigateCircleOutline} size="large" color='tertiary' /></Marker>  : <></>
               } 
 
           </Map>

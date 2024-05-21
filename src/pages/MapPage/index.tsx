@@ -1,37 +1,19 @@
-import {
-  IonButton,
-  IonContent,
-  IonFooter,
-  IonHeader,
-  IonPage,
-  IonText,
-  IonTitle,
-  IonToolbar,
-  useIonViewWillEnter,
-  withIonLifeCycle
-} from "@ionic/react";
-
+import { IonContent, IonHeader, IonPage, IonToolbar, useIonViewWillEnter } from "@ionic/react";
 import { Geolocation } from '@capacitor/geolocation';
-import { useEffect, useRef, useState } from "react";
 import "./index.css";
 import MapGL from "../../components/Map/index";
 import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl from "mapbox-gl";
 import { useDataStore } from "../../models/DataStore";
 
-
-
 const Tab2: React.FC = () => {
-  const {location, setLocation} = useDataStore();
-  
-  useIonViewWillEnter(() => {
+  const { location, setLocation } = useDataStore();
 
+  useIonViewWillEnter(() => {
     const fetchUserLocation = async () => {
       const coordinates = await Geolocation.getCurrentPosition();
       setLocation(coordinates);
     };
-
-    fetchUserLocation()
+    fetchUserLocation();
   });
 
   return (
@@ -41,10 +23,9 @@ const Tab2: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen={true}>
-        <MapGL>
-        </MapGL>
+        <MapGL />
       </IonContent>
-    </IonPage>  
+    </IonPage>
   );
 };
 
