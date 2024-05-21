@@ -4,10 +4,11 @@ import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 
 import './index.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClubProps } from '../../models/ClubProps';
 import { ClubStateProps } from '../../models/ClubStateProps';
 import { useDataStore } from '../../models/DataStore';
+import { collection, CollectionReference, DocumentData, DocumentReference, getDocs } from 'firebase/firestore';
 
 const Tab3: React.FC = () => {
   const [isAddingClub, setIsAddingClub] = useState(false);
@@ -24,23 +25,38 @@ const Tab3: React.FC = () => {
             const firestore = firebase.firestore();
             const GeoFirestore = geofirestore.initializeApp(firestore);
             const clubGeoCollection = GeoFirestore.collection('geo-clubs');
-            const geocollection = GeoFirestore.collection('geo-states');
+            const docRef = clubGeoCollection.doc(stateProps.clubId);
 
-            
-            await geocollection.add({
-              Cleanliness: stateProps.Cleanliness,
-              ClubID: stateProps.ClubID,
-              Cover: stateProps.Cover,
-              Fullness: stateProps.Fullness,
-              Genre: stateProps.Genre,
-              Line: stateProps.Line,
-              coordinates: new firebase.firestore.GeoPoint(parseFloat(stateProps.Latitude), parseFloat(stateProps.Longitude)),
-              Loudness: stateProps.Loudness,
-              Price: stateProps.Loudness,
-              Ratio: stateProps.Ratio,
-              SongAudioData: stateProps.SongAudioData,
-              SongTitle: stateProps.SongTitle,
-              SongArtist: stateProps.SongArtist,
+            docRef.collection("states").add({
+              cleanliness: stateProps.cleanliness,
+              cover: stateProps.cover,
+              fullness: stateProps.fullness,
+              genre: stateProps.genre,
+              line: stateProps.line,
+              coordinates: new firebase.firestore.GeoPoint(parseFloat(stateProps.latitude), parseFloat(stateProps.longitude)),
+              loudness: stateProps.loudness,
+              price: stateProps.loudness,
+              ratio: stateProps.ratio,
+              song: stateProps.song,
+              artist: stateProps.artist,
+            });
+
+            const state = {
+              cleanliness: stateProps.cleanliness,
+              cover: stateProps.cover,
+              fullness: stateProps.fullness,
+              genre: stateProps.genre,
+              line: stateProps.line,
+              coordinates: new firebase.firestore.GeoPoint(parseFloat(stateProps.latitude), parseFloat(stateProps.longitude)),
+              loudness: stateProps.loudness,
+              price: stateProps.loudness,
+              ratio: stateProps.ratio,
+              song: stateProps.song,
+              artist: stateProps.artist,
+            }
+
+            docRef.update({
+              recentCapture: state
             });
 
             setIsAddingState(false);
@@ -134,27 +150,54 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
   const [price, setPrice] = useState('');
   const [ratio, setRatio] = useState('');
   const [songAudioData, setSongAudioData] = useState('');
-  const [songTitle, setSongTitle] = useState('');
-  const [songArtist, setSongArtist] = useState('');
+  const [song, setSongTitle] = useState('');
+  const [artist, setSongArtist] = useState('');
+
+
+  const firestore = firebase.firestore();
+  const GeoFirestore = geofirestore.initializeApp(firestore);
+  const geocollection = GeoFirestore.collection('geo-clubs');
+  const [clubs, setClubs] = useState<any>({});
+
+  useEffect(()=> {
+    const fetchData = async () => {
+      let clubsObject: {[key: string]: any} = {}; // Add index signature to clubsObject
+      const colRef: CollectionReference<DocumentData> = collection(firestore, 'geo-clubs');
+       const clubs = await getDocs(colRef);
+
+       const fetchedEntries = clubs.docs.map(doc => {
+        console.log(doc.id)
+        clubsObject[doc.id] = doc.data()});
+        console.log(clubsObject);
+       setClubs(clubsObject);
+      
+    }
+
+    fetchData();
+  }, [])
+
+
+  const setRecentState = () => {
+    
+  }
 
 
   const handleSubmit = () => {
     const newState: ClubStateProps = {
-      Cleanliness: cleanliness,
-      ClubID: clubID,
-      Cover: cover,
-      Fullness: fullness,
-      Genre: genre,
-      Hostility: hostility,
-      Latitude: latitude,
-      Line: line,
-      Loudness: loudness,
-      Longitude: longitude,
-      Price: price,
-      Ratio: ratio,
-      SongAudioData: songAudioData,
-      SongTitle: songTitle,
-      SongArtist: songArtist,
+      cleanliness: cleanliness,
+      clubId: clubID,
+      cover: cover,
+      fullness: fullness,
+      genre: genre,
+      hostility: hostility,
+      latitude: latitude,
+      line: line,
+      loudness: loudness,
+      longitude: longitude,
+      price: price,
+      ratio: ratio,
+      song: song,
+      artist: artist,
     };
     onSubmit(newState);
   };
@@ -167,7 +210,13 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
             <IonLabel>------- New State Form --------- </IonLabel>
           </IonItemDivider>
           <IonItem>
-            <IonInput value={clubID} onIonChange={e => setClubID(e.detail.value!)} label="ClubID" placeholder="Club 1" />
+          <IonSelect label="Club" onIonChange={e => setClubID(e.detail.value)}>
+            {Object.entries(clubs).map(([key, value] : [any,any]) => (
+              <IonSelectOption key={key} value={key} >            
+                {value.name}
+              </IonSelectOption>
+            ))}
+          </IonSelect>
           </IonItem>
           <IonItem>
             <IonInput value={latitude} onIonChange={e => setLatitude(e.detail.value!)} label="Latitude" placeholder="(-90 to 90)" />
@@ -179,10 +228,10 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
             <IonInput value={songAudioData} onIonChange={e => setSongAudioData(e.detail.value!)} label="Song Audio Data" placeholder="BASE 64 STRING REPRESENTATION..." />
           </IonItem>
           <IonItem>
-            <IonInput value={songArtist} onIonChange={e => setSongArtist(e.detail.value!)} label="Song Artist" placeholder="Bobby the Savant" />
+            <IonInput value={artist} onIonChange={e => setSongArtist(e.detail.value!)} label="Song Artist" placeholder="Bobby the Savant" />
           </IonItem>
           <IonItem>
-            <IonInput value={songTitle} onIonChange={e => setSongTitle(e.detail.value!)} label="Song title" placeholder="Trippin in Scratch" />
+            <IonInput value={song} onIonChange={e => setSongTitle(e.detail.value!)} label="Song title" placeholder="Trippin in Scratch" />
           </IonItem>
           <IonItem>
             <IonSelect label="Cover?" onIonChange={e => setCover(e.detail.value)}>
@@ -216,16 +265,40 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
             </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={fullness} onIonChange={e => setFullness(e.detail.value!)} label="Fullness" placeholder="" />
+          <IonSelect label="Fullness?" onIonChange={e => setFullness(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={hostility} onIonChange={e => setHostility(e.detail.value!)} label="Hostility" placeholder="" />
+          <IonSelect label="Hostility?" onIonChange={e => setHostility(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={loudness} onIonChange={e => setLoudness(e.detail.value!)} label="Loudness" placeholder="" />
+          <IonSelect label="Loudness?" onIonChange={e => setLoudness(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
-            <IonInput value={ratio} onIonChange={e => setLoudness(e.detail.value!)} label="Ratio" placeholder="" />
+          <IonSelect label="Ratio?" onIonChange={e => setRatio(e.detail.value)}>
+              <IonSelectOption value={1}>1</IonSelectOption>
+              <IonSelectOption value={2}>2</IonSelectOption>
+              <IonSelectOption value={3}>3</IonSelectOption>
+              <IonSelectOption value={4}>4</IonSelectOption>
+              <IonSelectOption value={5}>5</IonSelectOption>
+            </IonSelect>
           </IonItem>
           <IonItem>
             <IonButton onClick={handleSubmit}>Submit</IonButton>
@@ -257,7 +330,24 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
       Id: "",
       Name: clubName,
       Address: clubAddress,
-      Coordinates: {longitude: parseFloat(clubLongitude), latitude: parseFloat(clubLatitude)}
+      Coordinates: {longitude: parseFloat(clubLongitude), latitude: parseFloat(clubLatitude)},
+      Image: "",
+      RecentCapture: {
+        artist: "",
+        cleanliness: "",
+        clubId:  "",
+        cover: false,
+        fullness: "",
+        genre: "",
+        hostility:  "",
+        line: true,
+        latitude:  "",
+        longitude:  "",
+        loudness:  "",
+        price: "",
+        song: "",
+        ratio: ""
+      },
     };
     onSubmit(newClub);
   };

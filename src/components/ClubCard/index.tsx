@@ -13,7 +13,7 @@ import {
   IonButton,
   IonChip,
 } from "@ionic/react";
-import { checkmark, playCircleOutline, square } from "ionicons/icons";
+import { checkmark, closeOutline, playCircleOutline, square } from "ionicons/icons";
 import { IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/react';
 import { Position } from "@capacitor/geolocation";
 import { ClubModalProps } from "../../models/ClubModalProps";
@@ -30,7 +30,11 @@ const click = () => {
   console.log("Clicked");
 }
 
+
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps, ClubProps}) => {
+  const recentState = ClubProps.RecentCapture;
+  
+  const ratio = recentState.ratio == "1"? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
   return (
     <>
     <IonCard>
@@ -43,31 +47,31 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps,
             <IonCol>
             <IonChip>
               Cover
-              <IonIcon icon={checkmark}></IonIcon>
+              <IonIcon color={recentState.cover === false? "danger" : "success"} icon={recentState.cover === false ? closeOutline : checkmark}></IonIcon>
             </IonChip>
             </IonCol>
             <IonCol>
-              <IonChip color="success">$$$</IonChip>
+              <IonChip color="success">{recentState.price}</IonChip>
             </IonCol>
           </IonRow>
         </IonGrid>
         <IonCardSubtitle className="club-subtitle">
-          <span>{ClubProps.Address}</span>
-          <span>Genre</span>
-          <span>Distance</span>
+          <span>Address: {ClubProps.Address} | </span>
+          <span>Genre: {recentState.genre} | </span>
+          <span>Distance: 999</span>
         </IonCardSubtitle>
       </IonCardHeader>
       <IonCardContent>
         <div className="club-photo-container" onClick={onClick}>
-          <img src="\assets\Wikipedia_space_ibiza(03).jpg" alt="Club" />
+          <img src={ClubProps.Image} alt="Club" />
       </div>
       <div>
       <IonGrid className="overlay-grid">
             <IonRow>
               <IonCol size="13">
-                <IonChip>Fullness: 5 </IonChip>
-                <IonChip>Hostility: 5</IonChip>
-                <IonChip>Ratio: 4</IonChip>
+                <IonChip>Fullness: {recentState.fullness}</IonChip>
+                <IonChip>Hostility: {recentState.hostility}</IonChip>
+                <IonChip>Ratio: {recentState.ratio}</IonChip>
               </IonCol>
             </IonRow>
           </IonGrid>

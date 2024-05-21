@@ -46,20 +46,21 @@ import songDetect2 from "../../helpers/RecordingAPI";
 import useClubStore from "../../models/ClubStore";
 
 
-const ClubAccordionItem: React.FC<{ id: string }> = ({ id }) => (
-  <IonAccordion value={id}>
+
+const ClubAccordionItem: React.FC<{ item: any }> = ({ item}) => (
+  <IonAccordion value={item.id}>
     <IonItem slot="header" color="light">
-      <IonLabel>Track ID: {id}</IonLabel>
+      <IonLabel>Track ID: {item.data().song + ' - ' + item.data().artist}</IonLabel>
       <IonChip>Genre</IonChip>
     </IonItem>
     <div className="ion-padding" slot="content">
-      <ClubStateCard />
+      <ClubStateCard data = {item.data()}/>
     </div>
   </IonAccordion>
 );
 
 const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; clubProps: ClubModalProps, activeClub: string | undefined}> = ({ isOpen, setIsOpen, clubProps, activeClub }) => {
-  const [items, setItems] = useState<string[]>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [captureEligbility, setCaptureEligibility] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
@@ -74,17 +75,21 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const [detectedSong, setDetectedSong] = useState<string | undefined>("")
 
 
-  useIonViewWillEnter(() => {
+  useEffect(() => {
 
     const getStates = async () => {
       const ref = getClubRef(activeClub!)
+      console.log("Getting States")
       if(ref){
-        const states = await ref.collection("states").get();
-        console.log(states.docs);
-        states.forEach((doc) => {
-          console.log(doc.data())
-        })
-        setItems(states.docs.map((doc) => doc.id));
+        const unsubscribe = await ref.collection("states").onSnapshot(snapshot => {
+          console.log("Snapshot")
+          const states = snapshot.docs;
+          console.log(states.length)
+          setItems(states.map((doc) => doc));
+        });
+        //console.log(states.docs.length)
+        //console.log(states.docs.forEach((doc) => console.log(doc.data())))
+        return () => unsubscribe();
       }
     }
 
@@ -107,7 +112,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
     // } else {
     //   console.error('Club Reference not found');
     // }
-  },[isOpen, getClubRef, activeClub])
+  },[ activeClub])
 
   const captureState = async () => {
       
@@ -180,7 +185,6 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
       }
   };
 
-
   // const generateItems = () => {
   //   const newItems = [];
   //   for (let i = 0; i < 10; i++) {
@@ -251,8 +255,10 @@ const handleLocationClick = async () => {
   setIsLocationLoading(false);
 }
 
+
+
   return (
-    <IonModal isOpen={isOpen} backdropDismiss={false}>
+    <IonModal isOpen={isOpen} backdropDismiss={false} className="modal">
       <IonContent>
         <IonHeader>
           <IonToolbar color="primary">
@@ -264,11 +270,13 @@ const handleLocationClick = async () => {
         <IonCardTitle className="ion-padding ion-text-center">
           Last Capture: Timestamp
         </IonCardTitle>
+
+        
         
         <div style={{ maxHeight: screenHeight * 1.6, overflowY: 'scroll' }}>
           <IonAccordionGroup expand="inset">
             {items.map((item, index) => (
-              <ClubAccordionItem key={item} id={item} />
+              <ClubAccordionItem key={item.id} item={item} />
             ))}
           </IonAccordionGroup>
         </div>
@@ -302,7 +310,6 @@ const handleLocationClick = async () => {
         </IonGrid>
       </IonFooter>
       <LoadingOverlay isOpen={isLocationLoading} message="Verifying Location" />
-      
     </IonModal>
   );
 };

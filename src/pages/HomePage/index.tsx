@@ -48,6 +48,8 @@ import { useDataStore } from "../../models/DataStore";
 import { ClubModalProps } from "../../models/ClubModalProps";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import useClubStore from "../../models/ClubStore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+
 
 const fakeClubPropData: ClubModalProps = {
   Name: "Club 1",
@@ -100,45 +102,50 @@ const HomePage: React.FC = () => {
     setCurrentClubs(nearbyClubs);
   }
 
-  const handleClubCardClick = async (name : string) => {
-    // a function that gets the club id from the club name
-    // const clubRef = useClubStore.getState().getClubRef()
-  }
+  const getStorageURL = async (imagePath: string): Promise<string> => {
+    const storage = getStorage();
+    if(imagePath !== "static-club-photos/club_demo_image.jpg")
+      {
+        imagePath = "static-club-photos/club_demo_image.jpg";
+      }
+    try {
+      const url = await getDownloadURL(ref(storage, imagePath));
+      return url;
+    } catch (err) {
+      console.error(err);
+      throw err; // Re-throw the error to be handled by the caller
+    }
+  };
+
 
   const getClubCardCollection = async () => {
-
-        const firestore = firebase.firestore();
-
-        const GeoFirestore = geofirestore.initializeApp(firestore);
-
-        const geocollection = GeoFirestore.collection('geo-clubs');
-
-        // 1609 km roughly 1 mi
-        const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
-        let clubCardArray: any[] = []
-        query.get().then((value : any) => {
-            value.docs.forEach((doc : any) => {
-
-              const clubData = doc.data();
-              const clubId = doc.id;
-              
-              const clubRef = firestore.collection('geo-clubs').doc(clubId);
-              
-              useClubStore.getState().updateClubRefs(clubId, clubRef);
-              
-              clubRef.get().then((doc) => {
-                console.log(doc.data());
-              })
-
-              clubCardArray.push({id: doc.id, ...doc.data()});
-              
-
-            });
-            
-        });
-
-        return clubCardArray;
-    }
+    const firestore = firebase.firestore();
+    const GeoFirestore = geofirestore.initializeApp(firestore);
+    const geocollection = GeoFirestore.collection('geo-clubs');
+  
+    // 1609 km roughly 1 mi
+    const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
+  
+    const value = await query.get();
+    const clubCardPromises = value.docs.map(async (doc) => {
+      const clubData = doc.data();
+      const clubId = doc.id;
+  
+      const clubUrl = await getStorageURL(clubData.imagePath);
+  
+      const clubRef = firestore.collection('geo-clubs').doc(clubId);
+      useClubStore.getState().updateClubRefs(clubId, clubRef);
+  
+      const docData = await clubRef.get();
+      console.log(docData.data());
+  
+      return { imagePath: clubUrl, id: doc.id, ...doc.data() };
+    });
+  
+    const clubCardArray = await Promise.all(clubCardPromises);
+    console.log(clubCardArray);
+    return clubCardArray
+  };
   
   return (
     <IonPage>
@@ -189,6 +196,8 @@ const HomePage: React.FC = () => {
               Name: club.name,
               Address: club.address,
               Coordinates: club.coordinates,
+              Image: club.imagePath,
+              RecentCapture: club.recentCapture,
             }}></ClubCard></SwiperSlide>))}
           </Swiper>): (<LoadingOverlay isOpen={true} message="Retrieving Clubs"></LoadingOverlay>)}
         </div>

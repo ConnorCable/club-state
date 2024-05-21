@@ -1,45 +1,46 @@
-import { IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonGrid, IonRow, IonCol } from "@ionic/react"
+import { IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonGrid, IonRow, IonCol, IonChip } from "@ionic/react"
 
 
 
 
-export const ClubStateCard: React.FC = () => {
+export const ClubStateCard: React.FC<{data: any}> = ({ data }) => {
 
     return (
-        <IonCard className="ion-text-center ion-padding">
-                <IonCardTitle>Club State 1</IonCardTitle>
-                <IonCardSubtitle>Posted By: Jeremy</IonCardSubtitle>
-                <IonCardContent>This is my club state</IonCardContent>
+        <IonCard className="ion-text-center ion-padding" color={"light"}>
+                <IonCardTitle>MAY 15 @ 10:50 PM</IonCardTitle>
                 <IonGrid>
+                  <IonChip>Line: {data.line ? "Yes" : "No"}</IonChip>
+                  <IonChip>Price: {data.price}</IonChip>
+                  <IonChip>Cover: {data.cover ? "Yes" : "No"}</IonChip>
           <IonRow>
             <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Cleanliness <IonCardSubtitle>5</IonCardSubtitle>
+              <IonCard className="ion-text-center ion-padding" color={"success"}>
+                Cleanliness <IonCardSubtitle>{data.cleanliness}</IonCardSubtitle>
               </IonCard>
             </IonCol>
             <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Loudness<IonCardSubtitle>5</IonCardSubtitle>
+              <IonCard className="ion-text-center ion-padding" color={"warning"}>
+                Loudness<IonCardSubtitle>{data.loudness}</IonCardSubtitle>
               </IonCard>
             </IonCol>
             <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Ratio <IonCardSubtitle>5</IonCardSubtitle>
+              <IonCard className="ion-text-center ion-padding" color="warning">
+                Ratio <IonCardSubtitle>{data.ratio}</IonCardSubtitle>
               </IonCard>
             </IonCol>
             <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Hostility <IonCardSubtitle>5</IonCardSubtitle>
+              <IonCard className="ion-text-center ion-padding" color={"warning"}>
+                Hostility <IonCardSubtitle>{data.hostility}</IonCardSubtitle>
               </IonCard>
             </IonCol>
             <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Fullness <IonCardSubtitle>5</IonCardSubtitle>
+              <IonCard className="ion-text-center ion-padding" color="warning">
+                Fullness <IonCardSubtitle>{data.fullness}</IonCardSubtitle>
               </IonCard>
             </IonCol>
             <IonCol>
-              <IonCard className="ion-text-center ion-padding">
-                Fun<IonCardSubtitle>5</IonCardSubtitle>
+              <IonCard className="ion-text-center ion-padding" color="success">
+                Fun<IonCardSubtitle>{data.fun}</IonCardSubtitle>
               </IonCard>
             </IonCol>
           </IonRow>
