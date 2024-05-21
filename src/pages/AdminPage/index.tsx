@@ -331,7 +331,23 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
       Name: clubName,
       Address: clubAddress,
       Coordinates: {longitude: parseFloat(clubLongitude), latitude: parseFloat(clubLatitude)},
-      Image: ""
+      Image: "",
+      RecentCapture: {
+        artist: "",
+        cleanliness: "",
+        clubId:  "",
+        cover: false,
+        fullness: "",
+        genre: "",
+        hostility:  "",
+        line: true,
+        latitude:  "",
+        longitude:  "",
+        loudness:  "",
+        price: "",
+        song: "",
+        ratio: ""
+      },
     };
     onSubmit(newClub);
   };

@@ -197,6 +197,7 @@ const HomePage: React.FC = () => {
               Address: club.address,
               Coordinates: club.coordinates,
               Image: club.imagePath,
+              RecentCapture: club.recentCapture,
             }}></ClubCard></SwiperSlide>))}
           </Swiper>): (<LoadingOverlay isOpen={true} message="Retrieving Clubs"></LoadingOverlay>)}
         </div>
