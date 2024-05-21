@@ -2,7 +2,7 @@ import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, I
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
-
+import { faker } from '@faker-js/faker';
 import './index.css';
 import { useEffect, useState } from 'react';
 import { ClubProps } from '../../models/ClubProps';
@@ -181,6 +181,23 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
     
   }
 
+  const fakeData = () => 
+  {
+    setCleanliness(faker.number.int(5).toString());
+    setCover(faker.datatype.boolean());
+    setFullness(faker.number.int(5).toString());
+    setGenre(faker.music.genre());
+    setHostility(faker.number.int(5).toString());
+    setLatitude(faker.location.latitude().toString());
+    setLine(faker.datatype.boolean());
+    setLongitude(faker.location.longitude().toString());
+    setLoudness(faker.number.int(5).toString());
+    setPrice("$");
+    setRatio(faker.number.int(5).toString());
+    setSongTitle(faker.music.songName());
+    setSongArtist(faker.person.firstName());
+  }
+
 
   const handleSubmit = () => {
     const newState: ClubStateProps = {
@@ -303,6 +320,7 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
           <IonItem>
             <IonButton onClick={handleSubmit}>Submit</IonButton>
             <IonButton onClick={onCancel}>Cancel</IonButton>
+            <IonButton onClick={fakeData}>Fake Data</IonButton>
           </IonItem>
         </IonList>
       </IonGrid>  
