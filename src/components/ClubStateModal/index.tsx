@@ -94,24 +94,6 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
     }
 
     getStates()
-    // // console.log("Modal is getting refs");
-    // // const ref = getClubRef(activeClub!)
-    // // console.log(await ref?.collection("states").get())
-    // // if(ref){
-    // //   const unsubscribe = ref.onSnapshot(
-    // //     (doc) => {
-    // //       console.log(doc.data());
-    // //     },
-
-    // //     (error) => {
-    // //       console.error("Failed to listen");
-    // //     }
-    // //   );
-
-    //   return () => unsubscribe();
-    // } else {
-    //   console.error('Club Reference not found');
-    // }
   },[ activeClub])
 
   const captureState = async () => {
@@ -185,20 +167,6 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
       }
   };
 
-  // const generateItems = () => {
-  //   const newItems = [];
-  //   for (let i = 0; i < 10; i++) {
-  //     newItems.push(`Item ${items.length + i + 1}`);
-  //   }
-  //   setItems([...items, ...newItems]);
-  // };
-
-  // useEffect(() => {
-  //   generateItems();
-  // }, [pageNumber]);
-
-
-
   const loadMore = () => {
     setPageNumber(pageNumber + 1);
   };
@@ -255,8 +223,6 @@ const handleLocationClick = async () => {
   setIsLocationLoading(false);
 }
 
-
-
   return (
     <IonModal isOpen={isOpen} backdropDismiss={false} className="modal">
       <IonContent>
@@ -270,8 +236,6 @@ const handleLocationClick = async () => {
         <IonCardTitle className="ion-padding ion-text-center">
           Last Capture: Timestamp
         </IonCardTitle>
-
-        
         
         <div style={{ maxHeight: screenHeight * 1.6, overflowY: 'scroll' }}>
           <IonAccordionGroup expand="inset">
