@@ -21,7 +21,6 @@ import { ClubProps } from "../../models/ClubProps";
 
 interface ClickableClubCard {
   onClick: () => void;
-  ClubModalProps: ClubModalProps
   ClubProps: ClubProps
 }
 
@@ -29,7 +28,7 @@ const click = () => {
   console.log("Clicked");
 }
 
-export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps, ClubProps}) => {
+export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) => {
   const recentState = ClubProps.RecentCapture;
 
   const ratio = recentState.ratio == "1"? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"

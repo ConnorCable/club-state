@@ -51,20 +51,6 @@ import useClubStore from "../../models/ClubStore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 
-const fakeClubPropData: ClubModalProps = {
-  Name: "Club 1",
-  Cleanliness: "Dirty",
-  Cover: true,
-  Line: true,
-  Price: "$$$",
-  Fullness: "Medium",
-  Loudness: "Medium",
-  Location: null,
-  Hostility: "Dangerous",
-  Ratio: "Decent",
-  Genre: "House",
-  activeClub: ""
-}
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -191,7 +177,7 @@ const HomePage: React.FC = () => {
         
         <div>
           {(currentClubs!.length > 0) ? (<Swiper direction={"horizontal"} className="clubSwiper">
-            {currentClubs?.map((club: any) => (<SwiperSlide key={club.name}><ClubCard onClick={()=> {setActiveClub(club.id); setIsOpen(true)}}ClubModalProps={fakeClubPropData} ClubProps={{
+            {currentClubs?.map((club: any) => (<SwiperSlide key={club.name}><ClubCard onClick={()=> {setActiveClub(club.id); setIsOpen(true)}} ClubProps={{
               Id: club.id,
               Name: club.name,
               Address: club.address,
@@ -208,7 +194,7 @@ const HomePage: React.FC = () => {
         </IonRefresher>
         
       </IonContent>
-      {activeClub && <ClubModal isOpen={isOpen} setIsOpen={setIsOpen} clubProps={fakeClubPropData} activeClub={activeClub}/>}
+      {activeClub && <ClubModal isOpen={isOpen} setIsOpen={setIsOpen} activeClub={activeClub}/>}
       
     </IonPage>
   );
