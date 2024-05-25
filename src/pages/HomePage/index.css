@@ -26,7 +26,7 @@
 .club-subtitle {
     display: flex;
     flex-direction: row;
-    justify-content: space-around; /* Adjust alignment as needed */
+    justify-content: center; /* Adjust alignment as needed */
     align-items: center; /* Adjust alignment as needed */
   }
 
