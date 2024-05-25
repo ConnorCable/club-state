@@ -19,7 +19,6 @@ import { Position } from "@capacitor/geolocation";
 import { ClubModalProps } from "../../models/ClubModalProps";
 import { ClubProps } from "../../models/ClubProps";
 
-
 interface ClickableClubCard {
   onClick: () => void;
   ClubModalProps: ClubModalProps
@@ -30,51 +29,57 @@ const click = () => {
   console.log("Clicked");
 }
 
-
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps, ClubProps}) => {
   const recentState = ClubProps.RecentCapture;
-  
+
   const ratio = recentState.ratio == "1"? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
   return (
     <>
     <IonCard>
-      <IonCardHeader onClick={onClick}>
+      <IonCardHeader onClick={onClick} class="ion-no-padding">
         <IonGrid fixed={true}>
           <IonRow>
-            <IonCol><IonCardTitle>{ClubProps.Name}</IonCardTitle></IonCol>
-            </IonRow>
-          <IonRow className="ion-justify-content-start">
-            <IonCol>
-            <IonChip>
-              Cover
-              <IonIcon color={recentState.cover === false? "danger" : "success"} icon={recentState.cover === false ? closeOutline : checkmark}></IonIcon>
-            </IonChip>
-            </IonCol>
-            <IonCol>
-              <IonChip color="success">{recentState.price}</IonChip>
+            <IonCol class="ion-text-center"><IonCardTitle>{ClubProps.Name}</IonCardTitle></IonCol>
+          </IonRow>
+          <IonRow>
+              <IonCol> <IonCardSubtitle className="club-subtitle">
+              <span>{ClubProps.Address} ||</span>
+              <span>{ClubProps.RecentCapture.genre} ||</span>
+              <span>0.25 Miles</span>
+              </IonCardSubtitle>
             </IonCol>
           </IonRow>
+          <IonRow>
+            <IonCol></IonCol>
+            <IonCol></IonCol>
+            <IonCol><IonChip>Genre</IonChip></IonCol>
+            <IonCol>
+              <IonChip>
+                Cover<IonIcon color={recentState.cover === false? "danger" : "success"} icon={recentState.cover === false ? closeOutline : checkmark}></IonIcon>
+              </IonChip>
+            </IonCol>
+            <IonCol>
+              <IonChip color="success">{recentState.price === "$" ? "💲" : recentState.price === "$$" ? "💲💲": "💲💲💲"}</IonChip>
+            </IonCol>
+            <IonCol></IonCol>
+            <IonCol></IonCol>
+          </IonRow>
         </IonGrid>
-        <IonCardSubtitle className="club-subtitle">
-          <span>Address: {ClubProps.Address} | </span>
-          <span>Genre: {recentState.genre} | </span>
-          <span>Distance: 999</span>
-        </IonCardSubtitle>
       </IonCardHeader>
       <IonCardContent>
         <div className="club-photo-container" onClick={onClick}>
           <img src={ClubProps.Image} alt="Club" />
-      </div>
+        </div>
       <div>
-      <IonGrid className="overlay-grid">
-            <IonRow>
-              <IonCol size="13">
-                <IonChip>Fullness: {recentState.fullness}</IonChip>
-                <IonChip>Hostility: {recentState.hostility}</IonChip>
-                <IonChip>Ratio: {recentState.ratio}</IonChip>
+        <IonGrid className="overlay-grid">
+          <IonRow>
+            <IonCol size="13">
+              <IonChip>Fullness: {recentState.fullness}</IonChip>
+              <IonChip>Hostility: {recentState.hostility}</IonChip>
+              <IonChip>Ratio: {recentState.ratio}</IonChip>
               </IonCol>
-            </IonRow>
-          </IonGrid>
+          </IonRow>
+        </IonGrid>
       </div>
         <div>
           <IonGrid>
