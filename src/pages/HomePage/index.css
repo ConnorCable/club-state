@@ -12,8 +12,23 @@
 }
 
 .genreSwiper {
-    padding-top: 50px;
+    padding-top: 1vh;
     align-items: center;
+}
+
+@media screen and (max-height: 700px) {
+  .genreCard{
+    height: 63px;
+  }
+  .genreSwiper {
+    padding-top: 1vh;
+  }
+}
+
+@media screen and (min-height: 701px) {
+  .genreSwiper {
+    padding-top: 5vh;
+  }
 }
 
 .clubDivider {
@@ -31,7 +46,7 @@
   }
 
 .cardSwiper {
-    padding-top: 10px;
+    background-color: #fff;
     align-items: center;
 }
 
@@ -39,8 +54,9 @@
   align-content: center;
   display: flex;
   justify-content:flex-start;
-  padding-left: 10px;
+  padding-left: 18px;
   padding-top: 10px;
+  padding-bottom: 0px;
 }
 
 
