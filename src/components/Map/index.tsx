@@ -69,8 +69,8 @@ const MapGL: React.FC = () => {
               scrollZoom={true}
               onRender={(event) => event.target.resize()}
               onLoad={handleMapLoad}
-
           >
+            
               {mapLoaded && locationChips.map((chip: any) => (
                   <Marker key={chip.g.geohash} longitude={chip.coordinates._long} latitude={chip.coordinates._lat} anchor="bottom"  onClick={(e) => {e.originalEvent.stopPropagation; setPopupInfo(chip)}}>
                       <IonIcon icon={pinSharp} size="large" color='danger' style={{ cursor: 'pointer' }} />
@@ -88,6 +88,7 @@ const MapGL: React.FC = () => {
                         <IonCardSubtitle className='mapPinSubtitle'>{popupInfo.name}</IonCardSubtitle>
                         <IonCardContent>
                             {popupInfo.address.toUpperCase()}
+                            {console.log(`POP UP INFO: ${popupInfo.genre}`)}
                             <IonCardSubtitle>{popupInfo.genre}</IonCardSubtitle>
                         </IonCardContent>
                     </Popup>
