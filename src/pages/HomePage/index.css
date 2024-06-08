@@ -3,7 +3,6 @@
     text-align: center;
     align-items: center;
     margin: 7px;
-    
 }
 
 .genreTitle {
@@ -34,8 +33,6 @@
 .clubDivider {
     height: 1px;
     background-color: #0163aa;
-    color:#fff
-    
 }
 
 .club-subtitle {
@@ -46,7 +43,6 @@
   }
 
 .cardSwiper {
-    background-color: #fff;
     align-items: center;
 }
 
