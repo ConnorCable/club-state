@@ -148,12 +148,16 @@ const App: React.FC = () => {
         ) : (
           <div>
                 <IonGrid>
-                  <IonRow>
-                    <IonCol></IonCol>
-                    <IonCol></IonCol>
-                    <IonCol size="large" className='ion-padding-left'><img src={logo} style={{width:  600, height: 600}}></img></IonCol>
-                    <IonCol></IonCol>
-                  </IonRow>
+                  <div className="container">
+                    <IonRow className="centered-row">
+                      <IonCol></IonCol>
+                      <IonCol></IonCol>
+                      <IonCol size="large" className="ion-padding-left">
+                        <img src={logo} style={{ width: 600, height: 600 }} alt="Logo" />
+                      </IonCol>
+                      <IonCol></IonCol>
+                    </IonRow>
+                  </div>
                   <IonRow>
                     <IonCol></IonCol>
                     <IonCol>
