@@ -31,7 +31,10 @@
   }
   
   .glowing-btn {
-    position: relative;
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
     color: var(--glow-color);
     cursor: pointer;
     padding: 0.35em 1em;
@@ -43,7 +46,7 @@
     font-size: 2em;
     font-weight: 900;
     letter-spacing: 1em;
-  
+    
     -webkit-box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
       0px 0px 0.5em 0px var(--glow-color);
     -moz-box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
@@ -51,8 +54,7 @@
     box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
       0px 0px 0.5em 0px var(--glow-color);
     animation: border-flicker 2s linear infinite;
-  }
-  
+  } 
   .glowing-txt {
     float: left;
     margin-right: -0.8em;
@@ -224,4 +226,19 @@
     .glowing-btn{
       font-size: 1em;
     }
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+  }
+  
+  .centered-row {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }

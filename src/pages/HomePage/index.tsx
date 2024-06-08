@@ -49,22 +49,8 @@ import { ClubModalProps } from "../../models/ClubModalProps";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import useClubStore from "../../models/ClubStore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { ur } from "@faker-js/faker";
 
-
-const fakeClubPropData: ClubModalProps = {
-  Name: "Club 1",
-  Cleanliness: "Dirty",
-  Cover: true,
-  Line: true,
-  Price: "$$$",
-  Fullness: "Medium",
-  Loudness: "Medium",
-  Location: null,
-  Hostility: "Dangerous",
-  Ratio: "Decent",
-  Genre: "House",
-  activeClub: ""
-}
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -103,20 +89,24 @@ const HomePage: React.FC = () => {
   }
 
   const getStorageURL = async (imagePath: string): Promise<string> => {
+    
     const storage = getStorage();
-    if(imagePath !== "static-club-photos/club_demo_image.jpg")
-      {
-        imagePath = "static-club-photos/club_demo_image.jpg";
-      }
     try {
-      const url = await getDownloadURL(ref(storage, imagePath));
-      return url;
+      if (imagePath) {
+        const url = await getDownloadURL(ref(storage, imagePath));
+        return url;
+      } else {
+        const defaultImagePath = "static-club-photos/NV/Cypress.jpg";
+        const defaultUrl = await getDownloadURL(ref(storage, defaultImagePath));
+        return defaultUrl;
+      }
+
+      
     } catch (err) {
       console.error(err);
-      throw err; // Re-throw the error to be handled by the caller
+      throw err;
     }
   };
-
 
   const getClubCardCollection = async () => {
     const firestore = firebase.firestore();
@@ -130,31 +120,21 @@ const HomePage: React.FC = () => {
     const clubCardPromises = value.docs.map(async (doc) => {
       const clubData = doc.data();
       const clubId = doc.id;
-  
-      const clubUrl = await getStorageURL(clubData.imagePath);
-  
+      const clubUrl = await getStorageURL(clubData['imageStoragePath']);
       const clubRef = firestore.collection('geo-clubs').doc(clubId);
       useClubStore.getState().updateClubRefs(clubId, clubRef);
-  
       const docData = await clubRef.get();
-      console.log(docData.data());
-  
+      
       return { imagePath: clubUrl, id: doc.id, ...doc.data() };
     });
   
     const clubCardArray = await Promise.all(clubCardPromises);
-    console.log(clubCardArray);
     return clubCardArray
   };
   
   return (
     <IonPage>
-
-      <IonHeader>
-      </IonHeader>
-
-      <IonContent fullscreen>
-
+      <IonContent fullscreen> 
         {/* CLUB CARD GENRE FILTERS */}
         <Swiper className="genreSwiper " spaceBetween={0} slidesPerView={2} loop={true}>
           <SwiperSlide>
@@ -180,7 +160,7 @@ const HomePage: React.FC = () => {
         </Swiper>
         
         {/* CLUB CARD SOCIAL FILTERS */}
-       <div className="filterButtons ">
+       <div className="filterButtons">
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>$$$</IonChip>
         <IonChip className="ion-text-center ion-text-capitalize "outline={true} >Fullness</IonChip>
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Hostility</IonChip>
@@ -188,19 +168,33 @@ const HomePage: React.FC = () => {
       </div>
 
         {/* CLUB CARD SWIPABLE*/}
-        
-        <div>
-          {(currentClubs!.length > 0) ? (<Swiper direction={"horizontal"} className="clubSwiper">
-            {currentClubs?.map((club: any) => (<SwiperSlide key={club.name}><ClubCard onClick={()=> {setActiveClub(club.id); setIsOpen(true)}}ClubModalProps={fakeClubPropData} ClubProps={{
-              Id: club.id,
-              Name: club.name,
-              Address: club.address,
-              Coordinates: club.coordinates,
-              Image: club.imagePath,
-              RecentCapture: club.recentCapture,
-            }}></ClubCard></SwiperSlide>))}
-          </Swiper>): (<LoadingOverlay isOpen={true} message="Retrieving Clubs"></LoadingOverlay>)}
-        </div>
+      <div className="swiperContainer">
+        {(currentClubs!.length > 0) ? (
+          <Swiper direction={"horizontal"} className="cardSwiper">
+            {currentClubs?.map((club: any) => (
+              <SwiperSlide key={club.name}>
+                <ClubCard
+                  onClick={() => {
+                    setActiveClub(club.id);
+                    setIsOpen(true);
+                  }}
+                  ClubProps={{
+                    Id: club.id,
+                    Name: club.name,
+                    Address: club.address,
+                    Coordinates: club.coordinates,
+                    Image: club.imagePath,
+                    RecentCapture: club.recentCapture,
+                  }}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <LoadingOverlay isOpen={true} message="Retrieving Clubs" />
+        )}
+      </div>
+
         {/* onClick handler for the clubCard or Swiper Slide. setActiveClub(club.docId) now the modal is set to the active club. And now when the modal opens, it has a doc id to start listening */}
         {/*REFRESH FOR CLUB CARDS, NO FUNCTIONALITY - need to implement handleRefresh */}
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
@@ -208,7 +202,7 @@ const HomePage: React.FC = () => {
         </IonRefresher>
         
       </IonContent>
-      {activeClub && <ClubModal isOpen={isOpen} setIsOpen={setIsOpen} clubProps={fakeClubPropData} activeClub={activeClub}/>}
+      {activeClub && <ClubModal isOpen={isOpen} setIsOpen={setIsOpen} activeClub={activeClub}/>}
       
     </IonPage>
   );

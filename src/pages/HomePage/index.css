@@ -3,7 +3,6 @@
     text-align: center;
     align-items: center;
     margin: 7px;
-    
 }
 
 .genreTitle {
@@ -12,26 +11,38 @@
 }
 
 .genreSwiper {
-    padding-top: 50px;
+    padding-top: 1vh;
     align-items: center;
+}
+
+@media screen and (max-height: 700px) {
+  .genreCard{
+    height: 63px;
+  }
+  .genreSwiper {
+    padding-top: 1vh;
+  }
+}
+
+@media screen and (min-height: 701px) {
+  .genreSwiper {
+    padding-top: 5vh;
+  }
 }
 
 .clubDivider {
     height: 1px;
     background-color: #0163aa;
-    color:#fff
-    
 }
 
 .club-subtitle {
     display: flex;
     flex-direction: row;
-    justify-content: space-around; /* Adjust alignment as needed */
+    justify-content: center; /* Adjust alignment as needed */
     align-items: center; /* Adjust alignment as needed */
   }
 
 .cardSwiper {
-    padding-top: 10px;
     align-items: center;
 }
 
@@ -39,8 +50,9 @@
   align-content: center;
   display: flex;
   justify-content:flex-start;
-  padding-left: 10px;
+  padding-left: 18px;
   padding-top: 10px;
+  padding-bottom: 0px;
 }
 
 

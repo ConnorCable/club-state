@@ -59,7 +59,7 @@ const ClubAccordionItem: React.FC<{ item: any }> = ({ item}) => (
   </IonAccordion>
 );
 
-const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; clubProps: ClubModalProps, activeClub: string | undefined}> = ({ isOpen, setIsOpen, clubProps, activeClub }) => {
+const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; activeClub: string | undefined}> = ({ isOpen, setIsOpen, activeClub }) => {
   const [items, setItems] = useState<any[]>([]);
   const [captureEligbility, setCaptureEligibility] = useState(false);
   const [hasMore, setHasMore] = useState(true);

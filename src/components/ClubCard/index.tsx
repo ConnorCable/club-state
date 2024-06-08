@@ -21,7 +21,6 @@ import { ClubProps } from "../../models/ClubProps";
 
 interface ClickableClubCard {
   onClick: () => void;
-  ClubModalProps: ClubModalProps
   ClubProps: ClubProps
 }
 
@@ -29,7 +28,7 @@ const click = () => {
   console.log("Clicked");
 }
 
-export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps, ClubProps}) => {
+export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) => {
   const recentState = ClubProps.RecentCapture;
 
   const ratio = recentState.ratio == "1"? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
@@ -39,20 +38,19 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps,
       <IonCardHeader onClick={onClick} class="ion-no-padding">
         <IonGrid fixed={true}>
           <IonRow>
-            <IonCol class="ion-text-center"><IonCardTitle>{ClubProps.Name}</IonCardTitle></IonCol>
+            <IonCol class="ion-text-center ion-text-nowrap"><IonCardTitle><IonText><strong>{ClubProps.Name}</strong></IonText></IonCardTitle></IonCol>
           </IonRow>
           <IonRow>
               <IonCol> <IonCardSubtitle className="club-subtitle">
-              <span>{ClubProps.Address} ||</span>
-              <span>{ClubProps.RecentCapture.genre} ||</span>
-              <span>0.25 Miles</span>
+              <span>{ClubProps.Address} | </span>
+              <span>| 0.25 Miles</span>
               </IonCardSubtitle>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol></IonCol>
             <IonCol></IonCol>
-            <IonCol><IonChip>Genre</IonChip></IonCol>
+            <IonCol><IonChip>GENRE</IonChip></IonCol>
             <IonCol>
               <IonChip>
                 Cover<IonIcon color={recentState.cover === false? "danger" : "success"} icon={recentState.cover === false ? closeOutline : checkmark}></IonIcon>
@@ -68,7 +66,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick, ClubModalProps,
       </IonCardHeader>
       <IonCardContent>
         <div className="club-photo-container" onClick={onClick}>
-          <img src={ClubProps.Image} alt="Club" />
+          <img src={ClubProps.Image} alt="Club"/>
         </div>
       <div>
         <IonGrid className="overlay-grid">
