@@ -79,12 +79,9 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
 
     const getStates = async () => {
       const ref = getClubRef(activeClub!)
-      console.log("Getting States")
       if(ref){
         const unsubscribe = await ref.collection("states").onSnapshot(snapshot => {
-          console.log("Snapshot")
           const states = snapshot.docs;
-          console.log(states.length)
           setItems(states.map((doc) => doc));
         });
         //console.log(states.docs.length)

@@ -87,9 +87,8 @@ const MapGL: React.FC = () => {
                     >
                         <IonCardSubtitle className='mapPinSubtitle'>{popupInfo.name}</IonCardSubtitle>
                         <IonCardContent>
-                            {popupInfo.address.toUpperCase()}
-                            {console.log(`POP UP INFO: ${popupInfo.genre}`)}
-                            <IonCardSubtitle>{popupInfo.genre}</IonCardSubtitle>
+                            <IonCardSubtitle>{popupInfo.address.toUpperCase()}</IonCardSubtitle>
+                            <IonCardSubtitle>{popupInfo['genre']}</IonCardSubtitle>
                         </IonCardContent>
                     </Popup>
                 )}
