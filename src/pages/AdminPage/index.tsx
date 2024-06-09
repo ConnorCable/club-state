@@ -76,6 +76,8 @@ const Tab3: React.FC = () => {
         name: clubProps.Name,
         address: clubProps.Address,
         coordinates: new firebase.firestore.GeoPoint(parseFloat(clubProps.Coordinates.latitude.toString()), parseFloat(clubProps.Coordinates.longitude.toString())),
+        imageStoragePath: "static-club-photos/club_demo_image.jpg",
+        recentCapture: clubProps.RecentCapture,
       });
   
       const collection = firestore.collection("geo-clubs");

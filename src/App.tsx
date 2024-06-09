@@ -19,6 +19,7 @@ import {
   IonTitle,
   setupIonicReact,
   IonProgressBar,
+  IonLoading,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, homeOutline, mapOutline, personOutline, square, triangle } from 'ionicons/icons';
@@ -149,12 +150,16 @@ const App: React.FC = () => {
           <div>
                 <IonGrid>
                   <div className="container">
-                    <IonRow className="centered-row">
+                    <IonRow>
                       <IonCol></IonCol>
                       <IonCol></IonCol>
                       <IonCol size="large" className="ion-padding-left">
-                        <img src={logo} style={{ width: 600, height: 600 }} alt="Logo" />
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+                          <img src={logo} style={{width:  500, height: 500}}></img>
+                          <IonProgressBar type="indeterminate"/>
+                        </div>
                       </IonCol>
+                      
                       <IonCol></IonCol>
                     </IonRow>
                   </div>

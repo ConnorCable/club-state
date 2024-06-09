@@ -1,14 +1,17 @@
 
 .club-photo-container {
-    display: flex;
     justify-content: center;
-    position: relative;
+    position: center;
 }
   
 .club-photo-container img {
-    max-width: 100%; /* Optionally set maximum width for the image */
-    max-height: 100%; /* Optionally set maximum height for the image */
-}
+    display: block;
+    max-width: 300px;
+    max-height: 175px;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+  }
 
 .overlay-grid {
     position: absolute;
