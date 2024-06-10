@@ -183,8 +183,9 @@ const HomePage: React.FC = () => {
                     Name: club.name,
                     Address: club.address,
                     Coordinates: club.coordinates,
-                    Image: club.imagePath,
+                    ImageStoragePath: club.imagePath,
                     RecentCapture: club.recentCapture,
+                    ResidingState: club.residingState
                   }}
                 />
               </SwiperSlide>
