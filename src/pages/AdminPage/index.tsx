@@ -12,6 +12,7 @@ import { useDataStore } from '../../models/DataStore';
 import { collection, CollectionReference, DocumentData, DocumentReference, getDocs } from 'firebase/firestore';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
+
 const Tab3: React.FC = () => {
   const [isAddingClub, setIsAddingClub] = useState(false);
   const [isAddingState, setIsAddingState] = useState(false);
@@ -174,7 +175,6 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
        const fetchedEntries = clubs.docs.map(doc => {
         console.log(doc.id)
         clubsObject[doc.id] = doc.data()});
-        console.log(clubsObject);
        setClubs(clubsObject);
       
     }
@@ -395,6 +395,7 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
       console.error('Error selecting image', e);
     }
   }
+
 
   const uploadImageToStorage = async (file: File, clubName: string): Promise<string> => {
     const storageRef = firebase.storage().ref();
