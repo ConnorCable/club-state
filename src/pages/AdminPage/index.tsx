@@ -1,5 +1,6 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonPage, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import { faker } from '@faker-js/faker';
@@ -9,6 +10,7 @@ import { ClubProps } from '../../models/ClubProps';
 import { ClubStateProps } from '../../models/ClubStateProps';
 import { useDataStore } from '../../models/DataStore';
 import { collection, CollectionReference, DocumentData, DocumentReference, getDocs } from 'firebase/firestore';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 const Tab3: React.FC = () => {
   const [isAddingClub, setIsAddingClub] = useState(false);
@@ -72,12 +74,14 @@ const Tab3: React.FC = () => {
       const firestore = firebase.firestore();
       const GeoFirestore = geofirestore.initializeApp(firestore);
       const geocollection = GeoFirestore.collection('geo-clubs');
+
       const newClubRef = await geocollection.add({
         name: clubProps.Name,
         address: clubProps.Address,
         coordinates: new firebase.firestore.GeoPoint(parseFloat(clubProps.Coordinates.latitude.toString()), parseFloat(clubProps.Coordinates.longitude.toString())),
-        imageStoragePath: "static-club-photos/club_demo_image.jpg",
+        imageStoragePath: `static-club-photos/${clubProps.ResidingState}/${clubProps.Name.replace(/\s/g, '')}.jpeg`,
         recentCapture: clubProps.RecentCapture,
+        residingState: clubProps.ResidingState,
       });
   
       const collection = firestore.collection("geo-clubs");
@@ -177,11 +181,6 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
 
     fetchData();
   }, [])
-
-
-  const setRecentState = () => {
-    
-  }
 
   const fakeData = () => 
   {
@@ -330,28 +329,32 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
   );
 };
 
-
-
 interface NewClubFormProps {
   onSubmit: (clubProps: ClubProps) => void;
   onCancel: () => void;
 }
 
-
 const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
   const [clubName, setClubName] = useState('');
   const [clubAddress, setClubAddress] = useState('');
+  const [clubImageStoragePath, setClubImageStoragePath] = useState('');
   const [clubLongitude, setClubLongitude] = useState('');
   const [clubLatitude, setClubLatitude] = useState('');
+  const [residingState, setResidingState] = useState('');
+  const [selectedImage, setSelectedImage] = useState<File>();
+
   const {location, setLocation } = useDataStore();
 
   const handleSubmit = () => {
+
+    uploadImageToStorage(selectedImage!, clubName);
+
     const newClub: ClubProps = {
       Id: "",
       Name: clubName,
       Address: clubAddress,
       Coordinates: {longitude: parseFloat(clubLongitude), latitude: parseFloat(clubLatitude)},
-      Image: "",
+      ImageStoragePath: clubImageStoragePath,
       RecentCapture: {
         artist: "",
         cleanliness: "",
@@ -368,9 +371,39 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
         song: "",
         ratio: ""
       },
+      ResidingState: residingState,
     };
     onSubmit(newClub);
   };
+
+  const handleImageChange = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 80,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Photos,
+      });
+
+      const response = await fetch(image.webPath!);
+      const blob = await response.blob();
+      const file = new File([blob], 'image.jpg', { type: 'image/jpeg'});
+
+      setSelectedImage(file);
+
+    } catch(e){
+      console.error('Error selecting image', e);
+    }
+  }
+
+  const uploadImageToStorage = async (file: File, clubName: string): Promise<string> => {
+    const storageRef = firebase.storage().ref();
+    const clubNameWithoutSpaces = clubName.replace(/\s/g, '');
+    const imageRef = storageRef.child(`static-club-photos/${residingState}/${clubNameWithoutSpaces}.jpeg`);
+    await imageRef.put(file);
+    const downloadURL = await imageRef.getDownloadURL();
+    return downloadURL;
+  }
 
   const setUserLocation = () => {
 
@@ -398,9 +431,18 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
             <IonInput value={clubLongitude} onIonChange={e => setClubLongitude(e.detail.value!)} label="Club Longitude" placeholder="(-180 to 180)" />
           </IonItem>
           <IonItem>
+          <IonSelect label="STATE?" onIonChange={e => setResidingState(e.detail.value)}>
+              <IonSelectOption value={"CA"}>CA</IonSelectOption>
+              <IonSelectOption value={"FL"}>FL</IonSelectOption>
+              <IonSelectOption value={"NV"}>NV</IonSelectOption>
+              <IonSelectOption value={"TX"}>TX</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem>
             <IonButton onClick={handleSubmit}>Submit</IonButton>
             <IonButton onClick={onCancel}>Cancel</IonButton>
             <IonButton onClick={setUserLocation}>Use Current Location</IonButton>
+            <IonButton color="tertiary" onClick={handleImageChange}>Image</IonButton>
           </IonItem>
         </IonList>
       </IonGrid>  

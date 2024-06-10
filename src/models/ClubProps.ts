@@ -5,7 +5,7 @@ export interface ClubProps {
     Address: string,
     Coordinates: {latitude: number, longitude: number},
     Id: string,
-    Image: string,
+    ImageStoragePath: string,
     RecentCapture: {
       artist: string,
       cleanliness: string,
@@ -21,5 +21,6 @@ export interface ClubProps {
       price: string,
       ratio: string,
       song: string,
-    }     
+    },     
+    ResidingState: string,
   }
