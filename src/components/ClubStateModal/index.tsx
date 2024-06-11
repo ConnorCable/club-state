@@ -28,6 +28,8 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   useIonViewWillEnter,
+  IonAlert,
+  IonicSafeString,
 } from "@ionic/react";
 import { arrowBack, navigateCircleOutline, radioButtonOnOutline, recordingOutline } from "ionicons/icons";
 import "swiper/css";
@@ -44,6 +46,8 @@ import * as geofirestore from 'geofirestore';
 import { VoiceRecorder, VoiceRecorderPlugin, RecordingData, GenericResponse, CurrentRecordingStatus } from 'capacitor-voice-recorder';
 import songDetect2 from "../../helpers/RecordingAPI";
 import useClubStore from "../../models/ClubStore";
+import { ShazamResponse } from "../../models/ShazamResponse";
+import { ShazamModal } from "../ShazamModal";
 
 
 
@@ -68,6 +72,10 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const screenHeight = window.innerWidth;
   const { location, setLocation, isLocationLoading, setIsLocationLoading  } = useDataStore();
   const {getClubRef} = useClubStore();
+
+  const [isShazamCaptured, setIsShazamCaptured] = useState(false);
+  const [shazamResponse, setShazamResponse] = useState<ShazamResponse | null>(null);
+  const [shazamError, setShazamError] = useState<string | null>(null);
 
   const [recordingStatus, setRecordingStatus] = useState("");
   const [recordedData, setRecordedData] = useState("");
@@ -137,7 +145,11 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   };
   
   const sendAudio = async () => {
-      songDetect2(recordedData)
+      const shazamResponse = await songDetect2(recordedData)
+      console.log(shazamResponse)
+      setShazamResponse(shazamResponse!);
+      setIsShazamCaptured(true);
+      
   }
 
   const resumeRecording = async () => {
@@ -173,10 +185,30 @@ const handleRecordClick = async () => {
   setCaptureEligibility(false);
 }
 
+const handleContinue = () => {
+  // Handle continue action
+  setIsShazamCaptured(false);
+  setShazamResponse(null);
+  setShazamError(null);
+};
+
+const handleCancel = () => {
+  // Handle cancel action
+  setIsShazamCaptured(false);
+  setShazamResponse(null);
+  setShazamError(null);
+};
+
+const handleCloseShazamModal = () => {
+  setIsShazamCaptured(false);
+  setShazamResponse(null);
+  setShazamError(null);
+};
+
 const handleLocationClick = async () => {
-  console.log(activeClub);
-  // Activate Loading Components 
+  
   setIsLocationLoading(true);
+  setIsShazamCaptured(false);
 
   // Handle Geoverification
   const position = await Geolocation.getCurrentPosition();
@@ -194,20 +226,19 @@ const handleLocationClick = async () => {
 
   query.get().then((value) => {
     const valueCount = value.docs.length;
-    console.log(value.docs);
     // All GeoDocument returned by GeoQuery, like the GeoDocument added above
     try{
       var nearestClubs = value.docs.filter((element) => {
-        return element.distance <= 0.01;
+        return element.distance <= 0.05;
       })
-      
+      console.log(nearestClubs);
       if(nearestClubs.length > 0)
         {
           nearestClubs.sort((a, b) => a.distance - b.distance);
-          console.log(nearestClubs[0].id);
+          console.log(nearestClubs[0].distance);
         }
       
-      (nearestClubs[0].distance) < 0.01 ? setCaptureEligibility(true)
+      (nearestClubs[0].distance) < 0.1 ? setCaptureEligibility(true)
     : console.log(false);
     }catch(e){
       setCaptureEligibility(false);
@@ -222,6 +253,27 @@ const handleLocationClick = async () => {
 
   return (
     <IonModal isOpen={isOpen} backdropDismiss={false} className="modal">
+      {isShazamCaptured && shazamResponse && (
+        <ShazamModal
+          isOpen={true}
+          onClose={handleCloseShazamModal}
+          shazamResponse={shazamResponse}
+        />
+      )}
+
+      {isShazamCaptured && shazamError && (
+        <IonAlert
+          isOpen={true}
+          header="Error"
+          message={shazamError}
+          buttons={[
+            {
+              text: "OK",
+              handler: handleCancel,
+            },
+          ]}
+        />
+      )}
       <IonContent>
         <IonHeader>
           <IonToolbar color="primary">
@@ -229,7 +281,7 @@ const handleLocationClick = async () => {
               <IonIcon icon={arrowBack} />
             </IonButton>
           </IonToolbar>
-        </IonHeader>       
+        </IonHeader>      
         <IonCardTitle className="ion-padding ion-text-center">
           Last Capture: Timestamp
         </IonCardTitle>
@@ -245,6 +297,7 @@ const handleLocationClick = async () => {
         <IonInfiniteScroll threshold="100px" disabled={!hasMore} onIonInfinite={loadMore}>
           <IonInfiniteScrollContent loadingText="Loading more items..."></IonInfiniteScrollContent>
         </IonInfiniteScroll>
+
       </IonContent>
       <IonFooter>
         <IonGrid>

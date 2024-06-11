@@ -1,4 +1,5 @@
 import saveAs from "file-saver";
+import { ShazamResponse } from "../models/ShazamResponse";
 
 
 const detectSong = async(song : any) => {
@@ -28,7 +29,7 @@ const detectSong = async(song : any) => {
 
 
 const songDetect2 = async (base64AudioString: any) => {
-    
+    console.log(`SONG DETECT 2ING`)
     const url = 'https://shazam-api7.p.rapidapi.com/songs/recognize-song';
     const byteCharacters = atob(base64AudioString);
     const byteNumbers = new Array(byteCharacters.length);
@@ -56,8 +57,23 @@ const songDetect2 = async (base64AudioString: any) => {
         const response = await fetch(url, options);
         const result = await response.text();
         const resultJSON = JSON.parse(result);
-        const { title, subtitle } = resultJSON.track;
-        const { genres } = resultJSON.track;
+        const track = resultJSON.track;
+
+        const title = track.title;
+        const subTitle = track.subtitle;
+        const genre = track.genres['primary'];
+        const imageUrl = track.images['coverart'];
+
+        
+        const shazamResponse: ShazamResponse =
+        {
+            genre: genre,
+            title: title,
+            subTitle: subTitle,
+            imageUrl: imageUrl,
+        }
+        
+        return shazamResponse;
         
     } catch (error) {
         console.error(error);

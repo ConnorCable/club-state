@@ -1,0 +1,63 @@
+.custom-modal {
+    --width: fit-content;
+    
+    --max-width: 345px;
+    --max-height:420px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+    background-color: rgb(185, 185, 185)
+    
+  }
+  
+  .custom-modal ion-toolbar {
+    --background: #f4f4f4;
+  }
+  
+  .custom-modal ion-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .custom-modal ion-content {
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+    ;
+  }
+  
+  .custom-modal h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .custom-modal .image-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 2px;
+  }
+    
+  .custom-modal img {
+    max-width: 45%;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
+  }
+  
+  .custom-modal ion-list {
+    margin-top: 20px;
+    ;
+  }
+  
+  .custom-modal ion-item {
+    --padding-start: 0;
+  }
+  
+  .custom-modal ion-label {
+    display: flex;
+    font-size: 16px;
+    padding-left: 15vw;
+  }
+  
