@@ -9,8 +9,9 @@ import { useEffect, useState } from 'react';
 import { ClubProps } from '../../models/ClubProps';
 import { ClubStateProps } from '../../models/ClubStateProps';
 import { useDataStore } from '../../models/DataStore';
-import { collection, CollectionReference, DocumentData, DocumentReference, getDocs } from 'firebase/firestore';
+import { collection, CollectionReference, DocumentData, DocumentReference, getDocs, Timestamp } from 'firebase/firestore';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
 
 
 const Tab3: React.FC = () => {
@@ -30,7 +31,11 @@ const Tab3: React.FC = () => {
             const clubGeoCollection = GeoFirestore.collection('geo-clubs');
             const docRef = clubGeoCollection.doc(stateProps.clubId);
 
+            const captureTime = firebase.firestore.FieldValue.serverTimestamp();
+ 
+
             docRef.collection("states").add({
+              captureTime: captureTime,
               cleanliness: stateProps.cleanliness,
               cover: stateProps.cover,
               fullness: stateProps.fullness,

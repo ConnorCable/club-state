@@ -30,6 +30,7 @@ import {
   useIonViewWillEnter,
   IonAlert,
   IonicSafeString,
+  IonBadge,
 } from "@ionic/react";
 import { arrowBack, navigateCircleOutline, radioButtonOnOutline, recordingOutline } from "ionicons/icons";
 import "swiper/css";
@@ -50,14 +51,21 @@ import { ShazamResponse } from "../../models/ShazamResponse";
 import { ShazamModal } from "../ShazamModal";
 
 
-
 const ClubAccordionItem: React.FC<{ item: any }> = ({ item}) => (
   <IonAccordion value={item.id}>
     <IonItem slot="header" color="light">
-      <IonLabel>Track ID: {item.data().song + ' - ' + item.data().artist}</IonLabel>
-      <IonChip>Genre</IonChip>
+      <IonGrid className="ion-padding">
+        <IonRow>
+            <IonCol>
+            <IonLabel><h6><sup>6 secs ago</sup></h6></IonLabel>
+            </IonCol>              
+        </IonRow>
+        <IonCol><sup><em>{item.data().song}</em> - <em>{item.data().artist}</em></sup></IonCol>
+        <IonRow>
+        </IonRow>
+      </IonGrid>
     </IonItem>
-    <div className="ion-padding" slot="content">
+    <div slot="content">
       <ClubStateCard data = {item.data()}/>
     </div>
   </IonAccordion>
