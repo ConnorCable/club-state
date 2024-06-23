@@ -31,8 +31,8 @@ const Tab3: React.FC = () => {
             const clubGeoCollection = GeoFirestore.collection('geo-clubs');
             const docRef = clubGeoCollection.doc(stateProps.clubId);
 
-            const captureTime = firebase.firestore.FieldValue.serverTimestamp();
- 
+            const captureTime = Timestamp.now();
+            
 
             docRef.collection("states").add({
               captureTime: captureTime,
@@ -149,18 +149,18 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
   const [clubLongitude, setClubLongitude] = useState('');
   const [clubLatitude, setClubLatitude] = useState('');
 
-  const [cleanliness, setCleanliness] = useState('');
+  const [cleanliness, setCleanliness] = useState<number>(1);
   const [clubID, setClubID] = useState('');
   const [cover, setCover] = useState(false);
-  const [fullness, setFullness] = useState('');
+  const [fullness, setFullness] = useState<number>(1);
   const [genre, setGenre] = useState('');
-  const [hostility, setHostility] = useState('');
-  const [latitude, setLatitude] = useState('');
+  const [hostility, setHostility] = useState<number>(1);
+  const [latitude, setLatitude] = useState("");
   const [line, setLine] = useState(false);
   const [longitude, setLongitude] = useState('');
-  const [loudness, setLoudness] = useState('');
-  const [price, setPrice] = useState('');
-  const [ratio, setRatio] = useState('');
+  const [loudness, setLoudness] = useState<number>(0);
+  const [price, setPrice] = useState<number>(1);
+  const [ratio, setRatio] = useState<number>(1);
   const [songAudioData, setSongAudioData] = useState('');
   const [song, setSongTitle] = useState('');
   const [artist, setSongArtist] = useState('');
@@ -189,19 +189,20 @@ const NewStateForm: React.FC<NewStateFormProps> = ({ onSubmit, onCancel }) => {
 
   const fakeData = () => 
   {
-    setCleanliness(faker.number.int(5).toString());
+    setCleanliness(faker.number.int(5));
     setCover(faker.datatype.boolean());
-    setFullness(faker.number.int(5).toString());
+    setFullness(faker.number.int(5));
     setGenre(faker.music.genre());
-    setHostility(faker.number.int(5).toString());
+    setHostility(faker.number.int(5));
     setLatitude(faker.location.latitude().toString());
     setLine(faker.datatype.boolean());
     setLongitude(faker.location.longitude().toString());
-    setLoudness(faker.number.int(5).toString());
-    setPrice("$");
-    setRatio(faker.number.int(5).toString());
+    setLoudness(faker.number.int(5));
+    setPrice(faker.number.int(3));
+    setRatio(faker.number.int(5));
     setSongTitle(faker.music.songName());
     setSongArtist(faker.person.firstName());
+    
   }
 
 
