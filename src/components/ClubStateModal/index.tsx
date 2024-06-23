@@ -50,6 +50,7 @@ import useClubStore from "../../models/ClubStore";
 import { ShazamResponse } from "../../models/ShazamResponse";
 import { ShazamModal } from "../ShazamModal";
 import { TruncateText } from "../../helpers/TextTruncation";
+import { CalculateTimeDifference } from "../../helpers/TimeSinceCaptured";
 
 
 const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
@@ -58,7 +59,7 @@ const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
       <IonGrid className="ion-padding">
         <IonRow>
             <IonCol>
-              <IonLabel><h6><sup>6 secs ago</sup></h6></IonLabel>
+              <IonLabel><h6><sup>{CalculateTimeDifference(item.data().captureTime.seconds)}</sup></h6></IonLabel>
             </IonCol>
         </IonRow>
         <IonRow>
@@ -107,6 +108,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
       if(ref){
         const unsubscribe = await ref.collection("states").onSnapshot(snapshot => {
           const states = snapshot.docs;
+          // states.map((doc) => {console.log(doc.data().captureTime.seconds)});
           setItems(states.map((doc) => doc));
         });
         return () => unsubscribe();
