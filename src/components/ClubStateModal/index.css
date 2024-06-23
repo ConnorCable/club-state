@@ -33,8 +33,35 @@
     height: 50px;
   }
 
-
   .modal {
     height: 100%;
   }
 
+  .song-info {
+    margin-right: 8px;
+  }
+  
+  .genre-badge {
+    margin-left: 8px;
+  }
+
+  .genre-col {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+}
+
+.genre-col .genre-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 60px; /* Adjust the min-width as needed */
+  max-width: 80px; /* Adjust the max-width as needed */
+  height: 24px; /* Adjust the height as needed */
+  padding: 0 8px;
+  margin-left: 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

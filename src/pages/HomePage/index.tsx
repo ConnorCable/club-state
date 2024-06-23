@@ -134,7 +134,7 @@ const HomePage: React.FC = () => {
   
   return (
     <IonPage>
-      <IonContent fullscreen> 
+      <IonHeader>
         {/* CLUB CARD GENRE FILTERS */}
         <Swiper className="genreSwiper " spaceBetween={0} slidesPerView={2} loop={true}>
           <SwiperSlide>
@@ -166,6 +166,8 @@ const HomePage: React.FC = () => {
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Hostility</IonChip>
         <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance</IonChip>
       </div>
+      </IonHeader>
+      <IonContent fullscreen> 
 
         {/* CLUB CARD SWIPABLE*/}
       <div className="swiperContainer">
