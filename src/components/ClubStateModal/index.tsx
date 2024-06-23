@@ -108,8 +108,8 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
       if(ref){
         const unsubscribe = await ref.collection("states").onSnapshot(snapshot => {
           const states = snapshot.docs;
-          // states.map((doc) => {console.log(doc.data().captureTime.seconds)});
-          setItems(states.map((doc) => doc));
+          const sortedStates = states.sort((a, b) => b.data().captureTime.seconds - a.data().captureTime.seconds);
+          setItems(sortedStates.map((doc) => doc));
         });
         return () => unsubscribe();
       }
