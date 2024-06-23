@@ -49,18 +49,28 @@ import songDetect2 from "../../helpers/RecordingAPI";
 import useClubStore from "../../models/ClubStore";
 import { ShazamResponse } from "../../models/ShazamResponse";
 import { ShazamModal } from "../ShazamModal";
+import { TruncateText } from "../../helpers/TextTruncation";
 
 
-const ClubAccordionItem: React.FC<{ item: any }> = ({ item}) => (
+const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
   <IonAccordion value={item.id}>
     <IonItem slot="header" color="light">
       <IonGrid className="ion-padding">
         <IonRow>
             <IonCol>
-            <IonLabel><h6><sup>6 secs ago</sup></h6></IonLabel>
-            </IonCol>              
+              <IonLabel><h6><sup>6 secs ago</sup></h6></IonLabel>
+            </IonCol>
         </IonRow>
-        <IonCol><sup><em>{item.data().song}</em> - <em>{item.data().artist}</em></sup></IonCol>
+        <IonRow>
+          <IonCol>
+              <div>
+                <sup className="song-info"><em>{item.data().song}</em> - <em>{item.data().artist}</em></sup>
+            </div>
+          </IonCol>
+          <IonCol size="auto" className="genre-col">
+            <IonBadge color="tertiary" className="genre-badge">{TruncateText(item.data().genre, 8)}</IonBadge>
+          </IonCol>
+        </IonRow>
         <IonRow>
         </IonRow>
       </IonGrid>
@@ -90,7 +100,6 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const [recordingCaptured, setRecordingCaptured] = useState(true);
   const [detectedSong, setDetectedSong] = useState<string | undefined>("")
 
-
   useEffect(() => {
 
     const getStates = async () => {
@@ -100,8 +109,6 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
           const states = snapshot.docs;
           setItems(states.map((doc) => doc));
         });
-        //console.log(states.docs.length)
-        //console.log(states.docs.forEach((doc) => console.log(doc.data())))
         return () => unsubscribe();
       }
     }
@@ -110,16 +117,18 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   },[ activeClub])
 
   const captureState = async () => {
-      
       startRecording();
       setTimeout(stopRecording, 4000);
   }
 
   const startRecording = async () => {
       setRecordingCaptured(true);
-      try {
+      try 
+      {
           const permissionResult = await VoiceRecorder.requestAudioRecordingPermission();
-          if (!permissionResult.value) {
+          
+          if (!permissionResult.value) 
+          {
               console.error('Permission denied to record audio');
               return;
           }
@@ -127,28 +136,29 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
           const result: GenericResponse = await VoiceRecorder.startRecording();
           console.log('Recording started:', result.value);
           setRecordingStatus('RECORDING');
-      } catch (error) {
+      } catch (error) 
+      {
           console.error('Failed to start recording:', error);
       }
   };
   
   const stopRecording = async () => {
-      try {
-          const result: RecordingData = await VoiceRecorder.stopRecording();
-          // console.log('Recording stopped:', result.value.recordDataBase64);
-          setRecordingStatus('NONE');
+      try 
+      {
+        const result: RecordingData = await VoiceRecorder.stopRecording();
+        setRecordingStatus('NONE');
          
-          if(result.value.recordDataBase64){
-              console.log("valid data");
-              setRecordedData(result.value.recordDataBase64);
-              setRecordingCaptured(false);
-              setCaptureEligibility(false);
-          }
-          
-          sendAudio();
-  
-      } catch (error) {
-          console.error('Failed to stop recording:', error);
+        if(result.value.recordDataBase64)
+        {
+          console.log("valid data");
+          setRecordedData(result.value.recordDataBase64);
+          setRecordingCaptured(false);
+          setCaptureEligibility(false);
+        }
+        sendAudio();
+      } catch (error) 
+      {
+        console.error('Failed to stop recording:', error);
       }
   };
   
@@ -172,7 +182,8 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
 
   const handleRecordingButton = () => {
       
-      if (recordingStatus === 'RECORDING') {
+      if (recordingStatus === 'RECORDING') 
+      {
           console.log("stopping");
           stopRecording();
       } else if (recordingStatus === 'PAUSED') {
@@ -184,37 +195,42 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
       }
   };
 
-  const loadMore = () => {
-    setPageNumber(pageNumber + 1);
-  };
+const loadMore = () => {
+
+  setPageNumber(pageNumber + 1);
+
+};
 
 const handleRecordClick = async () => {
-  console.log(true);
   setCaptureEligibility(false);
 }
 
 const handleContinue = () => {
-  // Handle continue action
+
   setIsShazamCaptured(false);
   setShazamResponse(null);
   setShazamError(null);
+
 };
 
 const handleCancel = () => {
-  // Handle cancel action
+
   setIsShazamCaptured(false);
   setShazamResponse(null);
   setShazamError(null);
+
 };
 
 const handleCloseShazamModal = () => {
+
   setIsShazamCaptured(false);
   setShazamResponse(null);
   setShazamError(null);
+
 };
 
 const handleLocationClick = async () => {
-  
+
   setIsLocationLoading(true);
   setIsShazamCaptured(false);
 
@@ -235,20 +251,22 @@ const handleLocationClick = async () => {
   query.get().then((value) => {
     const valueCount = value.docs.length;
     // All GeoDocument returned by GeoQuery, like the GeoDocument added above
-    try{
+    try
+    {
       var nearestClubs = value.docs.filter((element) => {
         return element.distance <= 0.05;
-      })
-      console.log(nearestClubs);
+      });
       if(nearestClubs.length > 0)
-        {
-          nearestClubs.sort((a, b) => a.distance - b.distance);
-          console.log(nearestClubs[0].distance);
-        }
+      {
+        nearestClubs.sort((a, b) => a.distance - b.distance);
+        console.log(nearestClubs[0].distance);
+      }
       
       (nearestClubs[0].distance) < 0.1 ? setCaptureEligibility(true)
     : console.log(false);
-    }catch(e){
+
+    }catch(e)
+    {
       setCaptureEligibility(false);
       setIsLocationLoading(false);
     }
@@ -282,18 +300,14 @@ const handleLocationClick = async () => {
           ]}
         />
       )}
-      <IonContent>
-        <IonHeader>
-          <IonToolbar color="primary">
-            <IonButton color={"primary"} onClick={() => setIsOpen(false)}>
+       <IonHeader>
+          <IonToolbar color="light">
+            <IonButton className="ion-padding-start" color={"transparent"} onClick={() => setIsOpen(false)}>
               <IonIcon icon={arrowBack} />
             </IonButton>
           </IonToolbar>
-        </IonHeader>      
-        <IonCardTitle className="ion-padding ion-text-center">
-          Last Capture: Timestamp
-        </IonCardTitle>
-        
+        </IonHeader>     
+      <IonContent> 
         <div style={{ maxHeight: screenHeight * 1.6, overflowY: 'scroll' }}>
           <IonAccordionGroup expand="inset">
             {items.map((item, index) => (
@@ -302,10 +316,6 @@ const handleLocationClick = async () => {
           </IonAccordionGroup>
         </div>
         
-        <IonInfiniteScroll threshold="100px" disabled={!hasMore} onIonInfinite={loadMore}>
-          <IonInfiniteScrollContent loadingText="Loading more items..."></IonInfiniteScrollContent>
-        </IonInfiniteScroll>
-
       </IonContent>
       <IonFooter>
         <IonGrid>
