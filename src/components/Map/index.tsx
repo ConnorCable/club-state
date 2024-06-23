@@ -73,7 +73,7 @@ const MapGL: React.FC = () => {
             
               {mapLoaded && locationChips.map((chip: any) => (
                   <Marker key={chip.g.geohash} longitude={chip.coordinates._long} latitude={chip.coordinates._lat} anchor="bottom"  onClick={(e) => {e.originalEvent.stopPropagation; setPopupInfo(chip)}}>
-                      <IonIcon icon={pinSharp} size="large" color='danger' style={{ cursor: 'pointer' }} />
+                      <IonIcon icon={pinSharp} size="large" color='tertiary' style={{ cursor: 'pointer' }} />
                   </Marker>
               ))}
                 {popupInfo && (
