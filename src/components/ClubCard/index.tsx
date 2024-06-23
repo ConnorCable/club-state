@@ -57,7 +57,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
               </IonChip>
             </IonCol>
             <IonCol>
-              <IonChip color="success">{recentState.price === "$" ? "💲" : recentState.price === "$$" ? "💲💲": "💲💲💲"}</IonChip>
+              <IonChip >{recentState.price === "$" ? "$" : recentState.price === "$$" ? "$$": "$$$"}</IonChip>
             </IonCol>
             <IonCol></IonCol>
             <IonCol></IonCol>
