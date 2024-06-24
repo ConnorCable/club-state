@@ -1,13 +1,13 @@
 <strong>CLUB STATE</strong> - <em>IN DEVELOPMENT</em>
 
-<bold>
+
 * Ionic
 * Capacitor
 * React
 * Typescript
 * Firebase
 * SHAZAM
-</bold>
+
 
 -> Supporting 50 Most Populated Cities in US
 
