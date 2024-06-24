@@ -21,7 +21,7 @@ const MapGL: React.FC = () => {
       const firestore = firebase.firestore();
       const GeoFirestore = geofirestore.initializeApp(firestore);
       const geocollection = GeoFirestore.collection('geo-clubs');
-      const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
+      const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 100 });
 
       let chipsArray: any[] = [];
       const snapshot = await query.get();

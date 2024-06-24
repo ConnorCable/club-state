@@ -18,6 +18,8 @@ import { IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/react
 import { Position } from "@capacitor/geolocation";
 import { ClubModalProps } from "../../models/ClubModalProps";
 import { ClubProps } from "../../models/ClubProps";
+import { getDistance, convertDistance } from 'geolib';
+import { useDataStore } from "../../models/DataStore";
 
 interface ClickableClubCard {
   onClick: () => void;
@@ -29,7 +31,9 @@ const click = () => {
 }
 
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) => {
+  const {location} = useDataStore();
   const recentState = ClubProps.RecentCapture;
+
 
   const ratio = recentState.ratio == "1"? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
   return (
@@ -43,7 +47,10 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
           <IonRow>
               <IonCol> <IonCardSubtitle className="club-subtitle">
               <span>{ClubProps.Address} | </span>
-              <span>| 0.25 Miles</span>
+              <span>| {location != null ? `${convertDistance(getDistance(
+                {latitude: location.coords.latitude, longitude: location.coords.longitude},
+                {latitude: ClubProps.Coordinates.latitude, longitude: ClubProps.Coordinates.longitude}
+              ), 'mi').toFixed(3)} mi` : "N/A"}</span>
               </IonCardSubtitle>
             </IonCol>
           </IonRow>
