@@ -7,8 +7,8 @@ CLUB STATE (WEB/MOBILE)
 * Firebase
 * SHAZAM
 
--> Supporting 100 Most Populated Cities in US /n
--> Over 200 clubs
+-> Supporting 50 Most Populated Cities in US
+
 
 
 
