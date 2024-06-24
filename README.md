@@ -1,4 +1,4 @@
-<strong>CLUB STATE</strong>
+<strong>CLUB STATE</strong> - IN DEVELOPMENT
 
 * Ionic
 * Capacitor
