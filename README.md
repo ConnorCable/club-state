@@ -1,4 +1,4 @@
-CLUB STATE (WEB/MOBILE) 
+<strong>CLUB STATE</strong>
 
 * Ionic
 * Capacitor
