@@ -101,7 +101,6 @@ const HomePage: React.FC = () => {
         return defaultUrl;
       }
 
-      
     } catch (err) {
       console.error(err);
       throw err;
@@ -114,7 +113,7 @@ const HomePage: React.FC = () => {
     const geocollection = GeoFirestore.collection('geo-clubs');
   
     // 1609 km roughly 1 mi
-    const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
+    const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 100 });
   
     const value = await query.get();
     const clubCardPromises = value.docs.map(async (doc) => {
@@ -160,50 +159,43 @@ const HomePage: React.FC = () => {
         </Swiper>
         
         {/* CLUB CARD SOCIAL FILTERS */}
-       <div className="filterButtons">
-        <IonChip className="ion-text-center ion-text-capitalize " outline={true}>$$$</IonChip>
-        <IonChip className="ion-text-center ion-text-capitalize "outline={true} >Fullness</IonChip>
-        <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Hostility</IonChip>
-        <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance</IonChip>
-      </div>
+        <div className="filterButtons">
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true}>$$$</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize "outline={true} >Fullness</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Hostility</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance</IonChip>
+        </div>
       </IonHeader>
       <IonContent fullscreen> 
 
         {/* CLUB CARD SWIPABLE*/}
-      <div className="swiperContainer">
-        {(currentClubs!.length > 0) ? (
-          <Swiper direction={"horizontal"} className="cardSwiper">
-            {currentClubs?.map((club: any) => (
-              <SwiperSlide key={club.name}>
-                <ClubCard
-                  onClick={() => {
-                    setActiveClub(club.id);
-                    setIsOpen(true);
-                  }}
-                  ClubProps={{
-                    Id: club.id,
-                    Name: club.name,
-                    Address: club.address,
-                    Coordinates: club.coordinates,
-                    ImageStoragePath: club.imagePath,
-                    RecentCapture: club.recentCapture,
-                    ResidingState: club.residingState
-                  }}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        ) : (
-          <LoadingOverlay isOpen={true} message="Retrieving Clubs" />
-        )}
-      </div>
-
-        {/* onClick handler for the clubCard or Swiper Slide. setActiveClub(club.docId) now the modal is set to the active club. And now when the modal opens, it has a doc id to start listening */}
-        {/*REFRESH FOR CLUB CARDS, NO FUNCTIONALITY - need to implement handleRefresh */}
-        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
-          <IonRefresherContent></IonRefresherContent>
-        </IonRefresher>
-        
+        <div className="swiperContainer">
+          {(currentClubs!.length > 0) ? (
+            <Swiper direction={"horizontal"} className="cardSwiper">
+              {currentClubs?.map((club: any) => (
+                <SwiperSlide key={club.name}>
+                  <ClubCard
+                    onClick={() => {
+                      setActiveClub(club.id);
+                      setIsOpen(true);
+                    }}
+                    ClubProps={{
+                      Id: club.id,
+                      Name: club.name,
+                      Address: club.address,
+                      Coordinates: club.coordinates,
+                      ImageStoragePath: club.imagePath,
+                      RecentCapture: club.recentCapture,
+                      ResidingState: club.residingState
+                    }}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          ) : (
+            <LoadingOverlay isOpen={true} message="Retrieving Clubs" />
+          )}
+        </div>        
       </IonContent>
       {activeClub && <ClubModal isOpen={isOpen} setIsOpen={setIsOpen} activeClub={activeClub}/>}
       

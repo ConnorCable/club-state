@@ -1,51 +1,42 @@
-import { IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonGrid, IonRow, IonCol, IonChip } from "@ionic/react"
-
+import { IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonGrid, IonRow, IonCol, IonChip, IonButton, IonText, IonIcon, IonBreadcrumb } from "@ionic/react"
+import { playCircleOutline } from "ionicons/icons";
+import "swiper/css";
+import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 
 
 
 export const ClubStateCard: React.FC<{data: any}> = ({ data }) => {
 
     return (
-        <IonCard className="ion-text-center ion-padding" color={"light"}>
-                <IonCardTitle>MAY 15 @ 10:50 PM</IonCardTitle>
-                <IonGrid>
-                  <IonChip>Line: {data.line ? "Yes" : "No"}</IonChip>
-                  <IonChip>Price: {data.price}</IonChip>
-                  <IonChip>Cover: {data.cover ? "Yes" : "No"}</IonChip>
-          <IonRow>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding" color={"success"}>
-                Cleanliness <IonCardSubtitle>{data.cleanliness}</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding" color={"warning"}>
-                Loudness<IonCardSubtitle>{data.loudness}</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding" color="warning">
-                Ratio <IonCardSubtitle>{data.ratio}</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding" color={"warning"}>
-                Hostility <IonCardSubtitle>{data.hostility}</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding" color="warning">
-                Fullness <IonCardSubtitle>{data.fullness}</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-            <IonCol>
-              <IonCard className="ion-text-center ion-padding" color="success">
-                Fun<IonCardSubtitle>{data.fun}</IonCardSubtitle>
-              </IonCard>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-
-        </IonCard>
+      <div>
+        <Swiper className="genreSwiper " spaceBetween={0} slidesPerView={1} loop={false}>
+          <SwiperSlide>
+            <IonCard className="ion-text-center ion-padding" color={"light"}>
+              <IonGrid>
+                <IonChip>Line: {data.line ? "Yes" : "No"}</IonChip>
+                <IonChip>Price: {data.price}</IonChip>
+                <IonChip>Cover: {data.cover ? "Yes" : "No"}</IonChip>
+              </IonGrid>
+            </IonCard>
+          </SwiperSlide>
+          <SwiperSlide>
+            <IonCard>
+              <IonGrid>
+                <IonRow>
+                  <IonCol><IonChip>Clean: 5</IonChip></IonCol>
+                  <IonCol><IonChip>Loud: 5</IonChip></IonCol>
+                  <IonCol><IonChip>Ratio: 5</IonChip></IonCol>
+                </IonRow>
+                <IonRow>
+                <IonCol><IonChip>Hostile: 5</IonChip></IonCol>
+                <IonCol><IonChip>Full: 5</IonChip></IonCol>
+                <IonCol><IonChip>Fun: 5</IonChip></IonCol>
+                </IonRow>                
+              </IonGrid>
+            </IonCard>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+        
     )
 }
