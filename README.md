@@ -10,7 +10,7 @@
 
 Purpose: Anonymous geofenced capturing of music @ night life venues such that others can find points of resonation
 
-- A state stream begins upon successful capture and submission, creating temporary event that expires after two hours of no activity
+- A state stream begins upon successful capture and submission, creating temporary event that expires after two hours of 0 downstream activity
 - To participate a user must provide geolocation via device API and be in valid location
 - Users can search through swipeable feed or map view
 - Users can filter by Club or Music meta data
