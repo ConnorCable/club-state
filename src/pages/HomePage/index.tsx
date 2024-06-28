@@ -101,9 +101,10 @@ const HomePage: React.FC = () => {
     
   }
 
-
+  // todo : add a remove filter button that works
   const removeFilter = () => {
     setFilteredClubs(currentClubs)
+    setActiveButton(-1)
   }
 
   const filterSettings = (setting : string) => {
@@ -188,8 +189,8 @@ const HomePage: React.FC = () => {
   };
   
   return (
-    <IonPage>
-      <IonHeader>
+    <IonPage className="page">
+      <IonHeader >
         {/* CLUB CARD GENRE FILTERS */}
         <Swiper className="genreSwiper " spaceBetween={7} slidesPerView={4} loop={true} >
           {genres.map((genre: any) => {
