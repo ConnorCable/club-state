@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Map, {Marker, Popup} from 'react-map-gl';
 import { accessibilityOutline, homeOutline, homeSharp, locationOutline, navigateCircleOutline, person, pinSharp } from 'ionicons/icons';
-import { IonIcon, IonProgressBar, IonCard, IonCardContent, IonCardTitle, IonCardSubtitle } from '@ionic/react';
+import { IonIcon, IonProgressBar, IonCard, IonCardContent, IonCardTitle, IonCardSubtitle, IonText } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
@@ -16,12 +16,13 @@ const MapGL: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [popupInfo, setPopupInfo] = useState<any>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const { radius } = useDataStore();
 
   const getChipCollection = async () => {
       const firestore = firebase.firestore();
       const GeoFirestore = geofirestore.initializeApp(firestore);
       const geocollection = GeoFirestore.collection('geo-clubs');
-      const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 100 });
+      const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: radius });
 
       let chipsArray: any[] = [];
       const snapshot = await query.get();
@@ -87,6 +88,7 @@ const MapGL: React.FC = () => {
                     >
                         <IonCardSubtitle className='mapPinSubtitle'>{popupInfo.name}</IonCardSubtitle>
                         <IonCardContent>
+                            
                             <IonCardSubtitle>{popupInfo.address.toUpperCase()}</IonCardSubtitle>
                         </IonCardContent>
                     </Popup>
