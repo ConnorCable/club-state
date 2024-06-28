@@ -52,6 +52,8 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { ur } from "@faker-js/faker";
 import { ClubProps } from "../../models/ClubProps";
 import {nanoid} from 'nanoid';
+import { getDistance } from "geolib";
+import { getRTLTextPluginStatus } from "mapbox-gl";
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,16 +64,11 @@ const HomePage: React.FC = () => {
   const [filteredClubs, setFilteredClubs] = useState<any>([]);
   const [genres, setGenres] = useState<string[]>([]);
   const [activeClub, setActiveClub] = useState<string | undefined>();
+  const [filterSetting , setFilterSetting] = useState<string>("")
+  const [activeButton , setActiveButton] = useState<number>()
+  
   
 
-  const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-};
 
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
     setTimeout(() => {
@@ -84,22 +81,44 @@ const HomePage: React.FC = () => {
     setIsOpen(false)
   }
 
-  const filterClubs = (genre : string) => {
-    const filtered = currentClubs?.filter((club: any) => club.recentCapture.genre === genre)
+  const filterClubs = (genre : any) => {
+    const filtered = currentClubs?.filter((club: any) => club.recentCapture.genre === genre.genre)
     setFilteredClubs(filtered)
+    setActiveButton(genre.index)
   }
 
   const setClubGenres = (nearbyClubs : any) => {
-    const newGenres: string[] = []
+    let index = 0
+    const newGenres: any[] = []
     nearbyClubs?.forEach((club: any) => { 
 
       let genre = club.recentCapture.genre
 
-      newGenres.push(genre)
-
+      newGenres.push({genre: genre, index: index})
+      index++
     })
     setGenres(newGenres)
     
+  }
+
+
+  const removeFilter = () => {
+    setFilteredClubs(currentClubs)
+  }
+
+  const filterSettings = (setting : string) => {
+    setFilteredClubs(filteredClubs?.sort((a: any, b: any) => { 
+      if (setting === "money") {
+        return a.recentCapture.price.length - b.recentCapture.price.length
+      } else if (setting === "fullness") {
+        return a.recentCapture.ratio - b.recentCapture.ratio
+      } else if (setting === "hostility") {
+        return a.recentCapture.cover - b.recentCapture.cover
+      } else if (setting === "distance") {
+        return getDistance(location!.coords, a.coordinates) - getDistance(location!.coords, b.coordinates)
+      }
+      return 0; // Add a default return value of 0
+    }))
   }
 
   const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
@@ -172,13 +191,12 @@ const HomePage: React.FC = () => {
     <IonPage>
       <IonHeader>
         {/* CLUB CARD GENRE FILTERS */}
-        <Swiper className="genreSwiper " spaceBetween={0} slidesPerView={2} loop={true} >
-          {genres.map((genre: string) => {
-            let color = getRandomColor()
+        <Swiper className="genreSwiper " spaceBetween={7} slidesPerView={4} loop={true} >
+          {genres.map((genre: any) => {
             return(
-            <SwiperSlide key={nanoid(10)}>
-            <IonCard className="genreCard" color="dark" onClick={() => filterClubs(genre)}>
-              <IonCardTitle className="genreTitle">{genre}</IonCardTitle>
+            <SwiperSlide key={genre.index}>
+            <IonCard className="genreCard" color={genre.index === activeButton ? "success" : "dark"} onClick={() => filterClubs(genre)}>
+              <IonCardTitle className="genreTitle">{genre.genre}</IonCardTitle>
             </IonCard>
           </SwiperSlide>)
 })}
@@ -187,10 +205,11 @@ const HomePage: React.FC = () => {
         
         {/* CLUB CARD SOCIAL FILTERS */}
         <div className="filterButtons">
-          <IonChip className="ion-text-center ion-text-capitalize " outline={true}>$$$</IonChip>
-          <IonChip className="ion-text-center ion-text-capitalize "outline={true} >Fullness</IonChip>
-          <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Hostility</IonChip>
-          <IonChip className="ion-text-center ion-text-capitalize " outline={true}>Distance</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true} onClick={() => filterSettings("money")}>$$$</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize "outline={true} onClick={() => filterSettings("fullness")}>Fullness</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true} onClick={() => filterSettings("hostility")}>Hostility</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true} onClick={() => filterSettings("distance")}>Distance</IonChip>
+          <IonChip  color= "danger" className="ion-text-center ion-text-capitalize " outline={true} onClick={() => removeFilter}>X</IonChip>
         </div>
       </IonHeader>
       <IonContent fullscreen> 
