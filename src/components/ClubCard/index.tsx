@@ -20,7 +20,7 @@ import { ClubModalProps } from "../../models/ClubModalProps";
 import { ClubProps } from "../../models/ClubProps";
 import { getDistance, convertDistance } from 'geolib';
 import { useDataStore } from "../../models/DataStore";
-
+import "./index.css";
 interface ClickableClubCard {
   onClick: () => void;
   ClubProps: ClubProps
@@ -57,14 +57,14 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
           <IonRow>
             <IonCol></IonCol>
             <IonCol></IonCol>
-            <IonCol><IonChip>GENRE</IonChip></IonCol>
+            <IonCol><IonChip  className="ion-text-nowrap">{recentState.genre}</IonChip></IonCol>
             <IonCol>
               <IonChip>
                 Cover<IonIcon color={recentState.cover === false? "danger" : "success"} icon={recentState.cover === false ? closeOutline : checkmark}></IonIcon>
               </IonChip>
             </IonCol>
             <IonCol>
-              <IonChip >{recentState.price === "$" ? "$" : recentState.price === "$$" ? "$$": "$$$"}</IonChip>
+              <IonChip className="ion-text-nowrap" >{recentState.price === "$" ? "$" : recentState.price === "$$" ? "$$": "$$$"}</IonChip>
             </IonCol>
             <IonCol></IonCol>
             <IonCol></IonCol>

@@ -84,11 +84,12 @@ const MapGL: React.FC = () => {
                         closeButton={true}
                         closeOnClick={false}
                         onClose={() => setPopupInfo(null)}
+                        className='mapPinPopup'
                     >
                         <IonCardTitle className='mapPinSubtitle'>{popupInfo.name}</IonCardTitle>
                         <IonCardContent>
                             <IonCardSubtitle>{popupInfo.address.toUpperCase()}</IonCardSubtitle>
-                            <IonButton>
+                            <IonButton color= "primary">
                                 <a className='directionsButton' href={"https://www.google.com/maps/dir/?api=1&destination=" + popupInfo.coordinates._lat + "," + popupInfo.coordinates._long} target="_blank" rel="noreferrer"> Get Directions</a>
                             </IonButton>
                         </IonCardContent>
