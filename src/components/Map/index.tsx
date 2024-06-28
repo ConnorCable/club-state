@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Map, {Marker, Popup} from 'react-map-gl';
 import { accessibilityOutline, homeOutline, homeSharp, locationOutline, navigateCircleOutline, person, pinSharp } from 'ionicons/icons';
-import { IonIcon, IonProgressBar, IonCard, IonCardContent, IonCardTitle, IonCardSubtitle, IonText } from '@ionic/react';
+import { IonIcon, IonProgressBar, IonCard, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonButton } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
@@ -86,10 +86,13 @@ const MapGL: React.FC = () => {
                         closeOnClick={false}
                         onClose={() => setPopupInfo(null)}
                     >
-                        <IonCardSubtitle className='mapPinSubtitle'>{popupInfo.name}</IonCardSubtitle>
+                        <IonCardTitle className='mapPinSubtitle'>{popupInfo.name}</IonCardTitle>
                         <IonCardContent>
                             
                             <IonCardSubtitle>{popupInfo.address.toUpperCase()}</IonCardSubtitle>
+                            <IonButton>
+                                <a className='directionsButton' href={"https://www.google.com/maps/dir/?api=1&destination=" + popupInfo.coordinates._lat + "," + popupInfo.coordinates._long} target="_blank" rel="noreferrer"> Get Directions</a>
+                            </IonButton>
                         </IonCardContent>
                     </Popup>
                 )}
