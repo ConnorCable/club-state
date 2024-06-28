@@ -50,6 +50,8 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import useClubStore from "../../models/ClubStore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { ur } from "@faker-js/faker";
+import { ClubProps } from "../../models/ClubProps";
+import {nanoid} from 'nanoid';
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,8 +59,19 @@ const HomePage: React.FC = () => {
   const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
   const {location, setLocation, currentClubs, setCurrentClubs, radius} = useDataStore();
   const [clubCards, setClubCards] = useState([]);
+  const [filteredClubs, setFilteredClubs] = useState<any>([]);
+  const [genres, setGenres] = useState<string[]>([]);
   const [activeClub, setActiveClub] = useState<string | undefined>();
   
+
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
 
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
     setTimeout(() => {
@@ -71,13 +84,28 @@ const HomePage: React.FC = () => {
     setIsOpen(false)
   }
 
+  const filterClubs = (genre : string) => {
+    const filtered = currentClubs?.filter((club: any) => club.recentCapture.genre === genre)
+    setFilteredClubs(filtered)
+  }
+
+  const setClubGenres = (nearbyClubs : any) => {
+    const newGenres: string[] = []
+    nearbyClubs?.forEach((club: any) => { 
+
+      let genre = club.recentCapture.genre
+
+      newGenres.push(genre)
+
+    })
+    setGenres(newGenres)
+    
+  }
+
   const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
   
-  useEffect(() => {
-  })
-
   useIonViewWillEnter(() => {
-    if (!currentClubs || currentClubs.length === 0) {
+    if (!filteredClubs || filteredClubs.length === 0) {
       fetchClubCardCollection();
     }
   }, [currentClubs]);
@@ -85,6 +113,9 @@ const HomePage: React.FC = () => {
   const fetchClubCardCollection = async () => {
     var nearbyClubs: any =  await getClubCardCollection();
     setCurrentClubs(nearbyClubs);
+    setFilteredClubs(nearbyClubs)
+    setClubGenres(nearbyClubs)
+    console.log(filteredClubs)
   }
 
   const getStorageURL = async (imagePath: string): Promise<string> => {
@@ -128,33 +159,30 @@ const HomePage: React.FC = () => {
   
     const clubCardArray = await Promise.all(clubCardPromises);
     return clubCardArray
+
+    // for each card get its genre and append it to a state of genres (array)
+    // dynamically spawn a genre card for each genre in the genres array
+    // give it a random color from a collection of colors
+    // once a genre is clicked, filter the cards based on the genre
+    // this will happen by filtering the club cards from the clubCardArray state 
+    // We will need to create a new state for the filtered clubs
   };
   
   return (
     <IonPage>
       <IonHeader>
         {/* CLUB CARD GENRE FILTERS */}
-        <Swiper className="genreSwiper " spaceBetween={0} slidesPerView={2} loop={true}>
-          <SwiperSlide>
-            <IonCard className="genreCard" color={"primary"} onClick={() => {console.log(currentClubs)}}>
-              <IonCardTitle className="genreTitle">House</IonCardTitle>
+        <Swiper className="genreSwiper " spaceBetween={0} slidesPerView={2} loop={true} >
+          {genres.map((genre: string) => {
+            let color = getRandomColor()
+            return(
+            <SwiperSlide key={nanoid(10)}>
+            <IonCard className="genreCard" color="dark" onClick={() => filterClubs(genre)}>
+              <IonCardTitle className="genreTitle">{genre}</IonCardTitle>
             </IonCard>
-          </SwiperSlide>
-          <SwiperSlide>
-            <IonCard className="genreCard" color={"secondary"}>
-              <IonCardTitle className="genreTitle">Techno</IonCardTitle>
-            </IonCard>
-          </SwiperSlide>
-          <SwiperSlide>
-            <IonCard className="genreCard" color={"danger"}>
-              <IonCardTitle className="genreTitle">Rap</IonCardTitle>
-            </IonCard>
-          </SwiperSlide>
-          <SwiperSlide>
-            <IonCard className="genreCard" color={"success"}>
-              <IonCardTitle className="genreTitle">Trance</IonCardTitle>
-            </IonCard>
-          </SwiperSlide>
+          </SwiperSlide>)
+})}
+          
         </Swiper>
         
         {/* CLUB CARD SOCIAL FILTERS */}
@@ -171,7 +199,7 @@ const HomePage: React.FC = () => {
         <div className="swiperContainer">
           {(currentClubs!.length > 0) ? (
             <Swiper direction={"horizontal"} className="cardSwiper">
-              {currentClubs?.map((club: any) => (
+              {filteredClubs?.map((club: any) => (
                 <SwiperSlide key={club.name}>
                   <ClubCard
                     onClick={() => {
