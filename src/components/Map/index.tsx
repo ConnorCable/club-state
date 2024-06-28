@@ -91,7 +91,7 @@ const MapGL: React.FC = () => {
                         <IonCardContent>
                             
                             <IonCardSubtitle>{popupInfo.address.toUpperCase()}</IonCardSubtitle>
-                            <IonButton color= "primary">
+                            <IonButton>
                                 <a className='directionsButton' href={"https://www.google.com/maps/dir/?api=1&destination=" + popupInfo.coordinates._lat + "," + popupInfo.coordinates._long} target="_blank" rel="noreferrer"> Get Directions</a>
                             </IonButton>
                         </IonCardContent>
