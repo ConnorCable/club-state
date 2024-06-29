@@ -12,7 +12,7 @@ import './index.css'
 
 const MapGL: React.FC = () => {
   const [locationChips, setLocationChips] = useState<any>([]);
-  const { location } = useDataStore();
+  const { location, radius} = useDataStore();
   const [isLoading, setIsLoading] = useState(true);
   const [popupInfo, setPopupInfo] = useState<any>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -21,7 +21,7 @@ const MapGL: React.FC = () => {
       const firestore = firebase.firestore();
       const GeoFirestore = geofirestore.initializeApp(firestore);
       const geocollection = GeoFirestore.collection('geo-clubs');
-      const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 100 });
+      const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: radius });
 
       let chipsArray: any[] = [];
       const snapshot = await query.get();
