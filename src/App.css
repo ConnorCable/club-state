@@ -233,8 +233,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    height: 39vh; 
     position: relative;
+    
   }
   
   .centered-row {
@@ -242,4 +243,17 @@
     top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .value-container {
+    display: flex;
+    align-items: center;
+    padding-top: 60px;
+    
+  }
+  
+  .value {
+    flex: 0 0 auto;
+    height: 50px;
+    
   }

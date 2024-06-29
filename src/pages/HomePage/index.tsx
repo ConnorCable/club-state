@@ -59,7 +59,7 @@ const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clubStats, setClubStats] = useState({});
   const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
-  const {location, setLocation, currentClubs, setCurrentClubs} = useDataStore();
+  const {location, setLocation, currentClubs, setCurrentClubs, radius} = useDataStore();
   const [clubCards, setClubCards] = useState([]);
   const [filteredClubs, setFilteredClubs] = useState<any>([]);
   const [genres, setGenres] = useState<string[]>([]);
@@ -162,7 +162,7 @@ const HomePage: React.FC = () => {
     const geocollection = GeoFirestore.collection('geo-clubs');
   
     // 1609 km roughly 1 mi
-    const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: 200 });
+    const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: radius });
   
     const value = await query.get();
     const clubCardPromises = value.docs.map(async (doc) => {
