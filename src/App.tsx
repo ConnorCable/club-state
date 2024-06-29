@@ -20,6 +20,12 @@ import {
   setupIonicReact,
   IonProgressBar,
   IonLoading,
+  IonSelect,
+  IonList,
+  IonSelectOption,
+  IonItem,
+  IonChip,
+  IonRange,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, homeOutline, mapOutline, personOutline, square, triangle } from 'ionicons/icons';
@@ -60,10 +66,9 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const [geolocationFetched, setGeolocationFetched] = useState(false);
-  const { location, setLocation } = useDataStore();
+  const { location, setLocation, radius, setRadius } = useDataStore();
   const [showProgressBar, setShowProgressBar] = useState(false);
 
-  
 
   firebase.initializeApp({
 
@@ -83,16 +88,6 @@ const App: React.FC = () => {
 
   const firestore = firebase.firestore();
 
-  firestore.collection("geo-clubs").onSnapshot((snapshot) => {
-    const newClubs: { id: string; }[] = [];
-    snapshot.forEach((doc) => {
-      newClubs.push({
-        id: doc.id,
-        ...doc.data()
-      });
-    });
-  });
-  
   const fetchGeolocation = async () => {
     try {
       // HOME ACCESS GEOFENCE
@@ -154,15 +149,44 @@ const App: React.FC = () => {
                       <IonCol></IonCol>
                       <IonCol></IonCol>
                       <IonCol size="large" className="ion-padding-left">
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '40vh' }}>
                           <img src={logo} style={{width:  500, height: 500}}></img>
                           <IonProgressBar type="indeterminate"/>
                         </div>
                       </IonCol>
-                      
                       <IonCol></IonCol>
                     </IonRow>
                   </div>
+                  <IonRow>
+                    <IonCol></IonCol>
+                    <IonCol className="value-container">
+                      <div className="value">
+                        {radius > 50 ? 
+                        radius > 150 ?
+                        <IonTitle color="secondary"><em><h1>{radius} miles</h1></em></IonTitle> :
+                        <div style={{height: 50}}><IonTitle color="secondary"><em><h3>{radius} miles</h3></em></IonTitle></div> :
+                        <div style={{height: 110}}><IonTitle color="secondary"><em><h5>{radius} miles</h5></em></IonTitle></div>
+                        }
+                      </div>
+                      
+                    </IonCol>
+                    <IonCol></IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem color="dark">
+                      <IonRange
+                        label-placement="end"
+                        max={200}
+                        label='radius'
+                        color="secondary"
+                        onIonInput={(e) => setRadius(e.detail.value as number)}
+                        value={radius}
+                        debounce={0}
+                      />
+                      </IonItem>
+                    </IonCol>
+                  </IonRow>
                   <IonRow>
                     <IonCol></IonCol>
                     <IonCol>
