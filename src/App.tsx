@@ -150,7 +150,7 @@ const App: React.FC = () => {
                       <IonCol></IonCol>
                       <IonCol size="large" className="ion-padding-left">
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '40vh' }}>
-                          <img src={logo} style={{width:  500, height: 500}}></img>
+                          <img src={logo} style={{width:  100, height: 100}}></img>
                           <IonProgressBar type="indeterminate"/>
                         </div>
                       </IonCol>
@@ -163,7 +163,9 @@ const App: React.FC = () => {
                       <div className="value">
                         {radius > 50 ? 
                         radius > 150 ?
-                        <IonTitle color="secondary"><em><h1>{radius} miles</h1></em></IonTitle> :
+                        <div>
+                          <IonTitle color="secondary"><em><h1>{radius} miles</h1></em></IonTitle>
+                        </div> :
                         <div style={{height: 50}}><IonTitle color="secondary"><em><h3>{radius} miles</h3></em></IonTitle></div> :
                         <div style={{height: 110}}><IonTitle color="secondary"><em><h5>{radius} miles</h5></em></IonTitle></div>
                         }
@@ -174,9 +176,10 @@ const App: React.FC = () => {
                   </IonRow>
                   <IonRow>
                     <IonCol>
-                      <IonItem color="dark">
+                      <IonItem color="light">
                       <IonRange
                         label-placement="end"
+                        min={5}
                         max={200}
                         label='radius'
                         color="secondary"
@@ -185,6 +188,7 @@ const App: React.FC = () => {
                         debounce={0}
                       />
                       </IonItem>
+                      
                     </IonCol>
                   </IonRow>
                   <IonRow>
