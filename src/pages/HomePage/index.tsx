@@ -189,8 +189,8 @@ const HomePage: React.FC = () => {
           {genres.map((genre: any) => {
             return(
             <SwiperSlide key={genre.index}>
-            <IonCard className="genreCard" color={genre.index === activeButton ? "tertiary" : "dark"} onClick={() => filterClubs(genre)}>
-              <IonCardTitle className="genreTitle">{genre.genre}</IonCardTitle>
+            <IonCard className="genreCard" color={genre.index === activeButton ? "dark" : "tertiary"} onClick={() => filterClubs(genre)}>
+              <IonCardTitle className="genreTitle ">{genre.genre.length > 5 ? <sup><h3>{genre.genre}</h3></sup>: <sup><sup><h1>{genre.genre}</h1></sup></sup>}</IonCardTitle>
             </IonCard>
           </SwiperSlide>)
         })}
