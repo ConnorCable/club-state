@@ -1,9 +1,20 @@
+:root {
+  --swiper-background-color: #ffffff; /* Default background color for light mode */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --swiper-background-color: #000000; /* Background color for dark mode */
+  }
+}
+
 .genreCard {
     width: 100%;
     height: 50px;
     text-align: center;
     align-items: center;
     margin: 7px;
+    
 }
 
 
@@ -16,11 +27,13 @@
     padding-right: 10px;
     padding-top: 1vh;
     align-items: center;
+    background-color: var(--swiper-background-color);
+    
 }
 
 @media screen and (max-height: 700px) {
   .genreCard{
-    height: 63px;
+    height: 58px;
   }
   .genreSwiper {
     padding-top: 1vh;
