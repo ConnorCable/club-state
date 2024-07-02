@@ -93,7 +93,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
               </IonCol>
             </IonRow>
             <IonRow>
-              <IonButton size="small" onClick={click}>
+              <IonButton size="small" onClick={click} color="light">
                   <IonIcon aria-hidden="true" icon={playCircleOutline} />
               </IonButton>
               <IonCol>

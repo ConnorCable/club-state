@@ -24,7 +24,7 @@ export const useDataStore = create<StoreState>()((set) => ({
     isLocationLoading: false,
     isRecordingLoading: false,
     activeClub: null,
-    radius: 0,
+    radius: 5,
     setIsLocationLoading: (isLocationLoading: boolean) => set({ isLocationLoading }),
     setIsRecordingLoading: (isRecordingLoading: boolean) => set({ isRecordingLoading }),
     setCurrentClubs: (currentClubs: any) => set({currentClubs}),

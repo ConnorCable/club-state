@@ -31,6 +31,7 @@ import {
 } from "@ionic/react";
 import "swiper/css";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 import "./index.css";
 import { ClubCard } from "../../components/ClubCard";
 import { useState } from "react";
@@ -65,11 +66,9 @@ const HomePage: React.FC = () => {
   const [genres, setGenres] = useState<string[]>([]);
   const [activeClub, setActiveClub] = useState<string | undefined>();
   const [filterSetting , setFilterSetting] = useState<string>("")
-  const [activeButton , setActiveButton] = useState<number>()
+  const [activeButton , setActiveButton] = useState<number | null>(null)
   
   
-
-
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
     setTimeout(() => {
       // Any calls to load data go here
@@ -81,6 +80,8 @@ const HomePage: React.FC = () => {
     setIsOpen(false)
   }
 
+  // TODO: Use a dictionary instead of a list of dictionaries
+  
   const filterClubs = (genre : any) => {
     const filtered = currentClubs?.filter((club: any) => club.recentCapture.genre === genre.genre)
     setFilteredClubs(filtered)
@@ -178,30 +179,25 @@ const HomePage: React.FC = () => {
   
     const clubCardArray = await Promise.all(clubCardPromises);
     return clubCardArray
-
-    // for each card get its genre and append it to a state of genres (array)
-    // dynamically spawn a genre card for each genre in the genres array
-    // give it a random color from a collection of colors
-    // once a genre is clicked, filter the cards based on the genre
-    // this will happen by filtering the club cards from the clubCardArray state 
-    // We will need to create a new state for the filtered clubs
   };
   
   return (
     <IonPage>
       <IonHeader>
         {/* CLUB CARD GENRE FILTERS */}
-        <Swiper className="genreSwiper " spaceBetween={7} slidesPerView={4} loop={true} >
+        
+        <Swiper className="genreSwiper "spaceBetween={7} slidesPerView={4} loop={true} autoplay={{delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: false}} modules={[Autoplay]}>
           {genres.map((genre: any) => {
             return(
             <SwiperSlide key={genre.index}>
-            <IonCard className="genreCard" color={genre.index === activeButton ? "success" : "dark"} onClick={() => filterClubs(genre)}>
-              <IonCardTitle className="genreTitle">{genre.genre}</IonCardTitle>
+            <IonCard className="genreCard" color={genre.index === activeButton ? "dark" : "light"} onClick={() => filterClubs(genre)}>
+              <IonCardTitle className="genreTitle ">{genre.genre.length > 5 ? <sup><h3>{genre.genre}</h3></sup>: <sup><sup><h1>{genre.genre}</h1></sup></sup>}</IonCardTitle>
             </IonCard>
           </SwiperSlide>)
-})}
           
+        })}
         </Swiper>
+        
         
         {/* CLUB CARD SOCIAL FILTERS */}
         <div className="filterButtons">

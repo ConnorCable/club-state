@@ -69,7 +69,7 @@ const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
             </div>
           </IonCol>
           <IonCol size="auto" className="genre-col">
-            <IonBadge color="tertiary" className="genre-badge">{TruncateText(item.data().genre, 8)}</IonBadge>
+            <IonBadge color="dark" className="genre-badge">{TruncateText(item.data().genre, 8)}</IonBadge>
           </IonCol>
         </IonRow>
         <IonRow>
