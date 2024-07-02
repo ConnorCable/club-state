@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
   const [genres, setGenres] = useState<string[]>([]);
   const [activeClub, setActiveClub] = useState<string | undefined>();
   const [filterSetting , setFilterSetting] = useState<string>("")
-  const [activeButton , setActiveButton] = useState<number>()
+  const [activeButton , setActiveButton] = useState<number | null>(null)
   
   
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
@@ -80,9 +80,9 @@ const HomePage: React.FC = () => {
     setIsOpen(false)
   }
 
+  // TODO: Use a dictionary instead of a list of dictionaries
+  
   const filterClubs = (genre : any) => {
-    console.log(`GENRE: ${genre.genre}`)
-    console.log(activeButton);
     const filtered = currentClubs?.filter((club: any) => club.recentCapture.genre === genre.genre)
     setFilteredClubs(filtered)
     setActiveButton(genre.index)
@@ -185,17 +185,19 @@ const HomePage: React.FC = () => {
     <IonPage>
       <IonHeader>
         {/* CLUB CARD GENRE FILTERS */}
-        <Swiper className="genreSwiper " spaceBetween={7} slidesPerView={4} loop={true} autoplay={{delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: false}} modules={[Autoplay]}>
+        
+        <Swiper className="genreSwiper "spaceBetween={7} slidesPerView={4} loop={true} autoplay={{delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: false}} modules={[Autoplay]}>
           {genres.map((genre: any) => {
             return(
             <SwiperSlide key={genre.index}>
-            <IonCard className="genreCard" color={genre.index === activeButton ? "dark" : "tertiary"} onClick={() => filterClubs(genre)}>
+            <IonCard className="genreCard" color={genre.index === activeButton ? "dark" : "light"} onClick={() => filterClubs(genre)}>
               <IonCardTitle className="genreTitle ">{genre.genre.length > 5 ? <sup><h3>{genre.genre}</h3></sup>: <sup><sup><h1>{genre.genre}</h1></sup></sup>}</IonCardTitle>
             </IonCard>
           </SwiperSlide>)
-        })}
           
+        })}
         </Swiper>
+        
         
         {/* CLUB CARD SOCIAL FILTERS */}
         <div className="filterButtons">
