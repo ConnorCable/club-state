@@ -320,7 +320,7 @@ const handleLocationClick = async () => {
         
       </IonContent>
       <IonFooter>
-        <IonGrid>
+        <IonGrid className="ion-padding-bottom">
           <IonRow>
             <IonCol></IonCol>
             <IonCol>

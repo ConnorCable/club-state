@@ -1,12 +1,16 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 .app-container {
-    max-width: 800px; /* Set your desired maximum width */
-    margin: 0 auto; /* Center the container horizontally */
-  }
-  
-
+  max-width: 800px;
+  max-height: 100vh; /* Set the maximum height to 100% of the viewport height */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* Arrange elements vertically */
+  justify-content: space-between; /* Distribute space evenly between elements */
+  padding: 20px; /* Add some padding to the container */
+}
   :root {
     --glow-color: hsl(186 100% 69%);
+
   }
   
   *,
@@ -246,28 +250,65 @@
   }
 
   .value-container {
-    display:flexbox;
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 130px;
+    padding-top: 50px; /* Adjust the padding-top value */
   }
   
   .value {
     flex: 0 0 auto;
-    min-height: 10vh;
+    min-height: 1vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 10px;
+  }
+  
+  @media (min-height: 600px) {
+    .value-container {
+      padding-top: px; /* Adjust the padding-top value for taller screens */
+    }
+  }
+  
+  @media (min-height: 800px) {
+    .value-container {
+      padding-top: 100px; /* Adjust the padding-top value for even taller screens */
+    }
   }
   
   .range-selector {
-    padding-top: 185px;
-    padding-bottom: 40px;
+    padding-top: 28rem; /* Default padding-top value */
+    padding-bottom: 20px;
+  }
+  
+  @media (max-height: 800px) {
+    .range-selector {
+      padding-top: 24rem; /* Adjust the padding-top value for screens with max-height of 800px */
+    }
+  }
+  
+  @media (max-height: 745px) {
+    .range-selector {
+      padding-top: 19rem; /* Adjust the padding-top value for screens with max-height of 600px */
+    }
+  }
+  
+  @media (max-height: 640px) {
+    .range-selector {
+      padding-top: 0rem;
+    }
+  }
+
+  @media (max-height: 200px) {
+    .range-selector {
+      padding-top: 1rem; /* Adjust the padding-top value for screens with max-height of 400px */
+    }
   }
   
   .button-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 60px;
+    padding-bottom: 20px; /* Add padding at the bottom for the button */
   }
