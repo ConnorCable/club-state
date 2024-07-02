@@ -248,12 +248,27 @@
   .value-container {
     display: flex;
     align-items: center;
-    padding-top: 60px;
-    
+    justify-content: center;
+    padding-top: 130px;
+    padding-bottom: 20px;
   }
   
   .value {
     flex: 0 0 auto;
-    height: 50px;
-    
+    min-height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .range-selector {
+    padding-top: 195px;
+    padding-bottom: 40px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
   }
