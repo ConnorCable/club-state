@@ -143,63 +143,44 @@ const App: React.FC = () => {
           </IonTabs>
         ) : (
           <div>
-                <IonGrid>
-                  <div className="container">
-                    <IonRow>
-                      <IonCol></IonCol>
-                      <IonCol></IonCol>
-                      <IonCol size="large" className="ion-padding-left">
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '40vh' }}>
-                          <img src={logo} style={{width:  100, height: 100}}></img>
-                          <IonProgressBar type="indeterminate"/>
-                        </div>
-                      </IonCol>
-                      <IonCol></IonCol>
-                    </IonRow>
+            <IonGrid>
+              <IonRow>
+                <IonCol></IonCol>
+                <IonCol className="value-container">
+                  <div className="value">
+                    <div><IonTitle color="secondary"><em><h1 style={{ fontSize: '2.7rem' }}>{radius} miles</h1></em></IonTitle></div>
                   </div>
-                  <IonRow>
-                    <IonCol></IonCol>
-                    <IonCol className="value-container">
-                      <div className="value">
-                        {radius > 50 ? 
-                        radius > 150 ?
-                        <div>
-                          <IonTitle color="secondary"><em><h1>{radius} miles</h1></em></IonTitle>
-                        </div> :
-                        <div style={{height: 50}}><IonTitle color="secondary"><em><h3>{radius} miles</h3></em></IonTitle></div> :
-                        <div style={{height: 110}}><IonTitle color="secondary"><em><h5>{radius} miles</h5></em></IonTitle></div>
-                        }
-                      </div>
-                      
-                    </IonCol>
-                    <IonCol></IonCol>
-                  </IonRow>
-                  <IonRow>
-                    <IonCol>
-                      <IonItem color="light">
-                      <IonRange
-                        label-placement="end"
-                        min={5}
-                        max={200}
-                        label='radius'
-                        color="secondary"
-                        onIonInput={(e) => setRadius(e.detail.value as number)}
-                        value={radius}
-                        debounce={0}
-                      />
-                      </IonItem>
-                      
-                    </IonCol>
-                  </IonRow>
-                  <IonRow>
-                    <IonCol></IonCol>
-                    <IonCol>
-                    <button className='glowing-btn' onClick={fetchGeolocation}><span className='glowing-txt'>E<span className='faulty-letter'>N</span>TER</span></button>
-                      {showProgressBar && <IonProgressBar type="indeterminate" />}
-                    </IonCol>
-                    <IonCol></IonCol>
-                  </IonRow>
-                </IonGrid>            
+                </IonCol>
+                <IonCol></IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol>
+                  <IonItem color="light" className="range-selector">
+                    <IonRange
+                      label-placement="end"
+                      min={5}
+                      max={200}
+                      defaultValue={5}
+                      label="radius"
+                      color="secondary"
+                      onIonInput={(e) => setRadius(e.detail.value as number)}
+                      value={radius}
+                      debounce={0}
+                    />
+                  </IonItem>
+                </IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol></IonCol>
+                <IonCol className="button-container">
+                  <button className="glowing-btn" onClick={fetchGeolocation}>
+                    <span className="glowing-txt">E<span className="faulty-letter">N</span>TER</span>
+                  </button>
+                  {showProgressBar && <IonProgressBar type="indeterminate" />}
+                </IonCol>
+                <IonCol></IonCol>
+              </IonRow>
+            </IonGrid>
           </div>
         )}
       </IonReactRouter>
