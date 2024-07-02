@@ -246,11 +246,10 @@
   }
 
   .value-container {
-    display: flex;
+    display:flexbox;
     align-items: center;
     justify-content: center;
     padding-top: 130px;
-    padding-bottom: 20px;
   }
   
   .value {
@@ -262,7 +261,7 @@
   }
   
   .range-selector {
-    padding-top: 195px;
+    padding-top: 185px;
     padding-bottom: 40px;
   }
   
