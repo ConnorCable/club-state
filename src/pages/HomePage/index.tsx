@@ -105,6 +105,7 @@ const HomePage: React.FC = () => {
 
   const removeFilter = () => {
     setFilteredClubs(currentClubs)
+    setActiveButton(null)
   }
 
   const filterSettings = (setting : string) => {
@@ -205,7 +206,7 @@ const HomePage: React.FC = () => {
           <IonChip className="ion-text-center ion-text-capitalize "outline={true} onClick={() => filterSettings("fullness")}>Fullness</IonChip>
           <IonChip className="ion-text-center ion-text-capitalize " outline={true} onClick={() => filterSettings("hostility")}>Hostility</IonChip>
           <IonChip className="ion-text-center ion-text-capitalize " outline={true} onClick={() => filterSettings("distance")}>Distance</IonChip>
-          <IonChip  color= "danger" className="ion-text-center ion-text-capitalize " outline={true} onClick={() => removeFilter}>X</IonChip>
+          <IonChip  color= "danger" className="ion-text-center ion-text-capitalize " outline={true} onClick={removeFilter}>X</IonChip>
         </div>
       </IonHeader>
       <IonContent fullscreen> 
