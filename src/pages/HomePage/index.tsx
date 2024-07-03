@@ -55,6 +55,7 @@ import { ClubProps } from "../../models/ClubProps";
 import {nanoid} from 'nanoid';
 import { getDistance } from "geolib";
 import { getRTLTextPluginStatus } from "mapbox-gl";
+import { filter } from "ionicons/icons";
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,6 +68,7 @@ const HomePage: React.FC = () => {
   const [activeClub, setActiveClub] = useState<string | undefined>();
   const [filterSetting , setFilterSetting] = useState<string>("")
   const [activeButton , setActiveButton] = useState<number | null>(null)
+  const [activeFilter , setActiveFilter] = useState<string>("")
   
   
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
@@ -106,22 +108,27 @@ const HomePage: React.FC = () => {
   const removeFilter = () => {
     setFilteredClubs(currentClubs)
     setActiveButton(null)
+    setActiveFilter("")
+    setFilterSetting("")
   }
 
-  const filterSettings = (setting : string) => {
-    setFilteredClubs(filteredClubs?.sort((a: any, b: any) => { 
+  const filterSettings = (setting: string) => {
+    let copy_filtered = [...filteredClubs].sort((a: any, b: any) => { 
       if (setting === "money") {
-        return a.recentCapture.price.length - b.recentCapture.price.length
+        return a.recentCapture.price - b.recentCapture.price;
       } else if (setting === "fullness") {
-        return a.recentCapture.ratio - b.recentCapture.ratio
+        return a.recentCapture.ratio - b.recentCapture.ratio;
       } else if (setting === "hostility") {
-        return a.recentCapture.cover - b.recentCapture.cover
+        return a.recentCapture.cover - b.recentCapture.cover;
       } else if (setting === "distance") {
-        return getDistance(location!.coords, a.coordinates) - getDistance(location!.coords, b.coordinates)
+        // Assuming getDistance is a synchronous function that returns a number
+        return getDistance(location!.coords, a.coordinates) - getDistance(location!.coords, b.coordinates);
       }
-      return 0; // Add a default return value of 0
-    }))
-  }
+      return 0; // Default return value of 0
+    });
+    setFilteredClubs(copy_filtered); // This now sets a new array reference, triggering a re-render
+    setActiveFilter(setting) // Logging the new sorted array
+}
 
   const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
   
@@ -202,10 +209,10 @@ const HomePage: React.FC = () => {
         
         {/* CLUB CARD SOCIAL FILTERS */}
         <div className="filterButtons">
-          <IonChip className="ion-text-center ion-text-capitalize " outline={true} onClick={() => filterSettings("money")}>$$$</IonChip>
-          <IonChip className="ion-text-center ion-text-capitalize "outline={true} onClick={() => filterSettings("fullness")}>Fullness</IonChip>
-          <IonChip className="ion-text-center ion-text-capitalize " outline={true} onClick={() => filterSettings("hostility")}>Hostility</IonChip>
-          <IonChip className="ion-text-center ion-text-capitalize " outline={true} onClick={() => filterSettings("distance")}>Distance</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true} color={activeFilter == "money" ? "success" :"dark"} onClick={() => filterSettings("money")}>$$$</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize "outline={true} color={activeFilter == "fullness" ? "success" :"dark"} onClick={() => filterSettings("fullness")}>Fullness</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true} color={activeFilter == "hostility" ? "success" :"dark"} onClick={() => filterSettings("hostility")}>Hostility</IonChip>
+          <IonChip className="ion-text-center ion-text-capitalize " outline={true} color={activeFilter == "distance" ? "success" :"dark"} onClick={() => filterSettings("distance")}>Distance</IonChip>
           <IonChip  color= "danger" className="ion-text-center ion-text-capitalize " outline={true} onClick={removeFilter}>X</IonChip>
         </div>
       </IonHeader>
