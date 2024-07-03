@@ -87,3 +87,7 @@ ion-accordion.accordion-expanded ion-item[slot='header'] {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
 }
+
+.no-shadow {
+  box-shadow: none;
+}

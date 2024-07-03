@@ -14,12 +14,12 @@ export const ClubStateCard: React.FC<{data: any}> = ({ data }) => {
             <IonCard className="ion-text-center ion-padding" color={"light"}>
               <IonGrid>
                 <IonChip>Line: {data.line ? "Yes" : "No"}</IonChip>
-                <IonChip>Price: {data.price}</IonChip>
+                <IonChip>Price: {data.price > 3 ? "$$$" : data.price == 2 ? "$$" : "$"}</IonChip>
                 <IonChip>Cover: {data.cover ? "Yes" : "No"}</IonChip>
               </IonGrid>
             </IonCard>
           </SwiperSlide>
-          <SwiperSlide>
+          {/* <SwiperSlide>
             <IonCard>
               <IonGrid>
                 <IonRow>
@@ -34,7 +34,7 @@ export const ClubStateCard: React.FC<{data: any}> = ({ data }) => {
                 </IonRow>                
               </IonGrid>
             </IonCard>
-          </SwiperSlide>
+          </SwiperSlide> */}
         </Swiper>
       </div>
         

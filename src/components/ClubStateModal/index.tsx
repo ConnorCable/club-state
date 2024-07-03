@@ -51,7 +51,7 @@ import { ShazamResponse } from "../../models/ShazamResponse";
 import { ShazamModal } from "../ShazamModal";
 import { TruncateText } from "../../helpers/TextTruncation";
 import { CalculateTimeDifference } from "../../helpers/TimeSinceCaptured";
-
+import './index.css';
 
 const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
   <IonAccordion value={item.id}>
@@ -305,7 +305,7 @@ const handleLocationClick = async () => {
        <IonHeader>
           <IonToolbar color="light">
             <IonButton className="ion-padding-start" color={"transparent"} onClick={() => setIsOpen(false)}>
-              <IonIcon icon={arrowBack} />
+              <IonIcon icon={arrowBack}  className="no-shadow"/>
             </IonButton>
           </IonToolbar>
         </IonHeader>     
