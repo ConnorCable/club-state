@@ -93,12 +93,12 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
               </IonCol>
             </IonRow>
             <IonRow>
-              <IonButton size="small" onClick={click} color="light">
-                  <IonIcon aria-hidden="true" icon={playCircleOutline} />
+              <IonButton size="small" color="primary" href={`https://www.google.com/search?q=${recentState.song}+${recentState.artist}`}>
+                  <IonIcon aria-hidden="true" icon={playCircleOutline}/>
               </IonButton>
               <IonCol>
                 <IonText class="ion-text-small">
-                  <h3>Recently Played: {recentState.song} by {recentState.artist}</h3>
+                  <h3><strong> Recently Played: </strong> {recentState.song} by {recentState.artist}</h3>
                   </IonText>
               </IonCol>
             </IonRow>
