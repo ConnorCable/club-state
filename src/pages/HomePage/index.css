@@ -18,9 +18,7 @@
     
 }
 
-.swiperContainer, .genreSwiper {
-  overflow-y: hidden; /* Prevent vertical scrolling */
-}
+
 
 
 .genreTitle {
