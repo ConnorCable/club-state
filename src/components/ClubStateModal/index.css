@@ -97,3 +97,35 @@ ion-accordion.accordion-expanded ion-item[slot='header'] {
   align-items: center;
   justify-content: space-between;
 }
+
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counter-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.play-button:hover {
+  animation: spin 2s linear infinite;
+  border-radius: 50%;
+}
+
+.play-button:hover ion-icon {
+  animation: counter-spin 2s linear infinite;
+}
+
+.play-button {
+  border-radius: 70%;
+}

@@ -14,6 +14,7 @@ export const ClubStateCard: React.FC<{ data: any }> = ({ data }) => {
           Price: {data.price > 3 ? "$$$" : data.price == 2 ? "$$" : "$"}
         </IonChip>
         <IonChip>Cover: {data.cover ? "Yes" : "No"}</IonChip>
+        
       </IonGrid>
     </IonCard>
   );

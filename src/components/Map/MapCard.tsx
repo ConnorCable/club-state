@@ -7,7 +7,7 @@ interface MapCardProps {
   genre: String
 }
 
-const MapCard: React.FC<MapCardProps> = ({ name, address }) => {
+const MapCard: React.FC<MapCardProps> = ({ name, address}) => {
   // Implement the MapCard component logic here
 
   return (

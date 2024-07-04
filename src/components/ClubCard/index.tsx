@@ -46,8 +46,8 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
           </IonRow>
           <IonRow>
               <IonCol> <IonCardSubtitle className="club-subtitle">
-              <span>{ClubProps.Address} | </span>
-              <span>| {location != null ? `${convertDistance(getDistance(
+              <a href={`https://www.google.com/search?q=${ClubProps.Address}`} style={{textDecoration: "none" , }}><span >{ClubProps.Address} |</span></a>
+              <span> | {location != null ? `${convertDistance(getDistance(
                 {latitude: location.coords.latitude, longitude: location.coords.longitude},
                 {latitude: ClubProps.Coordinates.latitude, longitude: ClubProps.Coordinates.longitude}
               ), 'mi').toFixed(3)} mi` : "N/A"}</span>
@@ -93,12 +93,12 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
               </IonCol>
             </IonRow>
             <IonRow>
-              <IonButton size="small" color="primary" href={`https://www.google.com/search?q=${recentState.song}+${recentState.artist}`}>
-                  <IonIcon aria-hidden="true" icon={playCircleOutline}/>
+              <IonButton color="light" href={`https://www.google.com/search?q=${recentState.song}+${recentState.artist}`} className="play-button">
+                  <IonIcon aria-hidden="true" icon={playCircleOutline} />
               </IonButton>
               <IonCol>
                 <IonText class="ion-text-small">
-                  <h3><strong> Recently Played: </strong> {recentState.song} by {recentState.artist}</h3>
+                  <h3><strong> Recently Played: </strong> {recentState.song} - {recentState.artist}</h3>
                   </IonText>
               </IonCol>
             </IonRow>

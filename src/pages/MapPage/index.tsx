@@ -1,9 +1,10 @@
-import { IonContent, IonHeader, IonPage, IonToolbar, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar, useIonViewWillEnter } from "@ionic/react";
 import { Geolocation } from '@capacitor/geolocation';
 import "./index.css";
 import MapGL from "../../components/Map/index";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useDataStore } from "../../models/DataStore";
+import { earOutline } from "ionicons/icons";
 
 const Tab2: React.FC = () => {
   const { location, setLocation } = useDataStore();
@@ -20,6 +21,7 @@ const Tab2: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonTitle>Clubs Near You</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen={true}>
