@@ -91,3 +91,9 @@ ion-accordion.accordion-expanded ion-item[slot='header'] {
 .no-shadow {
   box-shadow: none;
 }
+
+.horizontal-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

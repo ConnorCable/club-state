@@ -98,7 +98,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
               </IonButton>
               <IonCol>
                 <IonText class="ion-text-small">
-                  <h3>Recently Played: Circles (Oppidan Remix)</h3>
+                  <h3>Recently Played: {recentState.song} by {recentState.artist}</h3>
                   </IonText>
               </IonCol>
             </IonRow>

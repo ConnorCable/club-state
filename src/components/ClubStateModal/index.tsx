@@ -238,7 +238,7 @@ const handleLocationClick = async () => {
 
   // Handle Geoverification
   const position = await Geolocation.getCurrentPosition();
-  console.log(position);
+
   const firestore = firebase.firestore();
 
   // Create a GeoFirestore reference
@@ -302,13 +302,13 @@ const handleLocationClick = async () => {
           ]}
         />
       )}
-       <IonHeader>
-          <IonToolbar color="light">
-            <IonButton className="ion-padding-start" color={"transparent"} onClick={() => setIsOpen(false)}>
-              <IonIcon icon={arrowBack}  className="no-shadow"/>
+       <IonHeader >
+          <IonToolbar color="light"  >
+            <IonButton className="ion-padding-start " color={"transparent"} onClick={() => setIsOpen(false)}>
+              <IonIcon icon={arrowBack}/>
             </IonButton>
           </IonToolbar>
-        </IonHeader>     
+        </IonHeader>
       <IonContent> 
         <div style={{ maxHeight: screenHeight * 1.6, overflowY: 'scroll' }}>
           <IonAccordionGroup expand="inset">

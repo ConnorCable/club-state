@@ -145,8 +145,11 @@ const App: React.FC = () => {
           <div>
             <IonGrid>
               <IonRow>
+                
                 <IonCol className="value-container" size="12">
+                  <IonTitle className='clubsWithin'>Clubs Within</IonTitle>
                   <div className="value">
+                    
                     <div><IonTitle color="secondary"><em><h1 style={{ fontSize: '2.7em' }}>{radius} miles</h1></em></IonTitle></div>
                   </div>
                 </IonCol>
@@ -154,7 +157,7 @@ const App: React.FC = () => {
               </IonRow>
               <IonRow>
                 <IonCol>
-                  <IonItem color="light" className="range-selector">
+                  <IonItem className="range-selector">
                     <IonRange
                       label-placement="end"
                       min={5}
