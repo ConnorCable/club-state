@@ -6,7 +6,7 @@
 
 
 .mapPinSubtitle {
-    padding: 20px;
+    padding-top: 10px;
     color: black;
 }
 
@@ -16,4 +16,6 @@
     cursor: pointer;
 }
 
-
+.mapPinPopup {
+    text-align: center;
+}
