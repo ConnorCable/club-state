@@ -46,7 +46,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
           </IonRow>
           <IonRow>
               <IonCol> <IonCardSubtitle className="club-subtitle">
-              <a href={`https://www.google.com/search?q=${ClubProps.Address}`} style={{textDecoration: "none" , }}><span >{ClubProps.Address} |</span></a>
+              <span >{ClubProps.Address} |</span>
               <span> | {location != null ? `${convertDistance(getDistance(
                 {latitude: location.coords.latitude, longitude: location.coords.longitude},
                 {latitude: ClubProps.Coordinates.latitude, longitude: ClubProps.Coordinates.longitude}
