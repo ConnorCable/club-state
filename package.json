@@ -37,7 +37,7 @@
     "geolib": "^3.3.4",
     "google-map-react": "^2.2.1",
     "google-maps-react-markers": "^2.0.8",
-    "haversine-distance": "^1.2.1",
+    "haversine-distance": "^1.2.3",
     "ionicons": "^7.0.0",
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl": "^3.3.0",

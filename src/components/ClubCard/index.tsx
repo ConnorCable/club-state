@@ -31,12 +31,13 @@ const click = () => {
 }
 
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) => {
+
   const {location} = useDataStore();
   const recentState = ClubProps.RecentCapture;
+  const ratio = recentState.ratio == "1" ? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
 
-
-  const ratio = recentState.ratio == "1"? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
   return (
+    
     <>
     <IonCard>
       <IonCardHeader onClick={onClick} class="ion-no-padding">
