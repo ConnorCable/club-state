@@ -32,7 +32,7 @@ import {
   IonicSafeString,
   IonBadge,
 } from "@ionic/react";
-import { arrowBack, navigateCircleOutline, radioButtonOnOutline, recordingOutline } from "ionicons/icons";
+import { arrowBack, cropOutline, navigateCircleOutline, radioButtonOnOutline, recordingOutline } from "ionicons/icons";
 import "swiper/css";
 import "swiper/css/grid";
 import { SwiperSlide, Swiper } from "swiper/react";
@@ -52,6 +52,8 @@ import { ShazamModal } from "../ShazamModal";
 import { TruncateText } from "../../helpers/TextTruncation";
 import { CalculateTimeDifference } from "../../helpers/TimeSinceCaptured";
 import './index.css';
+import { ClubProps } from "../../models/ClubProps";
+import haversine from 'haversine-distance'
 
 const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
   <IonAccordion value={item.id}>
@@ -99,6 +101,8 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const [recordingStatus, setRecordingStatus] = useState("");
   const [recordedData, setRecordedData] = useState("");
   const [recordingCaptured, setRecordingCaptured] = useState(true);
+  const [isRecording, setIsRecording] = useState(true);
+  const [isLocationFailed, setIsLocationFailed] = useState(false);
   const [detectedSong, setDetectedSong] = useState<string | undefined>("")
 
   useEffect(() => {
@@ -112,6 +116,10 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
           setItems(sortedStates.map((doc) => doc));
         });
         return () => unsubscribe();
+      }
+      else
+      {
+        console.error("No Club Ref Found");
       }
     }
 
@@ -240,47 +248,46 @@ const handleLocationClick = async () => {
   const position = await Geolocation.getCurrentPosition();
 
   const firestore = firebase.firestore();
+ 
+  const docRef = firestore.collection("geo-clubs").doc(activeClub);
 
-  // Create a GeoFirestore reference
-  const GeoFirestore = geofirestore.initializeApp(firestore);
+  const doc = await docRef.get();
 
-  // Create a GeoCollection reference
-  const geocollection = GeoFirestore.collection('geo-clubs');
-
-  // 1609 km roughly 1 mi (Currently testing 0.02km ~ 0.01 miles)
-  const query = geocollection.near({ center: new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude), radius: 0.86});
-
-  query.get().then((value) => {
-    const valueCount = value.docs.length;
-    // All GeoDocument returned by GeoQuery, like the GeoDocument added above
-    try
+  if(doc.exists)
+  {
+    
+    const { coordinates } = doc.data()!;
+    
+    if(coordinates && '_lat' in coordinates && '_long' in coordinates)
     {
-      var nearestClubs = value.docs.filter((element) => {
-        return element.distance <= 0.05;
-      });
-      if(nearestClubs.length > 0)
+      const clubCords = { latitude: coordinates['_lat'], longitude: coordinates['_long']};
+      const userCords = { latitude: position.coords.latitude, longitude: position.coords.longitude};
+
+      const haversineDistance = haversine(userCords, clubCords);
+
+      console.log(haversineDistance);
+
+      if(haversineDistance < 50)
       {
-        nearestClubs.sort((a, b) => a.distance - b.distance);
-        console.log(nearestClubs[0].distance);
+        setCaptureEligibility(true);
+        setIsLocationLoading(false);
+      }
+      else
+      {
+        setIsLocationLoading(false);
+        setCaptureEligibility(false);
+        setIsLocationFailed(true);
       }
       
-      (nearestClubs[0].distance) < 0.1 ? setCaptureEligibility(true)
-    : console.log(false);
-
-    }catch(e)
-    {
-      setCaptureEligibility(false);
-      setIsLocationLoading(false);
     }
+    
+  }
 
-  });
-
-  setLocation(position);
-  setIsLocationLoading(false);
 }
 
   return (
     <IonModal isOpen={isOpen} backdropDismiss={false} className="modal">
+      <IonAlert isOpen={isLocationFailed} header="Unable to record" message="Your location is too far from club" buttons={['Dismiss']} onDidDismiss={() => setIsLocationFailed(false)}></IonAlert>
       {isShazamCaptured && shazamResponse && (
         <ShazamModal
           isOpen={true}
@@ -304,7 +311,7 @@ const handleLocationClick = async () => {
       )}
        <IonHeader >
           <IonToolbar color="light"  >
-            <IonButton className="ion-padding-start " color={"transparent"} onClick={() => setIsOpen(false)}>
+            <IonButton className="ion-padding-start " color={"transparent"} onClick={() => {setIsOpen(false); setCaptureEligibility(false)}}>
               <IonIcon icon={arrowBack}/>
             </IonButton>
           </IonToolbar>
