@@ -21,7 +21,7 @@ const Tab2: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Clubs Near You</IonTitle>
+          <IonTitle><sup>Clubs Nearby</sup></IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen={true}>
