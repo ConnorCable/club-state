@@ -17,6 +17,7 @@ import {
 import { closeOutline } from "ionicons/icons";
 import { ShazamResponse } from "../../models/ShazamResponse";
 import "./index.css";
+import { useDataStore } from "../../models/DataStore";
 
 interface ShazamModalProps {
   isOpen: boolean;
@@ -29,9 +30,28 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
   onClose,
   shazamResponse,
 }) => {
+
+  const { isShazamCorrect, isShazamCaptured, isCompletingForm, setIsShazamCorrect, setIsShazamCaptured, setIsCompletingForm} = useDataStore();
+  
+
+  const cancelShazam = () => {
+    setIsShazamCaptured(false);
+    setIsShazamCorrect(false);
+    onClose();
+  }
+
+  const acceptShazam = () => {
+    console.log(isShazamCorrect);
+    setIsShazamCorrect(true);
+    setIsCompletingForm(true);
+    onClose();
+    
+  }
+  
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onClose} className="custom-modal" backdropDismiss={false}>
       <div className="wrapper">
+      <div className="lava-lamp-background"></div>
         <IonHeader>
           <IonToolbar>
             <IonTitle>Track ID</IonTitle>
@@ -48,7 +68,7 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
             <IonRow><IonLabel>Song: {shazamResponse.title}</IonLabel></IonRow>
             <IonRow><IonLabel>Genre: {shazamResponse.genre}</IonLabel></IonRow>
             <IonCol></IonCol>
-            <IonRow><IonCol></IonCol><IonButton>Continue</IonButton> <IonButton>Cancel</IonButton><IonCol></IonCol></IonRow>
+            <IonRow className="ion-padding-bottom"><IonCol></IonCol><IonButton color="success" onClick={acceptShazam}>Continue</IonButton> <IonButton color="danger" onClick={cancelShazam}>Cancel</IonButton><IonCol></IonCol></IonRow>
           </IonGrid>
       </div>
     </IonModal>

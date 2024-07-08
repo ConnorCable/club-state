@@ -216,7 +216,7 @@ const HomePage: React.FC = () => {
           <IonChip  color= "danger" className="ion-text-center ion-text-capitalize " outline={true} onClick={removeFilter}>X</IonChip>
         </div>
       </IonHeader>
-      <IonContent fullscreen> 
+      <IonContent fullscreen={false}> 
 
         {/* CLUB CARD SWIPABLE*/}
         <div className="swiperContainer">

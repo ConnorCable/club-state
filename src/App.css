@@ -252,20 +252,24 @@
     transform: translate(-50%, -50%);
   }
 
-  .value-container {
-    width: 100%;
-    display:flexbox;
-    align-items: center;
-    justify-content: center;
-    padding-top: 130px;
-  }
-  
+ .value-container {
+  width: 100%;
+  display: flexbox;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0px;
+  padding-bottom: 20px;
+}
   .value {
     flex: 0 0 auto;
     min-height: 10vh;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .value h1 {
+    font-size: 2.7em;
   }
   
   .range-selector {
