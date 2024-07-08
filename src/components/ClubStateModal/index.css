@@ -129,3 +129,12 @@ ion-accordion.accordion-expanded ion-item[slot='header'] {
 .play-button {
   border-radius: 70%;
 }
+
+ion-range.range-disabled {
+  color: white !important;
+  opacity: 1 !important;
+  --knob-background: var(--ion-color-primary);
+  --knob-size: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}

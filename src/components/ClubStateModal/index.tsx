@@ -31,8 +31,9 @@ import {
   IonAlert,
   IonicSafeString,
   IonBadge,
+  IonRange,
 } from "@ionic/react";
-import { arrowBack, cropOutline, navigateCircleOutline, radioButtonOnOutline, recordingOutline } from "ionicons/icons";
+import { arrowBack, cropOutline, femaleSharp, maleSharp, navigateCircleOutline, personAdd, personRemoveOutline, radioButtonOnOutline, recordingOutline } from "ionicons/icons";
 import "swiper/css";
 import "swiper/css/grid";
 import { SwiperSlide, Swiper } from "swiper/react";
@@ -338,6 +339,14 @@ const handleLocationClick = async () => {
           </IonToolbar>
         </IonHeader>
       <IonContent> 
+        <IonRange label="Fullness" className="fullnessIndicator" disabled= {true}>
+          <IonIcon slot="start" icon={personRemoveOutline} />
+          <IonIcon slot="end" icon={personAdd} />
+        </IonRange>
+        <IonRange label="Ratio" className="fullnessIndicator" disabled= {true} >
+          <IonIcon slot="start" icon={maleSharp} color = "secondary" />
+          <IonIcon slot="end" icon={femaleSharp}  color="danger"/>
+        </IonRange>
         <div style={{ maxHeight: screenHeight * 1.6, overflowY: 'scroll' }}>
           <IonAccordionGroup expand="inset">
             {items.map((item, index) => (
