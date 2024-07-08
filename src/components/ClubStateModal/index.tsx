@@ -54,6 +54,8 @@ import { CalculateTimeDifference } from "../../helpers/TimeSinceCaptured";
 import './index.css';
 import { ClubProps } from "../../models/ClubProps";
 import haversine from 'haversine-distance'
+import FormModal from "../FormModal";
+
 
 const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
   <IonAccordion value={item.id}>
@@ -84,7 +86,9 @@ const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
   </IonAccordion>
 );
 
+
 const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void; activeClub: string | undefined}> = ({ isOpen, setIsOpen, activeClub }) => {
+
   const [items, setItems] = useState<any[]>([]);
   const [captureEligbility, setCaptureEligibility] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -94,7 +98,9 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const { location, setLocation, isLocationLoading, setIsLocationLoading  } = useDataStore();
   const {getClubRef} = useClubStore();
 
-  const [isShazamCaptured, setIsShazamCaptured] = useState(false);
+
+  const { isShazamCorrect, setIsShazamCorrect} = useDataStore();
+  const { isShazamCaptured, setIsShazamCaptured } = useDataStore(); 
   const [shazamResponse, setShazamResponse] = useState<ShazamResponse | null>(null);
   const [shazamError, setShazamError] = useState<string | null>(null);
 
@@ -104,6 +110,7 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
   const [isRecording, setIsRecording] = useState(true);
   const [isLocationFailed, setIsLocationFailed] = useState(false);
   const [detectedSong, setDetectedSong] = useState<string | undefined>("")
+  const [distanceAway, setDistanceAway] = useState<string>("");
 
   useEffect(() => {
 
@@ -125,6 +132,12 @@ const ClubModal: React.FC<{ isOpen: boolean; setIsOpen: (arg0: boolean) => void;
 
     getStates()
   },[ activeClub])
+
+  const handleShazamCancel = () => {
+    setIsShazamCorrect(false);
+    setCaptureEligibility(false);
+  }
+  
 
   const captureState = async () => {
       startRecording();
@@ -260,12 +273,11 @@ const handleLocationClick = async () => {
     
     if(coordinates && '_lat' in coordinates && '_long' in coordinates)
     {
+
       const clubCords = { latitude: coordinates['_lat'], longitude: coordinates['_long']};
       const userCords = { latitude: position.coords.latitude, longitude: position.coords.longitude};
 
       const haversineDistance = haversine(userCords, clubCords);
-
-      console.log(haversineDistance);
 
       if(haversineDistance < 50)
       {
@@ -274,6 +286,7 @@ const handleLocationClick = async () => {
       }
       else
       {
+        setDistanceAway((haversineDistance - 50).toFixed(2));
         setIsLocationLoading(false);
         setCaptureEligibility(false);
         setIsLocationFailed(true);
@@ -287,14 +300,22 @@ const handleLocationClick = async () => {
 
   return (
     <IonModal isOpen={isOpen} backdropDismiss={false} className="modal">
-      <IonAlert isOpen={isLocationFailed} header="Unable to record" message="Your location is too far from club" buttons={['Dismiss']} onDidDismiss={() => setIsLocationFailed(false)}></IonAlert>
-      {isShazamCaptured && shazamResponse && (
+      <IonAlert isOpen={isLocationFailed} header="Unable to Record" message={`${distanceAway} meters away`}buttons={['Dismiss']} onDidDismiss={() => setIsLocationFailed(false)}></IonAlert>
+      {isShazamCaptured && shazamResponse && !isShazamCorrect &&(
         <ShazamModal
           isOpen={true}
           onClose={handleCloseShazamModal}
           shazamResponse={shazamResponse}
         />
       )}
+
+      {isShazamCorrect &&(
+          <FormModal
+          isOpen={true}
+          onClose={handleCloseShazamModal}
+
+          />
+        )}
 
       {isShazamCaptured && shazamError && (
         <IonAlert
