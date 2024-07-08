@@ -158,8 +158,17 @@ const App: React.FC = () => {
                   </div>
                 </IonCol>
               </IonRow>
-              <IonRow style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "50%"}}>
-                <div style={{ position: 'relative', display: 'inline-block' }}> {/* Parent div with relative positioning */}
+              <IonRow
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingTop: "50%",
+                }}
+              >
+                <div style={{ position: "relative", display: "inline-block", }}>
+                  {" "}
+                  {/* Parent div with relative positioning */}
                   <div
                     style={{
                       width: `${Math.max(radius * 1, 100)}px`, // Ensure minimum size of 50px
@@ -168,28 +177,27 @@ const App: React.FC = () => {
                       backgroundColor: "transparent",
                       border: "2px solid #007bff", // Example color
                       transition: "width 0.3s, height 0.7s",
+
                       // Smooth transition for size change
                     }}
                   ></div>
                   <h1
                     style={{
-                      position: 'absolute', // Absolute positioning inside the parent div
-                      top: '50%', // Center vertically
+                      position: "absolute", // Absolute positioning inside the parent div
+                      top: "50%", // Center vertically
                       left: "57%", // Center horizontally
-                      transform: 'translate(-50%, -50%)', // Adjust the centering
+                      transform: "translate(-50%, -50%)", // Adjust the centering
                       margin: 0, // Remove default margin
-                      color:'var(--ion-color-secondary)', // Example text color, adjust as needed
+                      color: "var(--ion-color-secondary)", // Example text color, adjust as needed
                     }}
                   >
                     {radius} miles
                   </h1>
                 </div>
               </IonRow>
+              <IonRow></IonRow>
               <IonRow>
-
-              </IonRow>
-              <IonRow>
-                <IonCol>
+                <IonCol style={{ paddingTop: "30%" }}>
                   <IonRange
                     label-placement="end"
                     min={5}
