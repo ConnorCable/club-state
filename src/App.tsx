@@ -172,7 +172,7 @@ const App: React.FC = () => {
                       height: `${Math.max(radius * 1, 100)}px`, // Ensure minimum size of 50px
                       borderRadius: "50%",
                       backgroundColor: "transparent",
-                      border: "4px solid #007bff", // Example color
+                      border: "4px solid var(--glow-color)", // Example color
                       transition: "width 0.3s, height 0.7s",
 
                       // Smooth transition for size change
