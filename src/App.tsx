@@ -149,12 +149,8 @@ const App: React.FC = () => {
             <IonGrid fixed={true}>
               <IonRow>
                 <IonCol>
-                  <div style={{ textAlign: "center" }}>
-                    <IonTitle>
-                      <em>
-                        <sub>Clubs within</sub>
-                      </em>
-                    </IonTitle>
+                  <div style={{ textAlign: "center", paddingTop: "10%"}}>
+                    <em>Clubs Within</em>
                   </div>
                 </IonCol>
               </IonRow>
