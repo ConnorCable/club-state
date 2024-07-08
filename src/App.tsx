@@ -142,12 +142,23 @@ const App: React.FC = () => {
             </IonTabBar>
           </IonTabs>
         ) : (
-          <div>
-            <IonGrid>
+          <div className='ion-padding-top'>
+            <IonGrid fixed={true}>
               <IonRow>
-                <IonCol className="value-container" size="12">
+                <IonCol><div style={{textAlign: "center"}}><IonTitle><em><sub>Clubs within</sub></em></IonTitle></div></IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol className="value-container" size="15">
                   <div className="value">
-                    <div><IonTitle color="secondary"><em><h1 style={{ fontSize: '2.7em' }}>{radius} miles</h1></em></IonTitle></div>
+                  <div>
+                    <IonTitle color="secondary">
+                      <em>
+                        <h1 style={{ fontSize: window.innerWidth <= 480 ? '1.5em' : window.innerWidth <= 768 ? '2em' : '2.7em' }}>
+                          {radius} miles
+                        </h1>
+                      </em>
+                    </IonTitle>
+                  </div>
                   </div>
                 </IonCol>
               </IonRow>
