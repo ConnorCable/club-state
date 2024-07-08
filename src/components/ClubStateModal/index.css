@@ -133,8 +133,13 @@ ion-accordion.accordion-expanded ion-item[slot='header'] {
 ion-range.range-disabled {
   color: white !important;
   opacity: 1 !important;
-  --knob-background: var(--ion-color-primary);
+  --knob-background: #ffffff !important;
   --knob-size: 20px;
   margin-left: 20px;
   margin-right: 20px;
+  
+}
+
+.range-disabled range-bar {
+  opacity: 1 !important;
 }
