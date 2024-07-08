@@ -208,7 +208,7 @@ const HomePage: React.FC = () => {
         
         
         {/* CLUB CARD SOCIAL FILTERS */}
-        <div className="filterButtons">
+        <div className="filterButtons" >
           <IonChip className="ion-text-center ion-text-capitalize " outline={true} color={activeFilter == "money" ? "success" :"dark"} onClick={() => filterSettings("money")}>$$$</IonChip>
           <IonChip className="ion-text-center ion-text-capitalize "outline={true} color={activeFilter == "fullness" ? "success" :"dark"} onClick={() => filterSettings("fullness")}>Fullness</IonChip>
           <IonChip className="ion-text-center ion-text-capitalize " outline={true} color={activeFilter == "hostility" ? "success" :"dark"} onClick={() => filterSettings("hostility")}>Hostility</IonChip>

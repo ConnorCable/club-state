@@ -69,10 +69,14 @@
 .filterButtons{
   align-content: center;
   display: flex;
-  justify-content:flex-start;
-  padding-left: 18px;
+  align-items: center;
+  padding-left: 12px;
   padding-top: 10px;
-  padding-bottom: 0px;
+  padding-bottom: 4px;
+  background-color: var(--ion-color-light);
+  margin-bottom: 5px;
+  border-radius: 3px;
+
 }
 
 
