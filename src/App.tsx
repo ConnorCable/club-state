@@ -181,7 +181,7 @@ const App: React.FC = () => {
                     style={{
                       position: "absolute", // Absolute positioning inside the parent div
                       top: "50%", // Center vertically
-                      left: "57%", // Center horizontally
+                      left: radius === 200 ? "58%" : "53%", // Center horizontally
                       transform: "translate(-50%, -50%)", // Adjust the centering
                       margin: 0, // Remove default margin
                       color: "var(--ion-color-secondary)", // Example text color, adjust as needed
