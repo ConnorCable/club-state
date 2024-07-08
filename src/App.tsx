@@ -166,6 +166,7 @@ const App: React.FC = () => {
                   {" "}
                   {/* Parent div with relative positioning */}
                   <div
+                    className="radius-circle"
                     style={{
                       width: `${Math.max(radius * 1, 100)}px`, // Ensure minimum size of 50px
                       height: `${Math.max(radius * 1, 100)}px`, // Ensure minimum size of 50px
