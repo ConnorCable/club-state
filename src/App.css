@@ -275,7 +275,7 @@
   .range-selector {
     padding-top: 185px;
     padding-bottom: 40px;
-
+    
   }
   
   .button-container {
@@ -285,4 +285,8 @@
     padding-top: 60px;
   }
 
-  
+  .range-slider {
+    --bar-background: red; /* Makes the bar's background transparent */
+    --bar-background-active: red;
+    --knob-background: white;
+  }
