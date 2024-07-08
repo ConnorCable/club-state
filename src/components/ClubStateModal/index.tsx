@@ -33,17 +33,23 @@ import {
   IonBadge,
   IonRange,
   IonCard,
+  IonSegment,
+  IonSegmentButton,
 } from "@ionic/react";
 import {
   arrowBack,
   cropOutline,
+  femaleOutline,
   femaleSharp,
+  maleOutline,
   maleSharp,
   navigateCircleOutline,
   personAdd,
+  personAddOutline,
   personRemoveOutline,
   radioButtonOnOutline,
   recordingOutline,
+  ticketSharp,
 } from "ionicons/icons";
 import "swiper/css";
 import "swiper/css/grid";
@@ -377,19 +383,80 @@ const ClubModal: React.FC<{
               <IonIcon slot="start" icon={maleSharp} color="secondary" />
               <IonIcon slot="end" icon={femaleSharp} color="danger" />
             </IonRange>
-            <IonGrid>
-              <IonRow>
-                <IonCol>
-                  <IonChip className="ion-text-nowrap">Cleanliness: 5</IonChip>
-                </IonCol>
-                <IonCol>
-                  <IonChip className="ion-text-nowrap">Loudness: 5</IonChip>
-                </IonCol>
-                <IonCol>
-                  <IonChip className="ion-text-nowrap">Hostility: 5</IonChip>
-                </IonCol>
-              </IonRow>
-            </IonGrid>
+            <IonList className="admin-grid ion-padding-top">
+            <IonItem className="compact-item">
+            <IonTitle  slot="start" className="ion-padding-right">COVER</IonTitle>
+            
+            </IonItem>
+            <IonItem className="compact-item">
+            <IonTitle className="ion-padding-right" slot="start">LINE</IonTitle>
+              <IonSegment slot="end" >
+                <IonSegmentButton value="yes" disabled={true}>
+                  <IonLabel>Yes</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="no" >
+                  <IonLabel color={"primary"}>No</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+            <IonItem className="compact-item-3">
+              <IonTitle >PRICE</IonTitle>
+              <IonSegment>
+                <IonSegmentButton value="1" disabled>
+                  <IonLabel>$</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="2">
+                  <IonLabel>$$</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="3">
+                  <IonLabel>$$$</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+            <IonItem className="compact-item-3">
+            <IonTitle className="ion-padding-right" >CLEAN?</IonTitle>
+              <IonSegment>
+                <IonSegmentButton value="1">
+                  <IonLabel><h1>🤢</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="2">
+                  <IonLabel><h1>😐</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="3">
+                  <IonLabel><h1>🤩</h1></IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+            <IonItem className="compact-item-6">
+            <IonTitle className="ion-padding-right" >HOSTILE?</IonTitle>
+              <IonSegment>
+                <IonSegmentButton value="1">
+                  <IonLabel><h1>🫶</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="2">
+                  <IonLabel><h1>😳</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="3">
+                  <IonLabel><h1>🤬</h1></IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+            <IonItem className="compact-item-3">
+            <IonTitle className="ion-padding-right">LOUD?</IonTitle>
+              <IonSegment >
+                <IonSegmentButton value="1">
+                  <IonLabel><h1>🔇</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="2">
+                  <IonLabel><h1>🔈</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="3">
+                  <IonLabel><h1>🔊</h1></IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+    
+          </IonList>
           </SwiperSlide>
           <SwiperSlide>
             <div style={{ maxHeight: screenHeight * 1.6, overflowY: "scroll" }}>

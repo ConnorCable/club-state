@@ -1,61 +1,32 @@
 import {
-  IonAccordion,
-  IonAccordionGroup,
-  IonBackButton,
-  IonButton,
-  IonButtons,
   IonCard,
-  IonCardContent,
-  IonCardSubtitle,
   IonCardTitle,
   IonChip,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
-  IonIcon,
-  IonItem,
-  IonList,
-  IonLabel,
-  IonModal,
   IonPage,
-  IonRow,
-  IonSearchbar,
-  IonTitle,
-  IonToolbar,
   useIonViewWillEnter,
-  IonText,
   RefresherEventDetail,
-  IonRefresher,
-  IonRefresherContent,
 } from "@ionic/react";
 import "swiper/css";
-import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay} from "swiper/modules";
 import "./index.css";
 import { ClubCard } from "../../components/ClubCard";
 import { useState } from "react";
 import ClubModal from "../../components/ClubStateModal";
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
-import { Geolocation, Position } from "@capacitor/geolocation";
-import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import { useDataStore } from "../../models/DataStore";
-import { ClubModalProps } from "../../models/ClubModalProps";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import useClubStore from "../../models/ClubStore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { ur } from "@faker-js/faker";
-import { ClubProps } from "../../models/ClubProps";
-import {nanoid} from 'nanoid';
 import { getDistance } from "geolib";
-import { getRTLTextPluginStatus } from "mapbox-gl";
-import { filter } from "ionicons/icons";
+
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
