@@ -164,7 +164,7 @@ export const FormModal: React.FC<any> = ({ isOpen, onClose }) => {
         <div className="lava-lamp-background"></div>
         <IonHeader>
           <IonToolbar>
-            <IonTitle size="large" style={{"text-align": "center", "font-size": "1.8em", "padding-left" : "71px", "font-family" : "Inter", "font-weight" : "bold"}}>Your State</IonTitle>
+            <IonTitle size="large" style={{"textAlign": "center", "fontSize": "1.8em", "paddingLeft" : "71px", "fontFamily" : "Inter", "fontWeight" : "bold"}}>Your State</IonTitle>
             <IonButton slot="end" fill="clear" onClick={onClose}>
               <IonIcon icon={closeOutline} />
             </IonButton>
