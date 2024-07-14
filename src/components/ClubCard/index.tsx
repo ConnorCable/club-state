@@ -78,13 +78,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
         </div>
       <div>
         <IonGrid className="overlay-grid">
-          <IonRow>
-            <IonCol size="13">
-              <IonChip>Fullness: {recentState.fullness}</IonChip>
-              <IonChip>Hostility: {recentState.hostility}</IonChip>
-              <IonChip>Ratio: {recentState.ratio}</IonChip>
-              </IonCol>
-          </IonRow>
+
         </IonGrid>
       </div>
         <div>

@@ -166,12 +166,13 @@ const App: React.FC = () => {
                   {" "}
                   {/* Parent div with relative positioning */}
                   <div
+                    className="radius-circle"
                     style={{
                       width: `${Math.max(radius * 1, 100)}px`, // Ensure minimum size of 50px
                       height: `${Math.max(radius * 1, 100)}px`, // Ensure minimum size of 50px
                       borderRadius: "50%",
                       backgroundColor: "transparent",
-                      border: "2px solid #007bff", // Example color
+                      border: "4px solid var(--glow-color)", // Example color
                       transition: "width 0.3s, height 0.7s",
 
                       // Smooth transition for size change
@@ -181,7 +182,7 @@ const App: React.FC = () => {
                     style={{
                       position: "absolute", // Absolute positioning inside the parent div
                       top: "50%", // Center vertically
-                      left: "57%", // Center horizontally
+                      left: radius === 200 ? "58%" : "53%", // Center horizontally
                       transform: "translate(-50%, -50%)", // Adjust the centering
                       margin: 0, // Remove default margin
                       color: "var(--ion-color-secondary)", // Example text color, adjust as needed

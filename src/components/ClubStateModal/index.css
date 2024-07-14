@@ -52,6 +52,10 @@
   text-align: left;
 }
 
+.close-button {
+  margin-left: 18px;
+}
+
 .genre-col .genre-badge {
   display: inline-flex;
   align-items: center;
@@ -128,4 +132,18 @@ ion-accordion.accordion-expanded ion-item[slot='header'] {
 
 .play-button {
   border-radius: 70%;
+}
+
+ion-range.range-disabled {
+  color: white !important;
+  opacity: 1 !important;
+  --knob-background: #ffffff !important;
+  --knob-size: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  
+}
+
+.range-disabled range-bar {
+  opacity: 1 !important;
 }

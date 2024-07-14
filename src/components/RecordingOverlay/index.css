@@ -1,0 +1,74 @@
+.recording-overlay {
+    --background: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+  }
+  
+  .mic-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12),
+      0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .circle i {
+    color: #b2b1b1;
+    font-size: 23px;
+    transition: 0.9s;
+  }
+  
+  .circle:before {
+    content: '';
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    opacity: 0.2;
+    z-index: -1;
+    position: absolute;
+  }
+  
+  .circle.active {
+    background: #ff0000;
+  }
+  
+  .circle.active:before {
+    background: gray;
+    animation: bounce 0.8s ease-in-out infinite 0.5s;
+  }
+  
+  .circle.active i {
+    color: #ffffff;
+  }
+  
+  @keyframes bounce {
+    0% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.4);
+    }
+    75% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.3);
+    }
+  }
