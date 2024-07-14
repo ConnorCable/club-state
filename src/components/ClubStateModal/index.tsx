@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Geolocation, Position } from "@capacitor/geolocation";
+import { useIonAlert } from '@ionic/react';
 import {
   IonModal,
   IonContent,
@@ -81,44 +82,167 @@ import haversine from "haversine-distance";
 import FormModal from "../FormModal";
 import "swiper/css";
 import "swiper/css/pagination";
+import RecordingOverlay from "../RecordingOverlay";
 
-const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => (
-  <IonAccordion value={item.id}>
-    <IonItem slot="header" color="light">
-      <IonGrid className="ion-padding">
-        <IonRow>
-          <IonCol>
-            <IonLabel>
-              <h6>
-                <sup>
-                  {CalculateTimeDifference(item.data().captureTime.seconds)}
-                </sup>
-              </h6>
-            </IonLabel>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <div>
-              <sup className="song-info">
-                <em>{item.data().song}</em> - <em>{item.data().artist}</em>
-              </sup>
-            </div>
-          </IonCol>
-          <IonCol size="auto" className="genre-col">
-            <IonBadge color="dark" className="genre-badge">
-              {TruncateText(item.data().genre, 8)}
-            </IonBadge>
-          </IonCol>
-        </IonRow>
-        <IonRow></IonRow>
-      </IonGrid>
-    </IonItem>
-    <div slot="content">
-      <ClubStateCard data={item.data()} />
-    </div>
-  </IonAccordion>
-);
+interface ClubStateModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  data: any;
+}
+
+const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }) => {
+  return (
+    <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Club State Details</IonTitle>
+          <IonButton className="close-button" slot="start" onClick={onClose} color="light">
+            <IonIcon icon={arrowBack} />
+          </IonButton>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+      <IonRange
+              label="Fullness"
+              className="fullnessIndicator"
+              disabled={true}
+            >
+              <IonIcon slot="start" icon={personRemoveOutline} />
+              <IonIcon slot="end" icon={personAdd} />
+            </IonRange>
+            <IonRange
+              label="Ratio"
+              className="fullnessIndicator"
+              disabled={true}
+            >
+              <IonIcon slot="start" icon={maleSharp} color="secondary" />
+              <IonIcon slot="end" icon={femaleSharp} color="danger" />
+            </IonRange>
+            <IonList className="admin-grid ion-padding-top">
+            <IonItem className="compact-item">
+            <IonTitle  slot="start" className="ion-padding-right">COVER</IonTitle>
+            
+            </IonItem>
+            <IonItem className="compact-item">
+            <IonTitle className="ion-padding-right" slot="start">LINE</IonTitle>
+              <IonSegment slot="end" >
+                <IonSegmentButton value="yes" disabled={true}>
+                  <IonLabel>Yes</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="no" >
+                  <IonLabel color={"primary"}>No</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+            <IonItem className="compact-item-3">
+              <IonTitle >PRICE</IonTitle>
+              <IonSegment>
+                <IonSegmentButton value="1" disabled>
+                  <IonLabel>$</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="2">
+                  <IonLabel>$$</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="3">
+                  <IonLabel>$$$</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+            <IonItem className="compact-item-3">
+            <IonTitle className="ion-padding-right" >CLEAN?</IonTitle>
+              <IonSegment>
+                <IonSegmentButton value="1">
+                  <IonLabel><h1>🤢</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="2">
+                  <IonLabel><h1>😐</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="3">
+                  <IonLabel><h1>🤩</h1></IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+            <IonItem className="compact-item-6">
+            <IonTitle className="ion-padding-right" >HOSTILE?</IonTitle>
+              <IonSegment>
+                <IonSegmentButton value="1">
+                  <IonLabel><h1>🫶</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="2">
+                  <IonLabel><h1>😳</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="3">
+                  <IonLabel><h1>🤬</h1></IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+            <IonItem className="compact-item-3">
+            <IonTitle className="ion-padding-right">LOUD?</IonTitle>
+              <IonSegment >
+                <IonSegmentButton value="1">
+                  <IonLabel><h1>🔇</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="2">
+                  <IonLabel><h1>🔈</h1></IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="3">
+                  <IonLabel><h1>🔊</h1></IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonItem>
+          </IonList>
+      </IonContent>
+    </IonModal>
+  );
+};
+
+const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+      setShowModal(true);
+    };
+
+    return (
+      <>
+        <IonItem button onClick={handleClick} color="light">
+          <IonGrid className="ion-padding">
+            <IonRow>
+              <IonCol>
+                <IonLabel>
+                  <h6>
+                    <sup>
+                      {CalculateTimeDifference(item.data().captureTime.seconds)}
+                    </sup>
+                  </h6>
+                </IonLabel>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol>
+                <div>
+                  <sup className="song-info">
+                    <em>{item.data().song}</em> - <em>{item.data().artist}</em>
+                  </sup>
+                </div>
+              </IonCol>
+              <IonCol size="auto" className="genre-col">
+                <IonBadge color="dark" className="genre-badge">
+                  {TruncateText(item.data().genre, 8)}
+                </IonBadge>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonItem>
+        <ClubStateModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          data={item.data()}
+        />
+      </>
+    );
+  };
 
 const ClubModal: React.FC<{
   isOpen: boolean;
@@ -145,10 +269,11 @@ const ClubModal: React.FC<{
   const [recordingStatus, setRecordingStatus] = useState("");
   const [recordedData, setRecordedData] = useState("");
   const [recordingCaptured, setRecordingCaptured] = useState(true);
-  const [isRecording, setIsRecording] = useState(true);
+  const [isRecording, setIsRecording] = useState(false);
   const [isLocationFailed, setIsLocationFailed] = useState(false);
   const [detectedSong, setDetectedSong] = useState<string | undefined>("");
   const [distanceAway, setDistanceAway] = useState<string>("");
+  const [presentAlert] = useIonAlert();
 
   useEffect(() => {
     const getStates = async () => {
@@ -179,26 +304,49 @@ const ClubModal: React.FC<{
   };
 
   const captureState = async () => {
-    startRecording();
-    setTimeout(stopRecording, 4000);
+    setIsRecording(true);
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    while (attempts < maxAttempts) {
+      attempts++;
+      await startRecording();
+      await new Promise(resolve => setTimeout(resolve, 4000)); // Wait for 4 seconds
+      const success = await stopRecording();
+      
+      if (success) {
+        break;
+      } else if (attempts === maxAttempts) {
+        presentAlert({
+          header: 'Recording Failed',
+          message: 'Unable to capture audio after multiple attempts. Please try again.',
+          buttons: ['OK']
+        });
+        setCaptureEligibility(false);
+      } else {
+        console.log(`Attempt ${attempts} failed. Retrying...`);
+      }
+    }
+    setIsRecording(false);
   };
 
   const startRecording = async () => {
     setRecordingCaptured(true);
     try {
-      const permissionResult =
-        await VoiceRecorder.requestAudioRecordingPermission();
-
+      const permissionResult = await VoiceRecorder.requestAudioRecordingPermission();
+  
       if (!permissionResult.value) {
         console.error("Permission denied to record audio");
-        return;
+        return false;
       }
-
+  
       const result: GenericResponse = await VoiceRecorder.startRecording();
       console.log("Recording started:", result.value);
       setRecordingStatus("RECORDING");
+      return true;
     } catch (error) {
       console.error("Failed to start recording:", error);
+      return false;
     }
   };
 
@@ -206,25 +354,40 @@ const ClubModal: React.FC<{
     try {
       const result: RecordingData = await VoiceRecorder.stopRecording();
       setRecordingStatus("NONE");
-
-      if (result.value.recordDataBase64) {
+  
+      if (result.value && result.value.recordDataBase64 && result.value.recordDataBase64.length > 0) {
         console.log("valid data");
         setRecordedData(result.value.recordDataBase64);
-        setRecordingCaptured(false);
-        setCaptureEligibility(false);
+        await sendAudio(result.value.recordDataBase64);
+        return true;
+      } else {
+        console.error("Recording failed: No data captured");
+        return false;
       }
-      sendAudio();
     } catch (error) {
       console.error("Failed to stop recording:", error);
+      return false;
     }
   };
 
-  const sendAudio = async () => {
-    const shazamResponse = await songDetect2(recordedData);
+  
+const sendAudio = async (audioData: string) => {
+  try {
+    const shazamResponse = await songDetect2(audioData);
     console.log(shazamResponse);
-    setShazamResponse(shazamResponse!);
-    setIsShazamCaptured(true);
-  };
+    if (shazamResponse) {
+      setShazamResponse(shazamResponse);
+      setIsShazamCaptured(true);
+    } else {
+      throw new Error("No response from Shazam");
+    }
+  } catch (error) {
+    console.error("Error in sendAudio:", error);
+    setShazamError("Failed to identify the song. Please try again.");
+    setIsShazamCaptured(false);
+    setCaptureEligibility(false);
+  }
+};
 
   const resumeRecording = async () => {
     try {
@@ -350,6 +513,9 @@ const ClubModal: React.FC<{
           ]}
         />
       )}
+
+      {isRecording && <RecordingOverlay />}
+
       <IonHeader>
         <IonToolbar color="light">
           <IonButton
@@ -365,109 +531,9 @@ const ClubModal: React.FC<{
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <Swiper>
-          <SwiperSlide>
-            <IonRange
-              label="Fullness"
-              className="fullnessIndicator"
-              disabled={true}
-            >
-              <IonIcon slot="start" icon={personRemoveOutline} />
-              <IonIcon slot="end" icon={personAdd} />
-            </IonRange>
-            <IonRange
-              label="Ratio"
-              className="fullnessIndicator"
-              disabled={true}
-            >
-              <IonIcon slot="start" icon={maleSharp} color="secondary" />
-              <IonIcon slot="end" icon={femaleSharp} color="danger" />
-            </IonRange>
-            <IonList className="admin-grid ion-padding-top">
-            <IonItem className="compact-item">
-            <IonTitle  slot="start" className="ion-padding-right">COVER</IonTitle>
-            
-            </IonItem>
-            <IonItem className="compact-item">
-            <IonTitle className="ion-padding-right" slot="start">LINE</IonTitle>
-              <IonSegment slot="end" >
-                <IonSegmentButton value="yes" disabled={true}>
-                  <IonLabel>Yes</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="no" >
-                  <IonLabel color={"primary"}>No</IonLabel>
-                </IonSegmentButton>
-              </IonSegment>
-            </IonItem>
-            <IonItem className="compact-item-3">
-              <IonTitle >PRICE</IonTitle>
-              <IonSegment>
-                <IonSegmentButton value="1" disabled>
-                  <IonLabel>$</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="2">
-                  <IonLabel>$$</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="3">
-                  <IonLabel>$$$</IonLabel>
-                </IonSegmentButton>
-              </IonSegment>
-            </IonItem>
-            <IonItem className="compact-item-3">
-            <IonTitle className="ion-padding-right" >CLEAN?</IonTitle>
-              <IonSegment>
-                <IonSegmentButton value="1">
-                  <IonLabel><h1>🤢</h1></IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="2">
-                  <IonLabel><h1>😐</h1></IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="3">
-                  <IonLabel><h1>🤩</h1></IonLabel>
-                </IonSegmentButton>
-              </IonSegment>
-            </IonItem>
-            <IonItem className="compact-item-6">
-            <IonTitle className="ion-padding-right" >HOSTILE?</IonTitle>
-              <IonSegment>
-                <IonSegmentButton value="1">
-                  <IonLabel><h1>🫶</h1></IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="2">
-                  <IonLabel><h1>😳</h1></IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="3">
-                  <IonLabel><h1>🤬</h1></IonLabel>
-                </IonSegmentButton>
-              </IonSegment>
-            </IonItem>
-            <IonItem className="compact-item-3">
-            <IonTitle className="ion-padding-right">LOUD?</IonTitle>
-              <IonSegment >
-                <IonSegmentButton value="1">
-                  <IonLabel><h1>🔇</h1></IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="2">
-                  <IonLabel><h1>🔈</h1></IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="3">
-                  <IonLabel><h1>🔊</h1></IonLabel>
-                </IonSegmentButton>
-              </IonSegment>
-            </IonItem>
-    
-          </IonList>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div style={{ maxHeight: screenHeight * 1.6, overflowY: "scroll" }}>
-              <IonAccordionGroup expand="inset">
-                {items.map((item, index) => (
-                  <ClubAccordionItem key={item.id} item={item} />
-                ))}
-              </IonAccordionGroup>
-            </div>
-          </SwiperSlide>
-        </Swiper>
+        <div style={{ maxHeight: screenHeight * 1.6, overflowY: "scroll" }}>
+          {items.map((item, index) => (<ClubAccordionItem key={item.id} item={item} />))}
+        </div>
       </IonContent>
       <IonFooter>
         <IonGrid className="ion-padding-bottom">
