@@ -52,6 +52,10 @@
   text-align: left;
 }
 
+.close-button {
+  margin-left: 18px;
+}
+
 .genre-col .genre-badge {
   display: inline-flex;
   align-items: center;
