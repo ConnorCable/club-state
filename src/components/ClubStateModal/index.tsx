@@ -120,11 +120,11 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
             </IonRange>
             <IonList className="admin-grid ion-padding-top">
             <IonItem className="compact-item">
-            <IonTitle  slot="start" className="ion-padding-right">COVER</IonTitle>
+            <IonTitle  slot="start" className="ion-padding-right"><h5>Cover</h5></IonTitle>
             
             </IonItem>
             <IonItem className="compact-item">
-            <IonTitle className="ion-padding-right" slot="start">LINE</IonTitle>
+            <IonTitle className="ion-padding-right" slot="start"><h5>Line</h5></IonTitle>
               <IonSegment slot="end" >
                 <IonSegmentButton value="yes" disabled={true}>
                   <IonLabel>Yes</IonLabel>
@@ -135,7 +135,7 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
               </IonSegment>
             </IonItem>
             <IonItem className="compact-item-3">
-              <IonTitle >PRICE</IonTitle>
+              <IonTitle><h5>Price</h5></IonTitle>
               <IonSegment>
                 <IonSegmentButton value="1" disabled>
                   <IonLabel>$</IonLabel>
@@ -149,7 +149,7 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
               </IonSegment>
             </IonItem>
             <IonItem className="compact-item-3">
-            <IonTitle className="ion-padding-right" >CLEAN?</IonTitle>
+            <IonTitle className="ion-padding-right" ><h5>Clean</h5></IonTitle>
               <IonSegment>
                 <IonSegmentButton value="1">
                   <IonLabel><h1>🤢</h1></IonLabel>
@@ -163,7 +163,7 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
               </IonSegment>
             </IonItem>
             <IonItem className="compact-item-6">
-            <IonTitle className="ion-padding-right" >HOSTILE?</IonTitle>
+            <IonTitle className="ion-padding-right" ><h5>Hostile</h5></IonTitle>
               <IonSegment>
                 <IonSegmentButton value="1">
                   <IonLabel><h1>🫶</h1></IonLabel>
@@ -177,7 +177,7 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
               </IonSegment>
             </IonItem>
             <IonItem className="compact-item-3">
-            <IonTitle className="ion-padding-right">LOUD?</IonTitle>
+            <IonTitle className="ion-padding-right"><h5>Loud</h5></IonTitle>
               <IonSegment >
                 <IonSegmentButton value="1">
                   <IonLabel><h1>🔇</h1></IonLabel>
