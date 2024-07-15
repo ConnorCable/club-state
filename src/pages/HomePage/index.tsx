@@ -161,7 +161,7 @@ const HomePage: React.FC = () => {
   };
   
   return (
-    <IonPage>
+    <IonPage className="ion-safe-area">
       <IonHeader>
         {/* CLUB CARD GENRE FILTERS */}
         
