@@ -147,3 +147,11 @@ ion-range.range-disabled {
 .range-disabled range-bar {
   opacity: 1 !important;
 }
+
+.state-form-container{
+  width: 75vw;
+}
+
+ion-segment-button {
+  min-width: 1px;
+}
