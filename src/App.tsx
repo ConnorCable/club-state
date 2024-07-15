@@ -189,7 +189,7 @@ const App: React.FC = () => {
                       color: "var(--ion-color-secondary)", // Example text color, adjust as needed
                     }}
                   >
-                    {radius} (mi)
+                    {radius} miles
                   </h1>
                 </div>
               </IonRow>
