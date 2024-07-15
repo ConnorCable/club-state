@@ -110,7 +110,7 @@ const App: React.FC = () => {
 
   return (
     <IonApp
-      style={{ maxWidth: 400, maxHeight: 840, margin: "auto", padding: "50px" }}
+      style={{ maxWidth: 450, maxHeight: 740, margin: "auto", padding: "70px" }}
     >
       <IonReactRouter>
         {geolocationFetched ? (
@@ -129,17 +129,17 @@ const App: React.FC = () => {
                 <Redirect to="/tab1" />
               </Route>
             </IonRouterOutlet>
-            <IonTabBar slot="bottom">
+            <IonTabBar slot="top" style={{ position: 'fixed', bottom: "0px", width: '100%' }}>
               <IonTabButton tab="tab1" href="/tab1">
-                <IonIcon aria-hidden="true" icon={homeOutline} />
+                <IonIcon icon={homeOutline} />
                 <IonLabel>Home</IonLabel>
               </IonTabButton>
               <IonTabButton tab="tab2" href="/tab2">
-                <IonIcon aria-hidden="true" icon={mapOutline} />
+                <IonIcon icon={mapOutline} />
                 <IonLabel>Map</IonLabel>
               </IonTabButton>
               <IonTabButton tab="tab3" href="/tab3">
-                <IonIcon aria-hidden="true" icon={personOutline} />
+                <IonIcon  icon={personOutline} />
                 <IonLabel>Admin</IonLabel>
               </IonTabButton>
             </IonTabBar>
@@ -149,8 +149,8 @@ const App: React.FC = () => {
             <IonGrid fixed={true}>
               <IonRow>
                 <IonCol>
-                  <div style={{ textAlign: "center", paddingTop: "10%"}}>
-                    <em>Clubs Within</em>
+                  <div style={{ textAlign: "center", paddingTop: "0%"}}>
+                    <em style={{fontSize: "1.8em"}}>Clubs Within</em>
                   </div>
                 </IonCol>
               </IonRow>
@@ -159,47 +159,48 @@ const App: React.FC = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  paddingTop: "50%",
+                  paddingTop: "20%",
                 }}
               >
-                <div style={{ position: "relative", display: "inline-block", }}>
+                <div style={{ position: "relative", display: "inline-block", height: "100px" }}>
                   {" "}
                   {/* Parent div with relative positioning */}
                   <div
                     className="radius-circle"
                     style={{
-                      width: `${Math.max(radius * 1, 100)}px`, // Ensure minimum size of 50px
-                      height: `${Math.max(radius * 1, 100)}px`, // Ensure minimum size of 50px
-                      borderRadius: "50%",
+                      width: `170px`, // Ensure minimum size of 50px
+                      height: `150px`, // Ensure minimum size of 50px
+                      borderRadius: "20%",
                       backgroundColor: "transparent",
                       border: "4px solid var(--glow-color)", // Example color
-                      transition: "width 0.3s, height 0.7s",
+                      transition: "width 0.7s, height 0.7s",
 
                       // Smooth transition for size change
                     }}
                   ></div>
                   <h1
                     style={{
+                      fontSize: "3.0em",
                       position: "absolute", // Absolute positioning inside the parent div
-                      top: "50%", // Center vertically
+                      top: "70%", // Center vertically
                       left: radius === 200 ? "58%" : "53%", // Center horizontally
                       transform: "translate(-50%, -50%)", // Adjust the centering
-                      margin: 0, // Remove default margin
+                      margin: 1, // Remove default margin
                       color: "var(--ion-color-secondary)", // Example text color, adjust as needed
                     }}
                   >
-                    {radius} miles
+                    {radius} (mi)
                   </h1>
                 </div>
               </IonRow>
               <IonRow></IonRow>
               <IonRow>
-                <IonCol style={{ paddingTop: "30%" }}>
+                <IonCol style={{ paddingTop: "70%" }}>
                   <IonRange
                     label-placement="end"
                     min={5}
                     max={200}
-                    defaultValue={10}
+                    defaultValue={75}
                     color="secondary"
                     onIonInput={(e) => setRadius(e.detail.value as number)}
                     value={radius}
