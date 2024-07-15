@@ -31,7 +31,7 @@ export const useDataStore = create<StoreState>()((set) => ({
     isLocationLoading: false,
     isRecordingLoading: false,
     activeClub: null,
-    radius: 5,
+    radius: 50,
     isShazamCaptured: false,
     isShazamCorrect: false,
     isCompletingForm: false,
