@@ -4,10 +4,27 @@
     margin: 0 auto; /* Center the container horizontally */
   }
   
-
   :root {
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
     --glow-color: hsl(186 100% 69%);
+}
+
+
+  ion-tab-bar {
+    padding-bottom: env(safe-area-inset-bottom);
   }
+
+  ion-header {
+    padding-top: var(--sat);
+}
+
+ion-footer, ion-tab-bar {
+  padding-bottom: var(--sab);
+}
+
   
   *,
   *::before,
@@ -32,7 +49,7 @@
   }
   
   .glowing-btn {
-    position: fixed;
+    position: relative;
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
@@ -223,7 +240,7 @@
     }
   }
   
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 5000px) {
     .glowing-btn{
       font-size: 1em;
     }
@@ -302,5 +319,12 @@
     50% {
       transform: scale(1.05); /* Slightly larger scale for a more noticeable pulse */
       box-shadow: 0 0 12px 7px var(--glow-color); /* Increase shadow size for the pulse's peak */
+    }
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    .ios ion-tab-bar {
+      padding-bottom: env(safe-area-inset-bottom);
+      height: calc(56px + env(safe-area-inset-bottom));
     }
   }
