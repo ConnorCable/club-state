@@ -29,7 +29,7 @@
 
 .genreSwiper {
     padding-right: 10px;
-    padding-top: 1vh;
+    padding-top: 0.2vh;
     align-items: center;
     background-color: var(--swiper-background-color);
     
@@ -46,7 +46,7 @@
 
 @media screen and (min-height: 701px) {
   .genreSwiper {
-    padding-top: 5vh;
+    padding-top: 2vh;
   }
 }
 
@@ -62,21 +62,54 @@
     align-items: center; /* Adjust alignment as needed */
   }
 
-.cardSwiper {
-    align-items: center;
-}
+
 
 .filterButtons{
   align-content: center;
   display: flex;
   align-items: center;
   padding-left: 12px;
-  padding-top: 10px;
-  padding-bottom: 4px;
+  padding-top: 0px;
+  padding-bottom: 2px;
   background-color: var(--ion-color-light);
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   border-radius: 3px;
 
 }
 
+.swiperContainer {
+ 
+  overflow: hidden;
+}
 
+.cardSwiper {
+  height: 100%;
+  align-items: center;
+}
+
+
+.genreSwiper {
+  padding-top: calc(var(--sat) + 0.5vh);
+}
+
+.filterButtons {
+  padding-left: calc(var(--sal) + 12px);
+  padding-right: var(--sar);
+}
+
+
+ion-tab-bar {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-header {
+  padding-top: var(--sat);
+}
+
+ion-footer, ion-tab-bar {
+padding-bottom: var(--sab);
+}
+
+ion-content {
+  --padding-bottom: 56px; /* Adjust this value based on your tab bar height */
+}
