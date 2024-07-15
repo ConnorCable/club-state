@@ -41,7 +41,6 @@ const songDetect2 = async (base64AudioString: any) => {
 
     // Create a File object
     const audioFile = new File([blob], 'audio.mp3', { type: 'audio/mp3' });
-    saveAs(audioFile, 'audio.mp3');
     const data = new FormData();
     data.append('audio', audioFile);
     const options = {
