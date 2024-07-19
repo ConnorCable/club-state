@@ -530,13 +530,13 @@ const sendAudio = async (audioData: string) => {
           </IonButton>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className="ion-padding-bottom">
         <div style={{ maxHeight: screenHeight * 1.6, overflowY: "scroll" }}>
           {items.map((item, index) => (<ClubAccordionItem key={item.id} item={item} />))}
         </div>
       </IonContent>
-      <IonFooter>
-        <IonGrid className="ion-padding-bottom">
+      <div>
+        <IonGrid className="capture-button-padding">
           <IonRow>
             <IonCol></IonCol>
             <IonCol>
@@ -570,7 +570,7 @@ const sendAudio = async (audioData: string) => {
             <IonCol></IonCol>
           </IonRow>
         </IonGrid>
-      </IonFooter>
+        </div>
       <LoadingOverlay isOpen={isLocationLoading} message="Verifying Location" />
     </IonModal>
   );
