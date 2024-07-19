@@ -131,7 +131,7 @@ const App: React.FC = () => {
                 <Redirect to="/tab1" />
               </Route>
             </IonRouterOutlet>
-            <IonTabBar slot="top" style={{ position: 'fixed', bottom: "0px", width: '100%' }}>
+            <IonTabBar className="ion-padding-bottom footer-padding" slot="bottom"style={{ position: 'fixed', bottom: "0px", width: '100%' }}>
               <IonTabButton tab="tab1" href="/tab1">
                 <IonIcon icon={homeOutline} />
                 <IonLabel>Home</IonLabel>
