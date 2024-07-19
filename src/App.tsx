@@ -68,7 +68,7 @@ import * as geofirestore from "geofirestore";
 import logo from "../assets/clubStateLogo.gif";
 import "./App.css";
 import { doc, onSnapshot } from "firebase/firestore";
-import PWAInstaller from "./components/PWAInstaller";
+
 
 setupIonicReact();
 
@@ -151,7 +151,6 @@ const App: React.FC = () => {
             <IonGrid fixed={true}>
               <IonRow>
                 <IonCol>
-                  <PWAInstaller></PWAInstaller>
                   <div style={{ textAlign: "center", paddingTop: "0%"}}>
                     <em style={{fontSize: "1.8em"}}>Clubs Within</em>
                   </div>
