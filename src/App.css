@@ -328,3 +328,7 @@ ion-footer, ion-tab-bar {
       height: calc(56px + env(safe-area-inset-bottom));
     }
   }
+
+  .footer-padding{
+    margin-bottom: 90px;
+  }
