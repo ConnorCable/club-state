@@ -51,8 +51,9 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onClose} className="custom-modal" backdropDismiss={false}>
       <div className="wrapper">
+      <div className="header-top-padding"></div>
       <div className="lava-lamp-background"></div>
-        <IonHeader>
+        <IonHeader className="ion-padding">
           <IonToolbar>
             <IonTitle>Track ID</IonTitle>
             <IonButton slot="end" fill="clear" onClick={onClose}>
@@ -60,7 +61,7 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
             </IonButton>
           </IonToolbar>
         </IonHeader>
-        <IonGrid>
+        <IonGrid className="ion-padding extra-top-padding">
             <div className="image-container">
               <img src={shazamResponse.imageUrl} alt="photo" />
             </div> 
