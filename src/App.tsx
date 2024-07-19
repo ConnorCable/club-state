@@ -39,6 +39,7 @@ import {
 import HomePage from "./pages/HomePage";
 import Tab2 from "./pages/MapPage";
 import Tab3 from "./pages/AdminPage";
+import FakeAdminPage from "./pages/FakeAdminPage";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -67,6 +68,7 @@ import * as geofirestore from "geofirestore";
 import logo from "../assets/clubStateLogo.gif";
 import "./App.css";
 import { doc, onSnapshot } from "firebase/firestore";
+import PWAInstaller from "./components/PWAInstaller";
 
 setupIonicReact();
 
@@ -123,7 +125,7 @@ const App: React.FC = () => {
                 <Tab2 />
               </Route>
               <Route path="/tab3">
-                <Tab3 />
+                <FakeAdminPage />
               </Route>
               <Route exact path="/">
                 <Redirect to="/tab1" />
@@ -149,6 +151,7 @@ const App: React.FC = () => {
             <IonGrid fixed={true}>
               <IonRow>
                 <IonCol>
+                  <PWAInstaller></PWAInstaller>
                   <div style={{ textAlign: "center", paddingTop: "0%"}}>
                     <em style={{fontSize: "1.8em"}}>Clubs Within</em>
                   </div>
