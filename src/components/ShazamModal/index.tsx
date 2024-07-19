@@ -68,7 +68,7 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
             <IonRow><IonLabel>Song: {shazamResponse.title}</IonLabel></IonRow>
             <IonRow><IonLabel>Genre: {shazamResponse.genre}</IonLabel></IonRow>
             <IonCol></IonCol>
-            <IonRow className="ion-padding-bottom"><IonCol></IonCol><IonButton color="success" onClick={acceptShazam}>Continue</IonButton> <IonButton color="danger" onClick={cancelShazam}>Cancel</IonButton><IonCol></IonCol></IonRow>
+            <IonRow className="handling-button-padding"><IonCol></IonCol><IonButton color="success" onClick={acceptShazam}>Continue</IonButton> <IonButton color="danger" onClick={cancelShazam}>Cancel</IonButton><IonCol></IonCol></IonRow>
           </IonGrid>
       </div>
     </IonModal>

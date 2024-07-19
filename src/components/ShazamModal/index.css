@@ -2,7 +2,7 @@
     --width: fit-content;
     
     --max-width: 345px;
-    --max-height:420px;
+    --max-height:430px;
     --height: fit-content;
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
@@ -110,4 +110,8 @@
     100% {
       transform: translate(0, 0) scale(1);
     }
+  }
+
+  .handling-button-padding{
+    padding-bottom: 80px;
   }
