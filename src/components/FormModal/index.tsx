@@ -331,7 +331,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
               <IonLabel>
                     <h6>
                     <sup>
-                      HOSTILE?
+                      FULLNESS?
                     </sup>
                   </h6>
                 </IonLabel>
@@ -373,17 +373,14 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
             </IonItem>
           </IonList>
         </IonContent>
-        <IonFooter>
-          <IonToolbar>
+        <IonToolbar>
             <IonButtons slot="start">
               <IonButton size="small" onClick={handleSubmit}>Submit</IonButton>
               <IonButton size="small" onClick={handleCancel}>Cancel</IonButton>
             </IonButtons>
             <IonButtons slot="end">
-              
             </IonButtons>
           </IonToolbar>
-        </IonFooter>
       </div>
     </IonModal>
   );

@@ -155,3 +155,8 @@ ion-range.range-disabled {
 ion-segment-button {
   min-width: 1px;
 }
+
+
+.capture-button-padding {
+  padding-bottom: 100px;
+}

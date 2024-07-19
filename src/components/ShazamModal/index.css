@@ -1,8 +1,7 @@
 .custom-modal {
     --width: fit-content;
     
-    --max-width: 345px;
-    --max-height:430px;
+   
     --height: fit-content;
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
@@ -114,4 +113,12 @@
 
   .handling-button-padding{
     padding-bottom: 80px;
+  }
+
+  .extra-top-padding {
+    padding-top: 105px;
+  }
+
+  .header-top-padding {
+    padding-top: 115px;
   }
