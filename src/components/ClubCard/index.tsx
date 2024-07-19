@@ -76,12 +76,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
         <div className="club-photo-container" onClick={onClick}>
           <img src={ClubProps.ImageStoragePath} alt="Club" />
         </div>
-      <div>
-        <IonGrid className="overlay-grid">
-
-        </IonGrid>
-      </div>
-        <div>
+        <div className="ion-padding-bottom">
           <IonGrid>
             <IonRow>
               <IonCol>
