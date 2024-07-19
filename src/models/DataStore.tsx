@@ -10,6 +10,7 @@ interface StoreState
     isShazamCaptured: boolean
     isShazamCorrect: boolean
     isCompletingForm: boolean
+    isCaptureEligible: boolean
     activeClub: string | null
     radius: number
     setLocation: (location: Position) => void
@@ -20,6 +21,7 @@ interface StoreState
     setIsShazamCaptured: (isShazamCaptured: boolean) => void
     setIsShazamCorrect: (isShazamCorrect: boolean) => void
     setIsCompletingForm: (isCompletingForm: boolean) => void
+    setIsCaptureEligibile: (isCaptureEligible: boolean) => void
     setRadius: (radius: number) => void
 
 }
@@ -35,6 +37,7 @@ export const useDataStore = create<StoreState>()((set) => ({
     isShazamCaptured: false,
     isShazamCorrect: false,
     isCompletingForm: false,
+    isCaptureEligible: false,
     setIsLocationLoading: (isLocationLoading: boolean) => set({ isLocationLoading }),
     setIsRecordingLoading: (isRecordingLoading: boolean) => set({ isRecordingLoading }),
     setCurrentClubs: (currentClubs: any) => set({currentClubs}),
@@ -44,4 +47,5 @@ export const useDataStore = create<StoreState>()((set) => ({
     setIsShazamCaptured: (isShazamCaptured: boolean) => set({isShazamCaptured}),
     setIsShazamCorrect: (isShazamCorrect: boolean) => set({isShazamCorrect}),
     setIsCompletingForm: (isCompletingForm: boolean) => set({isCompletingForm}),
+    setIsCaptureEligibile: (isCaptureEligible: boolean) => set({isCaptureEligible})
 }));

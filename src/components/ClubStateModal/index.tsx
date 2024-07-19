@@ -250,7 +250,7 @@ const ClubModal: React.FC<{
   activeClub: string | undefined;
 }> = ({ isOpen, setIsOpen, activeClub }) => {
   const [items, setItems] = useState<any[]>([]);
-  const [captureEligbility, setCaptureEligibility] = useState(false);
+  const {isCaptureEligible, setIsCaptureEligibile} = useDataStore();
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
   const accordionContentRef = useRef<HTMLDivElement>(null);
@@ -300,7 +300,7 @@ const ClubModal: React.FC<{
 
   const handleShazamCancel = () => {
     setIsShazamCorrect(false);
-    setCaptureEligibility(false);
+    setIsCaptureEligibile(false);
   };
 
   const captureState = async () => {
@@ -322,7 +322,7 @@ const ClubModal: React.FC<{
           message: 'Unable to capture audio after multiple attempts. Please try again.',
           buttons: ['OK']
         });
-        setCaptureEligibility(false);
+        setIsCaptureEligibile(false);
       } else {
         console.log(`Attempt ${attempts} failed. Retrying...`);
       }
@@ -385,7 +385,7 @@ const sendAudio = async (audioData: string) => {
     console.error("Error in sendAudio:", error);
     setShazamError("Failed to identify the song. Please try again.");
     setIsShazamCaptured(false);
-    setCaptureEligibility(false);
+    setIsCaptureEligibile(false);
   }
 };
 
@@ -417,7 +417,7 @@ const sendAudio = async (audioData: string) => {
   };
 
   const handleRecordClick = async () => {
-    setCaptureEligibility(false);
+    setIsCaptureEligibile(false);
   };
 
   const handleContinue = () => {
@@ -467,12 +467,12 @@ const sendAudio = async (audioData: string) => {
         const haversineDistance = haversine(userCords, clubCords);
 
         if (haversineDistance < 50) {
-          setCaptureEligibility(true);
+          setIsCaptureEligibile(true);
           setIsLocationLoading(false);
         } else {
           setDistanceAway((haversineDistance - 50).toFixed(2));
           setIsLocationLoading(false);
-          setCaptureEligibility(false);
+          setIsCaptureEligibile(false);
           setIsLocationFailed(true);
         }
       }
@@ -523,7 +523,7 @@ const sendAudio = async (audioData: string) => {
             color={"transparent"}
             onClick={() => {
               setIsOpen(false);
-              setCaptureEligibility(false);
+              setIsCaptureEligibile(false);
             }}
           >
             <IonIcon icon={arrowBack} />
@@ -546,7 +546,7 @@ const sendAudio = async (audioData: string) => {
                   color="dark"
                   fill="outline"
                   onClick={handleLocationClick}
-                  disabled={captureEligbility}
+                  disabled={isCaptureEligible}
                 >
                   <IonIcon slot="start" icon={navigateCircleOutline} />
                   Seek Bid
@@ -559,7 +559,7 @@ const sendAudio = async (audioData: string) => {
                   size="large"
                   color="danger"
                   fill="outline"
-                  disabled={!captureEligbility}
+                  disabled={!isCaptureEligible}
                   onClick={handleRecordingButton}
                 >
                   <IonIcon slot="start" icon={radioButtonOnOutline} />

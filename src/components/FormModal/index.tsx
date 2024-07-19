@@ -48,6 +48,7 @@ export const FormModal: React.FC<any> = ({ isOpen, onClose }) => {
     isShazamCaptured,
     setIsShazamCorrect,
     setIsShazamCaptured,
+    setIsCaptureEligibile,
   } = useDataStore();
   const [isFormCompleted, setIsFormCompleted] = useState<boolean>(false);
 
@@ -102,6 +103,7 @@ export const FormModal: React.FC<any> = ({ isOpen, onClose }) => {
     setIsShazamCorrect(false);
     setIsShazamCaptured(false);
     setIsFormCompleted(true);
+    setIsCaptureEligibile(false);
     CreateNewClubState(newState);
     onClose();
   };
