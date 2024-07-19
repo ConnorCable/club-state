@@ -1,59 +1,116 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 .custom-modal {
-    --border-radius: 6px;
-    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-    background-color: rgb(0, 0, 0);
-  }
-  
-  .custom-modal ion-toolbar {
-    --background: #000000;
-  }
-  
-  .custom-modal ion-title {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .custom-modal ion-content {
-    --padding-top: 20px;
-    --padding-bottom: 20px;
-    height: 100%;
-    overflow: auto;
-  }
-  
-  .custom-modal h2 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .custom-modal .image-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    margin-bottom: 2px;
-  }
-  
-  .custom-modal img {
-    max-width: 45%;
-    height: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .custom-modal ion-list {
-    margin-top: 20px;
-  }
-  
-  .custom-modal ion-item {
-    --padding-start: 0;
-  }
-  
-  .custom-modal ion-label {
-    display: flex;
-    font-size: 16px;
-    padding-left: 15vw;
-  }
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  background-color: rgb(0, 0, 0);
+  --width: 100%;
+  --height: 100%;
+}
+
+.custom-modal ion-toolbar {
+  --background: #000000;
+}
+
+.custom-modal ion-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.custom-modal ion-content {
+  --padding-top: 1px;
+  --padding-bottom: 1px;
+  height: 100%;
+  overflow: auto;
+}
+
+.custom-modal h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.custom-modal .image-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.custom-modal img {
+  max-width: 47%;
+  height: auto;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.custom-modal ion-list {
+  margin-top: 10px;
+}
+
+.custom-modal ion-item {
+  --padding-start: 0;
+}
+
+.custom-modal ion-label {
+  display: flex;
+  font-size: 14px;
+  padding-left: 5px;
+}
+
+
+.modal-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.compact-item {
+  --inner-padding-end: 5px;
+  --padding-start: 5px;
+  --ion-safe-area-right: 5px;
+}
+
+.compact-item-3, .compact-item-6 {
+  --inner-padding-end: 5px;
+  --padding-start: 5px;
+  --ion-safe-area-right: 5px;
+}
+
+.compact-item ion-title[slot="start"] {
+  flex: 0 0 auto;
+  width: auto;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-size: 14px;
+}
+
+ion-segment-button {
+  --indicator-color: #df8507;
+  --padding-end: 5px;
+  --padding-start: 5px;
+  font-size: 12px;
+}
+
+ion-segment {
+  min-width: 0;
+}
+
+ion-range {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+ion-footer ion-item {
+  --padding-start: 5px;
+  --padding-end: 5px;
+}
+
   
   .lava-lamp-background {
     position: absolute;
@@ -104,47 +161,6 @@
     100% {
       transform: translate(0, 0) scale(1);
     }
-  }
-  
-  .modal-wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .modal-content {
-    flex-grow: 1;
-    overflow: auto;
-  }
-
-  .compact-item {
-    --inner-padding-end: 15px;
-    --padding-start: 20px;
-    --ion-safe-area-right: 30px;
-  }
-
-  .compact-item-3 {
-     --inner-padding-end: 30px;
-    --padding-start: 0px;
-    --ion-safe-area-right: 5px;
-  }
-
-  .compact-item-6 {
-    --inner-padding-end: 30px;
-   --padding-start: 0px;
-   --ion-safe-area-right: 4px;
- }
-  
-  .compact-item ion-title[slot="start"] {
-    flex: 0 0 auto;
-    width: auto;
-    padding-right: 1px;
-    padding-left: 2px;
-  }
-
-  ion-segment-button {
-    --indicator-color: #df8507;
-    --padding-end: 40px;
   }
   
 
