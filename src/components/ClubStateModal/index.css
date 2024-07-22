@@ -120,7 +120,7 @@ ion-accordion.accordion-expanded ion-item[slot='header'] {
     transform: rotate(-360deg);
   }
 }
-
+/* 
 .play-button:hover {
   animation: spin 2s linear infinite;
   border-radius: 50%;
@@ -128,7 +128,7 @@ ion-accordion.accordion-expanded ion-item[slot='header'] {
 
 .play-button:hover ion-icon {
   animation: counter-spin 2s linear infinite;
-}
+} */
 
 .play-button {
   border-radius: 70%;
