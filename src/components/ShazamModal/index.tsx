@@ -61,16 +61,43 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
             </IonButton>
           </IonToolbar>
         </IonHeader>
-        <IonGrid className="ion-padding extra-top-padding">
-            <div className="image-container">
-              <img src={shazamResponse.imageUrl} alt="photo" />
-            </div> 
-            <IonRow><IonLabel>Artist: {shazamResponse.subTitle}</IonLabel></IonRow>
-            <IonRow><IonLabel>Song: {shazamResponse.title}</IonLabel></IonRow>
-            <IonRow><IonLabel>Genre: {shazamResponse.genre}</IonLabel></IonRow>
+        <IonGrid className="ion-padding extra-top-padding ion-no-margin">
+          <div className="image-container">
+            <img src={shazamResponse.imageUrl} alt="photo" />
+          </div>
+          <div className="text-container">
+            <IonRow>
+              <IonCol size="12">
+                <div className="info-line">
+                  <span className="info-label">Artist:</span>
+                  <span className="info-content">{shazamResponse.subTitle}</span>
+                </div>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol size="12">
+                <div className="info-line">
+                  <span className="info-label">Song:</span>
+                  <span className="info-content">{shazamResponse.title}</span>
+                </div>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol size="12">
+                <div className="info-line">
+                  <span className="info-label">Genre:</span>
+                  <span className="info-content">{shazamResponse.genre}</span>
+                </div>
+              </IonCol>
+            </IonRow>
+          </div>
+          <IonRow className="handling-button-padding">
             <IonCol></IonCol>
-            <IonRow className="handling-button-padding"><IonCol></IonCol><IonButton color="success" onClick={acceptShazam}>Continue</IonButton> <IonButton color="danger" onClick={cancelShazam}>Cancel</IonButton><IonCol></IonCol></IonRow>
-          </IonGrid>
+            <IonButton color="success" onClick={acceptShazam}>Continue</IonButton>
+            <IonButton color="danger" onClick={cancelShazam}>Cancel</IonButton>
+            <IonCol></IonCol>
+          </IonRow>
+        </IonGrid>
       </div>
     </IonModal>
   );
