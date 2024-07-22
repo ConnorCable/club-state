@@ -371,23 +371,29 @@ const ClubModal: React.FC<{
   };
 
   
-const sendAudio = async (audioData: string) => {
-  try {
-    const shazamResponse = await songDetect2(audioData);
-    console.log(shazamResponse);
-    if (shazamResponse) {
-      setShazamResponse(shazamResponse);
-      setIsShazamCaptured(true);
-    } else {
-      throw new Error("No response from Shazam");
+  const sendAudio = async (audioData: string) => {
+    try {
+      const shazamResponse = await songDetect2(audioData);
+      console.log(shazamResponse);
+      if (shazamResponse && shazamResponse.title) {
+        setShazamResponse(shazamResponse);
+        setIsShazamCaptured(true);
+      } else {
+        throw new Error("Song not recognized");
+      }
+    } catch (error) {
+      setShazamError("Song not recognized. Please try again.");
+      setIsShazamCaptured(false);
+      setIsCaptureEligibile(false);
+      
+      // Show an alert dialog
+      presentAlert({
+        header: 'Song Not Recognized',
+        message: 'Please try again.',
+        buttons: ['OK']
+      });
     }
-  } catch (error) {
-    console.error("Error in sendAudio:", error);
-    setShazamError("Failed to identify the song. Please try again.");
-    setIsShazamCaptured(false);
-    setIsCaptureEligibile(false);
-  }
-};
+  };
 
   const resumeRecording = async () => {
     try {
@@ -535,8 +541,8 @@ const sendAudio = async (audioData: string) => {
           {items.map((item, index) => (<ClubAccordionItem key={item.id} item={item} />))}
         </div>
       </IonContent>
-      <div>
-        <IonGrid className="capture-button-padding">
+      <IonFooter>
+        <IonGrid className="">
           <IonRow>
             <IonCol></IonCol>
             <IonCol>
@@ -570,7 +576,7 @@ const sendAudio = async (audioData: string) => {
             <IonCol></IonCol>
           </IonRow>
         </IonGrid>
-        </div>
+        </IonFooter>
       <LoadingOverlay isOpen={isLocationLoading} message="Verifying Location" />
     </IonModal>
   );
