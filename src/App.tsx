@@ -111,13 +111,14 @@ const App: React.FC = () => {
   };
 
   return (
+    
     <IonApp
-      style={{ maxWidth: 450, maxHeight: 740, margin: "auto", padding: "70px" }}
+      style={{ maxWidth: 450, maxHeight: 730, margin: "auto", padding: "70px" }}
     >
       <IonReactRouter>
         {geolocationFetched ? (
           <IonTabs>
-            <IonRouterOutlet>
+            <IonRouterOutlet className="ion-page">
               <Route exact path="/tab1">
                 <HomePage />
               </Route>
@@ -131,7 +132,7 @@ const App: React.FC = () => {
                 <Redirect to="/tab1" />
               </Route>
             </IonRouterOutlet>
-            <IonTabBar className="ion-padding-bottom footer-padding" slot="bottom"style={{ position: 'fixed', bottom: "0px", width: '100%' }}>
+            <IonTabBar className="" slot="bottom"style={{ position: 'relative', bottom: "0px", width: '100%' }}>
               <IonTabButton tab="tab1" href="/tab1">
                 <IonIcon icon={homeOutline} />
                 <IonLabel>Home</IonLabel>
