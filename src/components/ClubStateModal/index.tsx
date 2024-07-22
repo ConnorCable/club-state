@@ -204,6 +204,15 @@ const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => {
       setShowModal(true);
     };
 
+
+    if(item.data().captureTime === undefined) {
+      return <>
+      
+      </>
+    }
+
+    
+
     return (
       <>
         <IonItem button onClick={handleClick} color="light">
@@ -536,10 +545,14 @@ const ClubModal: React.FC<{
           </IonButton>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding-bottom">
-        <div style={{ maxHeight: screenHeight * 1.6, overflowY: "scroll" }}>
-          {items.map((item, index) => (<ClubAccordionItem key={item.id} item={item} />))}
-        </div>
+      <IonContent className="ion-padding-bottom">  
+      <div style={{ maxHeight: screenHeight * 1.6, overflowY: "scroll" }}>
+    {items.length === 0 ? (
+      <IonTitle>No States!</IonTitle>
+    ) : (
+      (items || []).map((item, index) => (<ClubAccordionItem key={item.id} item={item} />))
+    )}
+  </div>
       </IonContent>
       <IonFooter>
         <IonGrid className="">

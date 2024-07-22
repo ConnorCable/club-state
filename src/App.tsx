@@ -68,6 +68,7 @@ import * as geofirestore from "geofirestore";
 import logo from "../assets/clubStateLogo.gif";
 import "./App.css";
 import { doc, onSnapshot } from "firebase/firestore";
+import AdminPage from "./pages/AdminPage";
 
 
 setupIonicReact();
@@ -126,7 +127,7 @@ const App: React.FC = () => {
                 <Tab2 />
               </Route>
               <Route path="/tab3">
-                <FakeAdminPage />
+                <AdminPage />
               </Route>
               <Route exact path="/">
                 <Redirect to="/tab1" />
