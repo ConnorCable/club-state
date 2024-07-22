@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway");
+
+
+body{ position: fixed; height: 100% }
+
 .app-container {
     max-width: 800px; /* Set your desired maximum width */
     margin: 0 auto; /* Center the container horizontally */
@@ -41,7 +45,7 @@ ion-footer, ion-tab-bar {
   }
   
   body {
-    min-height: 100vh;
+    min-height: 90svh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -279,7 +283,7 @@ ion-footer, ion-tab-bar {
 }
   .value {
     flex: 0 0 auto;
-    min-height: 10vh;
+    min-height: 10svh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -329,6 +333,6 @@ ion-footer, ion-tab-bar {
     }
   }
 
-  .footer-padding{
-    margin-bottom: 90px;
-  }
+  /* .footer-padding{
+     50px
+  } */
