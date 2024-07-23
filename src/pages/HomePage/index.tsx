@@ -32,7 +32,7 @@ const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clubStats, setClubStats] = useState({});
   const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
-  const {location, setLocation, currentClubs, setCurrentClubs, radius} = useDataStore();
+  const {location, setLocation, currentClubs, setCurrentClubs, radius, setChosenClub} = useDataStore();
   const [clubCards, setClubCards] = useState([]);
   const [filteredClubs, setFilteredClubs] = useState<any>([]);
   const [genres, setGenres] = useState<string[]>([]);
@@ -201,6 +201,7 @@ const HomePage: React.FC = () => {
                     onClick={() => {
                       setActiveClub(club.id);
                       setIsOpen(true);
+                      setChosenClub(club.id);
                     }}
                     ClubProps={{
                       Id: club.id,

@@ -293,8 +293,12 @@ const ClubModal: React.FC<{
           .onSnapshot((snapshot) => {
             const states = snapshot.docs;
             const sortedStates = states.sort(
-              (a, b) =>
-                b.data().captureTime.seconds - a.data().captureTime.seconds
+              (a, b) => {
+                const aTime = a.data().captureTime?.seconds || 0;
+                const bTime = b.data().captureTime?.seconds || 0;
+              
+                return bTime - aTime;
+              }
             );
             setItems(sortedStates.map((doc) => doc));
           });
@@ -303,7 +307,7 @@ const ClubModal: React.FC<{
         console.error("No Club Ref Found");
       }
     };
-
+    console.log()
     getStates();
   }, [activeClub]);
 

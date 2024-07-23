@@ -40,6 +40,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
     setIsShazamCorrect,
     setIsShazamCaptured,
     setIsCaptureEligibile,
+    chosenClub
   } = useDataStore();
   const [isFormCompleted, setIsFormCompleted] = useState<boolean>(false);
 
@@ -48,7 +49,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
   const [clubAddress, setClubAddress] = useState("");
   const [clubLongitude, setClubLongitude] = useState("");
   const [clubLatitude, setClubLatitude] = useState("");
-
+  const {recordedSong} = useDataStore();
   const [cleanliness, setCleanliness] = useState<number>(1);
   const [clubID, setClubID] = useState("");
   const [cover, setCover] = useState(false);
@@ -87,8 +88,8 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
       longitude: longitude,
       price: price,
       ratio: ratio,
-      song: song,
-      artist: artist,
+      song: recordedSong!.song,
+      artist: recordedSong!.artist,
     };
 
     setIsShazamCorrect(false);
@@ -104,7 +105,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
       const firestore = firebase.firestore();
       const GeoFirestore = geofirestore.initializeApp(firestore);
       const clubGeoCollection = GeoFirestore.collection('geo-clubs');
-      const docRef = clubGeoCollection.doc(stateProps.clubId);
+      const docRef = clubGeoCollection.doc(chosenClub);
 
       const captureTime = Timestamp.now();
       
