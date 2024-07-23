@@ -160,3 +160,10 @@ ion-segment-button {
 .capture-button-padding {
   padding-bottom: 100px;
 }
+
+
+.activeSurveyButton {
+  background-color: var(--ion-color-primary);
+  color: #000000;
+  opacity: 1 !important;
+}

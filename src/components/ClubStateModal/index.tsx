@@ -91,6 +91,7 @@ interface ClubStateModalProps {
 }
 
 const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }) => {
+  console.log(data)
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onClose}>
       <IonHeader>
@@ -106,6 +107,7 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
               label="Fullness"
               className="fullnessIndicator"
               disabled={true}
+              value={data.fullness}
             >
               <IonIcon slot="start" icon={personRemoveOutline} />
               <IonIcon slot="end" icon={personAdd} />
@@ -114,6 +116,7 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
               label="Ratio"
               className="fullnessIndicator"
               disabled={true}
+              value = {data.ratio}
             >
               <IonIcon slot="start" icon={maleSharp} color="secondary" />
               <IonIcon slot="end" icon={femaleSharp} color="danger" />
@@ -121,7 +124,14 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
             <IonList className="admin-grid ion-padding-top">
             <IonItem className="compact-item">
             <IonTitle  slot="start" className="ion-padding-right"><h5>Cover</h5></IonTitle>
-            
+            <IonSegment slot="end" >
+                <IonSegmentButton value="yes" disabled={!data.line }>
+                  <IonLabel color={data.line ? "primary" : ""}>Yes</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="no"  disabled={data.line}>
+                  <IonLabel color={data.line ? "" : "primary"}>No</IonLabel>
+                </IonSegmentButton>
+              </IonSegment> 
             </IonItem>
             <IonItem className="compact-item">
             <IonTitle className="ion-padding-right" slot="start"><h5>Line</h5></IonTitle>
@@ -136,14 +146,14 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
             </IonItem>
             <IonItem className="compact-item-3">
               <IonTitle><h5>Price</h5></IonTitle>
-              <IonSegment>
-                <IonSegmentButton value="1" disabled>
+              <IonSegment disabled >
+                <IonSegmentButton value="1" className={data.price == 1 ? "activeSurveyButton" : ""} >
                   <IonLabel>$</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="2">
+                <IonSegmentButton value="2" className={data.price == 2 ? "activeSurveyButton" : ""} >
                   <IonLabel>$$</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="3">
+                <IonSegmentButton value="3" className={data.price == 3 ? "activeSurveyButton" : ""} >
                   <IonLabel>$$$</IonLabel>
                 </IonSegmentButton>
               </IonSegment>
@@ -151,13 +161,13 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
             <IonItem className="compact-item-3">
             <IonTitle className="ion-padding-right" ><h5>Clean</h5></IonTitle>
               <IonSegment>
-                <IonSegmentButton value="1">
+                <IonSegmentButton value="1" className={data.cleanliness == 1 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>🤢</h1></IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="2">
+                <IonSegmentButton value="2" className={data.cleanliness == 2 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>😐</h1></IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="3">
+                <IonSegmentButton value="3" className={data.cleanliness == 3 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>🤩</h1></IonLabel>
                 </IonSegmentButton>
               </IonSegment>
@@ -165,13 +175,13 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
             <IonItem className="compact-item-6">
             <IonTitle className="ion-padding-right" ><h5>Hostile</h5></IonTitle>
               <IonSegment>
-                <IonSegmentButton value="1">
+                <IonSegmentButton value="1" className={data.hostility == 1 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>🫶</h1></IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="2">
+                <IonSegmentButton value="2" className={data.hostility == 2 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>😳</h1></IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="3">
+                <IonSegmentButton value="3" className={data.hostility == 3 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>🤬</h1></IonLabel>
                 </IonSegmentButton>
               </IonSegment>
@@ -179,13 +189,13 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
             <IonItem className="compact-item-3">
             <IonTitle className="ion-padding-right"><h5>Loud</h5></IonTitle>
               <IonSegment >
-                <IonSegmentButton value="1">
+                <IonSegmentButton value="1" className={data.loudness == 1 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>🔇</h1></IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="2">
+                <IonSegmentButton value="2" className={data.loudness == 2 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>🔈</h1></IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="3">
+                <IonSegmentButton value="3" className={data.loudness == 3 ? "activeSurveyButton" : ""}>
                   <IonLabel><h1>🔊</h1></IonLabel>
                 </IonSegmentButton>
               </IonSegment>

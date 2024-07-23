@@ -80,7 +80,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
       clubId: clubID,
       cover: cover,
       fullness: fullness,
-      genre: genre,
+      genre: recordedSong!.genre,
       hostility: hostility,
       latitude: latitude,
       line: line,
@@ -116,6 +116,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         fullness: stateProps.fullness,
         genre: stateProps.genre,
         line: stateProps.line,
+        hostility: stateProps.hostility,
         coordinates: new firebase.firestore.GeoPoint(parseFloat(stateProps.latitude), parseFloat(stateProps.longitude)),
         loudness: stateProps.loudness,
         price: stateProps.loudness,
@@ -132,6 +133,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         line: stateProps.line,
         coordinates: new firebase.firestore.GeoPoint(parseFloat(stateProps.latitude), parseFloat(stateProps.longitude)),
         loudness: stateProps.loudness,
+        hostility: stateProps.hostility,
         price: stateProps.loudness,
         ratio: stateProps.ratio,
         song: stateProps.song,
@@ -344,6 +346,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                   pin={true} 
                   pinFormatter={(value: number) => `${value}%`}
                   style={{ width: '100%', maxWidth: '200px' }}
+                  onIonChange={(e) => {setFullness(e.detail.value as number)}}
                 >
                   <IonIcon slot="start" icon={personRemoveOutline} />
                   <IonIcon slot="end" icon={personAddOutline} />
@@ -366,6 +369,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                   pin={true} 
                   pinFormatter={(value: number) => `${value}%`}
                   style={{ width: '100%', maxWidth: '200px' }}
+                  onIonChange={(e) => {setRatio(e.detail.value as number)}}
                 >
                   <IonIcon slot="start" icon={maleOutline} color="secondary" />
                   <IonIcon slot="end" icon={femaleOutline} color="danger" />
