@@ -167,7 +167,9 @@ const HomePage: React.FC = () => {
         
         <Swiper className="genreSwiper "spaceBetween={7} slidesPerView={4} loop={true} autoplay={{delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: false}} modules={[Autoplay]}>
           {genres.map((genre: any) => {
+            if(!genre.genre) return null
             return(
+            
             <SwiperSlide key={genre.index}>
             <IonCard className="genreCard" color={genre.index === activeButton ? "dark" : "light"} onClick={() => filterClubs(genre)}>
               <IonCardTitle className="genreTitle ">{genre.genre.length > 5 ? <sup><h3>{genre.genre}</h3></sup>: <sup><sup><h1>{genre.genre}</h1></sup></sup>}</IonCardTitle>
