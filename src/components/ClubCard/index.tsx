@@ -104,10 +104,11 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
             </IonRow>
             <IonRow>
             <IonCol>
-                  <IonText class="ion-text-small">
-                    <h3><strong> Description:  </strong> {recentState.aiResponse}</h3>
-                  </IonText>
+                    <IonText class="ion-text-small" color={"dark"}>
+                      <h3><strong> Description:  </strong> {recentState.aiResponse}</h3>
+                    </IonText>
                 </IonCol>
+                
             </IonRow>
           </IonGrid>
         </div>
