@@ -19,12 +19,18 @@ import {
   IonFooter,
   IonButtons,
 } from "@ionic/react";
-import { closeOutline, femaleOutline, maleOutline, personAddOutline, personRemoveOutline } from "ionicons/icons";
+import {
+  closeOutline,
+  femaleOutline,
+  maleOutline,
+  personAddOutline,
+  personRemoveOutline,
+} from "ionicons/icons";
 import "./index.css";
 import { useDataStore } from "../../models/DataStore";
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
-import * as geofirestore from 'geofirestore';
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import * as geofirestore from "geofirestore";
 import { Timestamp } from "firebase/firestore";
 import { ClubStateProps } from "../../models/ClubStateProps";
 
@@ -40,7 +46,9 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
     setIsShazamCorrect,
     setIsShazamCaptured,
     setIsCaptureEligibile,
-    chosenClub
+    chosenClub,
+    googleGenerativeAI,
+    aiPrompt,
   } = useDataStore();
   const [isFormCompleted, setIsFormCompleted] = useState<boolean>(false);
 
@@ -49,7 +57,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
   const [clubAddress, setClubAddress] = useState("");
   const [clubLongitude, setClubLongitude] = useState("");
   const [clubLatitude, setClubLatitude] = useState("");
-  const {recordedSong} = useDataStore();
+  const { recordedSong } = useDataStore();
   const [cleanliness, setCleanliness] = useState<number>(1);
   const [clubID, setClubID] = useState("");
   const [cover, setCover] = useState(false);
@@ -104,11 +112,26 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
     try {
       const firestore = firebase.firestore();
       const GeoFirestore = geofirestore.initializeApp(firestore);
-      const clubGeoCollection = GeoFirestore.collection('geo-clubs');
+      const clubGeoCollection = GeoFirestore.collection("geo-clubs");
       const docRef = clubGeoCollection.doc(chosenClub);
 
       const captureTime = Timestamp.now();
+
+      const prompt = `${aiPrompt}:
+          - Cleanliness: ${stateProps.cleanliness}
+          - Cover: ${stateProps.cover}
+          - Fullness: ${stateProps.fullness}
+          - Genre: ${stateProps.genre}
+          - Line: ${stateProps.line}
+          - Hostility: ${stateProps.hostility}
+          - Coordinates: (${stateProps.latitude}, ${stateProps.longitude})
+          - Loudness: ${stateProps.loudness}
+          - Price: ${stateProps.price}
+          - Ratio: ${stateProps.ratio}`
+
+      const aiResponse = (await googleGenerativeAI!.generateContent(prompt)).response.text();
       
+
       docRef.collection("states").add({
         captureTime: captureTime,
         cleanliness: stateProps.cleanliness,
@@ -117,12 +140,16 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         genre: stateProps.genre,
         line: stateProps.line,
         hostility: stateProps.hostility,
-        coordinates: new firebase.firestore.GeoPoint(parseFloat(stateProps.latitude), parseFloat(stateProps.longitude)),
+        coordinates: new firebase.firestore.GeoPoint(
+          parseFloat(stateProps.latitude),
+          parseFloat(stateProps.longitude)
+        ),
         loudness: stateProps.loudness,
         price: stateProps.loudness,
         ratio: stateProps.ratio,
         song: stateProps.song,
         artist: stateProps.artist,
+        aiResponse: aiResponse
       });
 
       const state = {
@@ -131,37 +158,48 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         fullness: stateProps.fullness,
         genre: stateProps.genre,
         line: stateProps.line,
-        coordinates: new firebase.firestore.GeoPoint(parseFloat(stateProps.latitude), parseFloat(stateProps.longitude)),
+        coordinates: new firebase.firestore.GeoPoint(
+          parseFloat(stateProps.latitude),
+          parseFloat(stateProps.longitude)
+        ),
         loudness: stateProps.loudness,
         hostility: stateProps.hostility,
         price: stateProps.loudness,
         ratio: stateProps.ratio,
         song: stateProps.song,
-        artist: stateProps.artist,
-      }
+        artist: stateProps.artist, 
+        aiResponse: aiResponse
+      };
 
       docRef.update({
-        recentCapture: state
+        recentCapture: state,
       });
-
     } catch (error) {
-      console.error('Error creating club state:', error);
+      console.error("Error creating club state:", error);
     }
-  }
+  };
 
   return (
-    <IonModal isOpen={isOpen} onDidDismiss={onClose} backdropDismiss={false} className="custom-modal">
+    <IonModal
+      isOpen={isOpen}
+      onDidDismiss={onClose}
+      backdropDismiss={false}
+      className="custom-modal"
+    >
       <div className="modal-wrapper">
         <div className="lava-lamp-background"></div>
         <IonHeader>
           <IonToolbar>
-            <IonTitle size="large" style={{
-              textAlign: "center", 
-              fontSize: "1.5em", 
-              paddingLeft: "40px", 
-              fontFamily: "Inter", 
-              fontWeight: "bold"
-            }}>
+            <IonTitle
+              size="large"
+              style={{
+                textAlign: "center",
+                fontSize: "1.5em",
+                paddingLeft: "40px",
+                fontFamily: "Inter",
+                fontWeight: "bold",
+              }}
+            >
               Your State
             </IonTitle>
             <IonButton slot="end" fill="clear" onClick={onClose}>
@@ -171,65 +209,68 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
         </IonHeader>
         <IonContent className="modal-content">
           <IonList className="admin-grid ion-padding-top">
-          <IonItem className="compact-item">
-        <IonCol size="4">
-          <IonLabel>
-            <h6>
-              <sup>
-                COVER?
-              </sup>
-            </h6>
-          </IonLabel>               
-        </IonCol>
-        <IonCol size="8">
-          <IonSegment value={cover ? "yes" : "no"} onIonChange={(e) => setCover(e.detail.value === "yes")}>
-            <IonSegmentButton value="yes">
-              <IonLabel>Yes</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value="no">
-              <IonLabel>No</IonLabel>
-            </IonSegmentButton>
-          </IonSegment>
-        </IonCol>
-      </IonItem>
-      <IonItem className="compact-item">
-        <IonCol size="4">
-          <IonLabel>
-            <h6>
-              <sup>
-                LINE?
-              </sup>
-            </h6>
-          </IonLabel>
-        </IonCol>
-        <IonCol size="8">
-          <IonSegment value={line ? "yes" : "no"} onIonChange={(e) => setLine(e.detail.value === "yes")}>
-            <IonSegmentButton value="yes">
-              <IonLabel>Yes</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value="no">
-              <IonLabel>No</IonLabel>
-            </IonSegmentButton>
-          </IonSegment>
-        </IonCol>
-      </IonItem>
-            <IonItem className="compact-item-3">
+            <IonItem className="compact-item">
               <IonCol size="4">
                 <IonLabel>
-                    <h6>
-                    <sup>
-                      PRICE?
-                    </sup>
+                  <h6>
+                    <sup>COVER?</sup>
                   </h6>
                 </IonLabel>
               </IonCol>
               <IonCol size="8">
-                <IonSegment value={price.toString()} onIonChange={(e) => {
-                  const value = e.detail.value;
-                  if (typeof value === 'string') {
-                    setPrice(parseInt(value));
-                  }
-                }}>
+                <IonSegment
+                  value={cover ? "yes" : "no"}
+                  onIonChange={(e) => setCover(e.detail.value === "yes")}
+                >
+                  <IonSegmentButton value="yes">
+                    <IonLabel>Yes</IonLabel>
+                  </IonSegmentButton>
+                  <IonSegmentButton value="no">
+                    <IonLabel>No</IonLabel>
+                  </IonSegmentButton>
+                </IonSegment>
+              </IonCol>
+            </IonItem>
+            <IonItem className="compact-item">
+              <IonCol size="4">
+                <IonLabel>
+                  <h6>
+                    <sup>LINE?</sup>
+                  </h6>
+                </IonLabel>
+              </IonCol>
+              <IonCol size="8">
+                <IonSegment
+                  value={line ? "yes" : "no"}
+                  onIonChange={(e) => setLine(e.detail.value === "yes")}
+                >
+                  <IonSegmentButton value="yes">
+                    <IonLabel>Yes</IonLabel>
+                  </IonSegmentButton>
+                  <IonSegmentButton value="no">
+                    <IonLabel>No</IonLabel>
+                  </IonSegmentButton>
+                </IonSegment>
+              </IonCol>
+            </IonItem>
+            <IonItem className="compact-item-3">
+              <IonCol size="4">
+                <IonLabel>
+                  <h6>
+                    <sup>PRICE?</sup>
+                  </h6>
+                </IonLabel>
+              </IonCol>
+              <IonCol size="8">
+                <IonSegment
+                  value={price.toString()}
+                  onIonChange={(e) => {
+                    const value = e.detail.value;
+                    if (typeof value === "string") {
+                      setPrice(parseInt(value));
+                    }
+                  }}
+                >
                   <IonSegmentButton value="1">
                     <IonLabel>$</IonLabel>
                   </IonSegmentButton>
@@ -245,28 +286,35 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
             <IonItem className="compact-item-3">
               <IonCol size="4">
                 <IonLabel>
-                    <h6>
-                    <sup>
-                      CLEAN?
-                    </sup>
+                  <h6>
+                    <sup>CLEAN?</sup>
                   </h6>
                 </IonLabel>
               </IonCol>
               <IonCol size="8">
-                <IonSegment value={cleanliness.toString()} onIonChange={(e) => {
-                  const value = e.detail.value;
-                  if (typeof value === 'string') {
-                    setCleanliness(parseInt(value));
-                  }
-                }}>
+                <IonSegment
+                  value={cleanliness.toString()}
+                  onIonChange={(e) => {
+                    const value = e.detail.value;
+                    if (typeof value === "string") {
+                      setCleanliness(parseInt(value));
+                    }
+                  }}
+                >
                   <IonSegmentButton value="1">
-                    <IonLabel><h1>🤢</h1></IonLabel>
+                    <IonLabel>
+                      <h1>🤢</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                   <IonSegmentButton value="2">
-                    <IonLabel><h1>😐</h1></IonLabel>
+                    <IonLabel>
+                      <h1>😐</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                   <IonSegmentButton value="3">
-                    <IonLabel><h1>🤩</h1></IonLabel>
+                    <IonLabel>
+                      <h1>🤩</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                 </IonSegment>
               </IonCol>
@@ -274,28 +322,35 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
             <IonItem className="compact-item-6">
               <IonCol size="4">
                 <IonLabel>
-                    <h6>
-                    <sup>
-                      HOSTILE?
-                    </sup>
+                  <h6>
+                    <sup>HOSTILE?</sup>
                   </h6>
                 </IonLabel>
               </IonCol>
               <IonCol size="8">
-                <IonSegment value={hostility.toString()} onIonChange={(e) => {
-                  const value = e.detail.value;
-                  if (typeof value === 'string') {
-                    setHostility(parseInt(value));
-                  }
-                }}>
+                <IonSegment
+                  value={hostility.toString()}
+                  onIonChange={(e) => {
+                    const value = e.detail.value;
+                    if (typeof value === "string") {
+                      setHostility(parseInt(value));
+                    }
+                  }}
+                >
                   <IonSegmentButton value="1">
-                    <IonLabel><h1>🫶</h1></IonLabel>
+                    <IonLabel>
+                      <h1>🫶</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                   <IonSegmentButton value="2">
-                    <IonLabel><h1>😳</h1></IonLabel>
+                    <IonLabel>
+                      <h1>😳</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                   <IonSegmentButton value="3">
-                    <IonLabel><h1>🤬</h1></IonLabel>
+                    <IonLabel>
+                      <h1>🤬</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                 </IonSegment>
               </IonCol>
@@ -303,50 +358,56 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
             <IonItem className="compact-item-3">
               <IonCol size="4">
                 <IonLabel>
-                    <h6>
-                    <sup>
-                      LOUD?
-                    </sup>
+                  <h6>
+                    <sup>LOUD?</sup>
                   </h6>
                 </IonLabel>
               </IonCol>
               <IonCol size="8">
-                <IonSegment value={loudness.toString()} onIonChange={(e) => {
-                  const value = e.detail.value;
-                  if (typeof value === 'string') {
-                    setLoudness(parseInt(value));
-                  }
-                }}>
+                <IonSegment
+                  value={loudness.toString()}
+                  onIonChange={(e) => {
+                    const value = e.detail.value;
+                    if (typeof value === "string") {
+                      setLoudness(parseInt(value));
+                    }
+                  }}
+                >
                   <IonSegmentButton value="1">
-                    <IonLabel><h1>🔇</h1></IonLabel>
+                    <IonLabel>
+                      <h1>🔇</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                   <IonSegmentButton value="2">
-                    <IonLabel><h1>🔈</h1></IonLabel>
+                    <IonLabel>
+                      <h1>🔈</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                   <IonSegmentButton value="3">
-                    <IonLabel><h1>🔊</h1></IonLabel>
+                    <IonLabel>
+                      <h1>🔊</h1>
+                    </IonLabel>
                   </IonSegmentButton>
                 </IonSegment>
               </IonCol>
             </IonItem>
             <IonItem className="compact-item-3">
               <IonCol size="4">
-              <IonLabel>
-                    <h6>
-                    <sup>
-                      FULLNESS?
-                    </sup>
+                <IonLabel>
+                  <h6>
+                    <sup>FULLNESS?</sup>
                   </h6>
                 </IonLabel>
-              
               </IonCol>
               <IonCol size="8">
-                <IonRange 
-                  defaultValue={50} 
-                  pin={true} 
+                <IonRange
+                  defaultValue={50}
+                  pin={true}
                   pinFormatter={(value: number) => `${value}%`}
-                  style={{ width: '100%', maxWidth: '200px' }}
-                  onIonChange={(e) => {setFullness(e.detail.value as number)}}
+                  style={{ width: "100%", maxWidth: "200px" }}
+                  onIonChange={(e) => {
+                    setFullness(e.detail.value as number);
+                  }}
                 >
                   <IonIcon slot="start" icon={personRemoveOutline} />
                   <IonIcon slot="end" icon={personAddOutline} />
@@ -355,21 +416,21 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
             </IonItem>
             <IonItem className="compact-item-3">
               <IonCol size="4">
-              <IonLabel>
-                    <h6>
-                    <sup>
-                      RATIO?
-                    </sup>
+                <IonLabel>
+                  <h6>
+                    <sup>RATIO?</sup>
                   </h6>
                 </IonLabel>
               </IonCol>
               <IonCol size="8">
-                <IonRange 
-                  defaultValue={50} 
-                  pin={true} 
+                <IonRange
+                  defaultValue={50}
+                  pin={true}
                   pinFormatter={(value: number) => `${value}%`}
-                  style={{ width: '100%', maxWidth: '200px' }}
-                  onIonChange={(e) => {setRatio(e.detail.value as number)}}
+                  style={{ width: "100%", maxWidth: "200px" }}
+                  onIonChange={(e) => {
+                    setRatio(e.detail.value as number);
+                  }}
                 >
                   <IonIcon slot="start" icon={maleOutline} color="secondary" />
                   <IonIcon slot="end" icon={femaleOutline} color="danger" />
@@ -379,13 +440,16 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
           </IonList>
         </IonContent>
         <IonToolbar>
-            <IonButtons slot="start">
-              <IonButton size="small" onClick={handleSubmit}>Submit</IonButton>
-              <IonButton size="small" onClick={handleCancel}>Cancel</IonButton>
-            </IonButtons>
-            <IonButtons slot="end">
-            </IonButtons>
-          </IonToolbar>
+          <IonButtons slot="start">
+            <IonButton size="small" onClick={handleSubmit}>
+              Submit
+            </IonButton>
+            <IonButton size="small" onClick={handleCancel}>
+              Cancel
+            </IonButton>
+          </IonButtons>
+          <IonButtons slot="end"></IonButtons>
+        </IonToolbar>
       </div>
     </IonModal>
   );

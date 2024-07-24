@@ -69,15 +69,23 @@ import logo from "../assets/clubStateLogo.gif";
 import "./App.css";
 import { doc, onSnapshot } from "firebase/firestore";
 import AdminPage from "./pages/AdminPage";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const [geolocationFetched, setGeolocationFetched] = useState(false);
-  const { location, setLocation, radius, setRadius } = useDataStore();
+  const { location, setLocation, radius, setRadius, googleAPIKey, setGoogleGenerativeAI } = useDataStore();
   const [showProgressBar, setShowProgressBar] = useState(false);
+ // const {setGoogleGenerativeAI, googleGenerativeAI, googleAPIKey} = useDataStore();
 
+
+  useEffect(() => {
+   const genAI = new GoogleGenerativeAI(googleAPIKey);
+  const model = genAI.getGenerativeModel({model : "gemini-1.5-flash"})
+  setGoogleGenerativeAI(model)
+  }, []);
   firebase.initializeApp({
     apiKey: "AIzaSyA09rOO1u5io_qURoy9I3bKWEf1kv5oWrQ",
 

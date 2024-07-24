@@ -33,7 +33,7 @@ const click = () => {
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) => {
 
   const {location} = useDataStore();
-  const recentState = ClubProps.RecentCapture;
+  const recentState = ClubProps.RecentCapture as { artist: string; cleanliness: string; clubId: string; cover: boolean; fullness: string; genre: string; hostility: string; line: boolean; latitude: string; longitude: string; loudness: string; price: string; ratio: string; song: string; aiResponse: string; };
   const ratio = recentState.ratio == "1" ? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
 
   return (
@@ -101,6 +101,13 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
                   </IonText>
                 </IonCol>
               )}
+            </IonRow>
+            <IonRow>
+            <IonCol>
+                  <IonText class="ion-text-small">
+                    <h3><strong> Description:  </strong> {recentState.aiResponse}</h3>
+                  </IonText>
+                </IonCol>
             </IonRow>
           </IonGrid>
         </div>

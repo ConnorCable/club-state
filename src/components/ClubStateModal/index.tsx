@@ -105,9 +105,10 @@ const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }
       <IonContent>
       <IonRange
               label="Fullness"
-              className="fullnessIndicator"
+              className="fullnessIndicator custom-disabled-range"
               disabled={true}
               value={data.fullness}
+
             >
               <IonIcon slot="start" icon={personRemoveOutline} />
               <IonIcon slot="end" icon={personAdd} />
