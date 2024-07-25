@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Geolocation, Position } from "@capacitor/geolocation";
-import { useIonAlert } from '@ionic/react';
+import { IonCardContent, useIonAlert } from "@ionic/react";
 import {
   IonModal,
   IonContent,
@@ -90,179 +90,282 @@ interface ClubStateModalProps {
   data: any;
 }
 
-const ClubStateModal: React.FC<ClubStateModalProps> = ({ isOpen, onClose, data }) => {
-  console.log(data)
+/*
+
+
+*/
+
+const ClubStateModal: React.FC<ClubStateModalProps> = ({
+  isOpen,
+  onClose,
+  data,
+}) => {
+  console.log(data);
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onClose}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Club State Details</IonTitle>
-          <IonButton className="close-button" slot="start" onClick={onClose} color="light">
+          <IonButton
+            className="close-button"
+            slot="start"
+            onClick={onClose}
+            color="light"
+          >
             <IonIcon icon={arrowBack} />
           </IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-      <IonRange
-              label="Fullness"
-              className="fullnessIndicator custom-disabled-range"
-              disabled={true}
-              value={data.fullness}
-
-            >
-              <IonIcon slot="start" icon={personRemoveOutline} />
-              <IonIcon slot="end" icon={personAdd} />
-            </IonRange>
-            <IonRange
-              label="Ratio"
-              className="fullnessIndicator"
-              disabled={true}
-              value = {data.ratio}
-            >
-              <IonIcon slot="start" icon={maleSharp} color="secondary" />
-              <IonIcon slot="end" icon={femaleSharp} color="danger" />
-            </IonRange>
-            <IonList className="admin-grid ion-padding-top">
-            <IonItem className="compact-item">
-            <IonTitle  slot="start" className="ion-padding-right"><h5>Cover</h5></IonTitle>
-            <IonSegment slot="end" >
-                <IonSegmentButton value="yes" disabled={!data.line }>
-                  <IonLabel color={data.line ? "primary" : ""}>Yes</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="no"  disabled={data.line}>
-                  <IonLabel color={data.line ? "" : "primary"}>No</IonLabel>
-                </IonSegmentButton>
-              </IonSegment> 
-            </IonItem>
-            <IonItem className="compact-item">
-            <IonTitle className="ion-padding-right" slot="start"><h5>Line</h5></IonTitle>
-              <IonSegment slot="end" >
-                <IonSegmentButton value="yes" disabled={true}>
+        <IonGrid>
+          <IonRow>
+            <IonCol size="3">
+              <IonLabel>Fullness</IonLabel>
+            </IonCol>
+            <IonCol size="9">
+              <IonRange
+                className="fullnessIndicator custom-disabled-range"
+                disabled={true}
+                value={data.fullness}
+              >
+                <IonIcon slot="start" icon={personRemoveOutline} color="dark" />
+                <IonIcon slot="end" icon={personAdd} color="dark" />
+              </IonRange>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="3">
+              <IonLabel>Ratio</IonLabel>
+            </IonCol>
+            <IonCol size="9">
+              <IonRange
+                className="fullnessIndicator"
+                disabled={true}
+                value={data.ratio}
+              >
+                <IonIcon slot="start" icon={maleSharp} color="secondary" />
+                <IonIcon slot="end" icon={femaleSharp} color="danger" />
+              </IonRange>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="3">
+              <IonLabel>Cover</IonLabel>
+            </IonCol>
+            <IonCol>
+              <IonSegment>
+                <IonSegmentButton value="yes" disabled className={data.cover ? "activeSurveyButton" : ""}>
                   <IonLabel>Yes</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="no" >
-                  <IonLabel color={"primary"}>No</IonLabel>
+                <IonSegmentButton value="no" disabled className={!data.cover ? "activeSurveyButton" : ""}>
+                  <IonLabel >No</IonLabel>
                 </IonSegmentButton>
               </IonSegment>
-            </IonItem>
-            <IonItem className="compact-item-3">
-              <IonTitle><h5>Price</h5></IonTitle>
-              <IonSegment disabled >
-                <IonSegmentButton value="1" className={data.price == 1 ? "activeSurveyButton" : ""} >
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="3">
+              <IonLabel>Line</IonLabel>
+            </IonCol>
+            <IonCol>
+              <IonSegment>
+                <IonSegmentButton value="yes" disabled className={data.line ? "activeSurveyButton" : ""}>
+                  <IonLabel>Yes</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="no" disabled className={!data.line ? "activeSurveyButton" : ""}>
+                  <IonLabel >No</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="3">
+              <IonLabel>Price</IonLabel>
+            </IonCol>
+            <IonCol>
+              <IonSegment>
+                <IonSegmentButton
+                  value="yes"
+                  disabled
+                  className={data.price == 1 ? "activeSurveyButton" : ""}
+                >
                   <IonLabel>$</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="2" className={data.price == 2 ? "activeSurveyButton" : ""} >
+                <IonSegmentButton
+                  value="no"
+                  disabled
+                  className={data.price == 2 ? "activeSurveyButton" : ""}
+                >
                   <IonLabel>$$</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="3" className={data.price == 3 ? "activeSurveyButton" : ""} >
-                  <IonLabel>$$$</IonLabel>
+                <IonSegmentButton
+                  value="no"
+                  disabled
+                  className={data.price == 3 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel>$$</IonLabel>
                 </IonSegmentButton>
               </IonSegment>
-            </IonItem>
-            <IonItem className="compact-item-3">
-            <IonTitle className="ion-padding-right" ><h5>Clean</h5></IonTitle>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="4">
+              <IonLabel>Cleanliness</IonLabel>
+            </IonCol>
+            <IonCol size="8">
               <IonSegment>
-                <IonSegmentButton value="1" className={data.cleanliness == 1 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>🤢</h1></IonLabel>
+                <IonSegmentButton
+                  value="yes"
+                  disabled
+                  className={data.cleanliness == 1 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel color={data.clean ? "primary" : ""}>🤢</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="2" className={data.cleanliness == 2 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>😐</h1></IonLabel>
+                <IonSegmentButton
+                  value="no"
+                  disabled
+                  className={data.cleanliness == 2 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel>😕</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="3" className={data.cleanliness == 3 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>🤩</h1></IonLabel>
+                <IonSegmentButton
+                  value="no"
+                  disabled
+                  className={data.cleanliness == 3 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel color={data.clean ? "" : "primary"}>😁</IonLabel>
                 </IonSegmentButton>
               </IonSegment>
-            </IonItem>
-            <IonItem className="compact-item-6">
-            <IonTitle className="ion-padding-right" ><h5>Hostile</h5></IonTitle>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="3">
+              <IonLabel>Hostility</IonLabel>
+            </IonCol>
+            <IonCol size="9">
               <IonSegment>
-                <IonSegmentButton value="1" className={data.hostility == 1 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>🫶</h1></IonLabel>
+                <IonSegmentButton
+                  value="yes"
+                  disabled
+                  className={data.hostility == 1 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel color={data.clean ? "primary" : ""}>🫶</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="2" className={data.hostility == 2 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>😳</h1></IonLabel>
+                <IonSegmentButton
+                  value="no"
+                  disabled
+                  className={data.hostility == 2 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel>😳</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="3" className={data.hostility == 3 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>🤬</h1></IonLabel>
-                </IonSegmentButton>
-              </IonSegment>
-            </IonItem>
-            <IonItem className="compact-item-3">
-            <IonTitle className="ion-padding-right"><h5>Loud</h5></IonTitle>
-              <IonSegment >
-                <IonSegmentButton value="1" className={data.loudness == 1 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>🔇</h1></IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="2" className={data.loudness == 2 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>🔈</h1></IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="3" className={data.loudness == 3 ? "activeSurveyButton" : ""}>
-                  <IonLabel><h1>🔊</h1></IonLabel>
+                <IonSegmentButton
+                  value="no"
+                  disabled
+                  className={data.hostility == 3 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel color={data.clean ? "" : "primary"}>🤬</IonLabel>
                 </IonSegmentButton>
               </IonSegment>
-            </IonItem>
-          </IonList>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="3">
+              <IonLabel>Loudness</IonLabel>
+            </IonCol>
+            <IonCol size="9">
+              <IonSegment>
+                <IonSegmentButton
+                  value="yes"
+                  disabled
+                  className={data.loudness == 1 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel color={data.clean ? "primary" : ""}>🔇</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton
+                  value="no"
+                  disabled
+                  className={data.loudness == 2 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel>🔉</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton
+                  value="no"
+                  disabled
+                  className={data.loudness == 3 ? "activeSurveyButton" : ""}
+                >
+                  <IonLabel>🔊</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonCol>
+          </IonRow>
+          <IonRow className="ion-justify-content-center">
+            <IonCol size="9" className="ion-text-align ">
+              <IonCard className="description-card blue-aura">
+                <IonCardContent>
+                  <IonText>
+                    <p>{data.aiResponse}</p>
+                  </IonText>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonModal>
   );
 };
 
 const ClubAccordionItem: React.FC<{ item: any }> = ({ item }) => {
-    const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-    const handleClick = (e: React.MouseEvent) => {
-      e.preventDefault();
-      setShowModal(true);
-    };
-
-
-    if(item.data().captureTime === undefined) {
-      return <>
-      
-      </>
-    }
-
-    
-
-    return (
-      <>
-        <IonItem button onClick={handleClick} color="light">
-          <IonGrid className="ion-padding">
-            <IonRow>
-              <IonCol>
-                <IonLabel>
-                  <h6>
-                    <sup>
-                      {CalculateTimeDifference(item.data().captureTime.seconds)}
-                    </sup>
-                  </h6>
-                </IonLabel>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <div>
-                  <sup className="song-info">
-                    <em>{item.data().song}</em> - <em>{item.data().artist}</em>
-                  </sup>
-                </div>
-              </IonCol>
-              <IonCol size="auto" className="genre-col">
-                <IonBadge color="dark" className="genre-badge">
-                  {TruncateText(item.data().genre, 8)}
-                </IonBadge>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </IonItem>
-        <ClubStateModal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-          data={item.data()}
-        />
-      </>
-    );
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowModal(true);
   };
+
+  if (item.data().captureTime === undefined) {
+    return <></>;
+  }
+
+  return (
+    <>
+      <IonItem button onClick={handleClick} color="light">
+        <IonGrid className="ion-padding">
+          <IonRow>
+            <IonCol>
+              <IonLabel>
+                <h6>
+                  <sup>
+                    {CalculateTimeDifference(item.data().captureTime.seconds)}
+                  </sup>
+                </h6>
+              </IonLabel>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <div>
+                <sup className="song-info">
+                  <em>{item.data().song}</em> - <em>{item.data().artist}</em>
+                </sup>
+              </div>
+            </IonCol>
+            <IonCol size="auto" className="genre-col">
+              <IonBadge color="dark" className="genre-badge">
+                {TruncateText(item.data().genre, 8)}
+              </IonBadge>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+      </IonItem>
+      <ClubStateModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        data={item.data()}
+      />
+    </>
+  );
+};
 
 const ClubModal: React.FC<{
   isOpen: boolean;
@@ -270,7 +373,7 @@ const ClubModal: React.FC<{
   activeClub: string | undefined;
 }> = ({ isOpen, setIsOpen, activeClub }) => {
   const [items, setItems] = useState<any[]>([]);
-  const {isCaptureEligible, setIsCaptureEligibile} = useDataStore();
+  const { isCaptureEligible, setIsCaptureEligibile } = useDataStore();
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
   const accordionContentRef = useRef<HTMLDivElement>(null);
@@ -303,14 +406,12 @@ const ClubModal: React.FC<{
           .collection("states")
           .onSnapshot((snapshot) => {
             const states = snapshot.docs;
-            const sortedStates = states.sort(
-              (a, b) => {
-                const aTime = a.data().captureTime?.seconds || 0;
-                const bTime = b.data().captureTime?.seconds || 0;
-              
-                return bTime - aTime;
-              }
-            );
+            const sortedStates = states.sort((a, b) => {
+              const aTime = a.data().captureTime?.seconds || 0;
+              const bTime = b.data().captureTime?.seconds || 0;
+
+              return bTime - aTime;
+            });
             setItems(sortedStates.map((doc) => doc));
           });
         return () => unsubscribe();
@@ -318,7 +419,7 @@ const ClubModal: React.FC<{
         console.error("No Club Ref Found");
       }
     };
-    console.log()
+    console.log();
     getStates();
   }, [activeClub]);
 
@@ -335,16 +436,17 @@ const ClubModal: React.FC<{
     while (attempts < maxAttempts) {
       attempts++;
       await startRecording();
-      await new Promise(resolve => setTimeout(resolve, 4000)); // Wait for 4 seconds
+      await new Promise((resolve) => setTimeout(resolve, 4000)); // Wait for 4 seconds
       const success = await stopRecording();
-      
+
       if (success) {
         break;
       } else if (attempts === maxAttempts) {
         presentAlert({
-          header: 'Recording Failed',
-          message: 'Unable to capture audio after multiple attempts. Please try again.',
-          buttons: ['OK']
+          header: "Recording Failed",
+          message:
+            "Unable to capture audio after multiple attempts. Please try again.",
+          buttons: ["OK"],
         });
         setIsCaptureEligibile(false);
       } else {
@@ -357,13 +459,14 @@ const ClubModal: React.FC<{
   const startRecording = async () => {
     setRecordingCaptured(true);
     try {
-      const permissionResult = await VoiceRecorder.requestAudioRecordingPermission();
-  
+      const permissionResult =
+        await VoiceRecorder.requestAudioRecordingPermission();
+
       if (!permissionResult.value) {
         console.error("Permission denied to record audio");
         return false;
       }
-  
+
       const result: GenericResponse = await VoiceRecorder.startRecording();
       console.log("Recording started:", result.value);
       setRecordingStatus("RECORDING");
@@ -378,8 +481,12 @@ const ClubModal: React.FC<{
     try {
       const result: RecordingData = await VoiceRecorder.stopRecording();
       setRecordingStatus("NONE");
-  
-      if (result.value && result.value.recordDataBase64 && result.value.recordDataBase64.length > 0) {
+
+      if (
+        result.value &&
+        result.value.recordDataBase64 &&
+        result.value.recordDataBase64.length > 0
+      ) {
         console.log("valid data");
         setRecordedData(result.value.recordDataBase64);
         await sendAudio(result.value.recordDataBase64);
@@ -394,7 +501,6 @@ const ClubModal: React.FC<{
     }
   };
 
-  
   const sendAudio = async (audioData: string) => {
     try {
       const shazamResponse = await songDetect2(audioData);
@@ -409,12 +515,12 @@ const ClubModal: React.FC<{
       setShazamError("Song not recognized. Please try again.");
       setIsShazamCaptured(false);
       setIsCaptureEligibile(false);
-      
+
       // Show an alert dialog
       presentAlert({
-        header: 'Song Not Recognized',
-        message: 'Please try again.',
-        buttons: ['OK']
+        header: "Song Not Recognized",
+        message: "Please try again.",
+        buttons: ["OK"],
       });
     }
   };
@@ -560,14 +666,16 @@ const ClubModal: React.FC<{
           </IonButton>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding-bottom">  
-      <div style={{ maxHeight: screenHeight * 1.6, overflowY: "scroll" }}>
-    {items.length === 0 ? (
-      <IonTitle>No States!</IonTitle>
-    ) : (
-      (items || []).map((item, index) => (<ClubAccordionItem key={item.id} item={item} />))
-    )}
-  </div>
+      <IonContent className="ion-padding-bottom">
+        <div style={{ maxHeight: screenHeight * 1.6, overflowY: "scroll" }}>
+          {items.length === 0 ? (
+            <IonTitle>No States!</IonTitle>
+          ) : (
+            (items || []).map((item, index) => (
+              <ClubAccordionItem key={item.id} item={item} />
+            ))
+          )}
+        </div>
       </IonContent>
       <IonFooter>
         <IonGrid className="">
@@ -604,7 +712,7 @@ const ClubModal: React.FC<{
             <IonCol></IonCol>
           </IonRow>
         </IonGrid>
-        </IonFooter>
+      </IonFooter>
       <LoadingOverlay isOpen={isLocationLoading} message="Verifying Location" />
     </IonModal>
   );
