@@ -85,7 +85,7 @@ const Tab3: React.FC = () => {
         name: clubProps.Name,
         address: clubProps.Address,
         coordinates: new firebase.firestore.GeoPoint(parseFloat(clubProps.Coordinates.latitude.toString()), parseFloat(clubProps.Coordinates.longitude.toString())),
-        imageStoragePath: `static-club-photos/${clubProps.ResidingState}/${clubProps.Name.replace(/\s/g, '')}.jpeg`,
+        imageStoragePath: `static-club-photos/${clubProps.ResidingState}/${clubProps.Name.replace(/\s/g, '')}.webp`,
         recentCapture: clubProps.RecentCapture,
         residingState: clubProps.ResidingState,
       });
@@ -406,7 +406,7 @@ const NewClubForm: React.FC<NewClubFormProps> = ({ onSubmit, onCancel }) => {
   const uploadImageToStorage = async (file: File, clubName: string): Promise<string> => {
     const storageRef = firebase.storage().ref();
     const clubNameWithoutSpaces = clubName.replace(/\s/g, '');
-    const imageRef = storageRef.child(`static-club-photos/${residingState}/${clubNameWithoutSpaces}.jpeg`);
+    const imageRef = storageRef.child(`static-club-photos/${residingState}/${clubNameWithoutSpaces}.webp`);
     await imageRef.put(file);
     const downloadURL = await imageRef.getDownloadURL();
     return downloadURL;
