@@ -32,7 +32,7 @@ const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clubStats, setClubStats] = useState({});
   const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
-  const {location, setLocation, currentClubs, setCurrentClubs, radius} = useDataStore();
+  const {location, setLocation, currentClubs, setCurrentClubs, radius, setChosenClub} = useDataStore();
   const [clubCards, setClubCards] = useState([]);
   const [filteredClubs, setFilteredClubs] = useState<any>([]);
   const [genres, setGenres] = useState<string[]>([]);
@@ -167,10 +167,12 @@ const HomePage: React.FC = () => {
         
         <Swiper className="genreSwiper "spaceBetween={7} slidesPerView={4} loop={true} autoplay={{delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: false}} modules={[Autoplay]}>
           {genres.map((genre: any) => {
+            if(!genre.genre) return null
             return(
+            
             <SwiperSlide key={genre.index}>
             <IonCard className="genreCard" color={genre.index === activeButton ? "dark" : "light"} onClick={() => filterClubs(genre)}>
-              <IonCardTitle className="genreTitle ">{genre.genre.length > 5 ? <sup><h3>{genre.genre}</h3></sup>: <sup><sup><h1>{genre.genre}</h1></sup></sup>}</IonCardTitle>
+              <IonCardTitle className="genreTitle ">{genre.genre.length > 5 ? <sup><h3>{genre.genre.substring(0,7)}</h3></sup>: <sup><sup><h1>{genre.genre}</h1></sup></sup>}</IonCardTitle>
             </IonCard>
           </SwiperSlide>)
           
@@ -199,6 +201,7 @@ const HomePage: React.FC = () => {
                     onClick={() => {
                       setActiveClub(club.id);
                       setIsOpen(true);
+                      setChosenClub(club.id);
                     }}
                     ClubProps={{
                       Id: club.id,

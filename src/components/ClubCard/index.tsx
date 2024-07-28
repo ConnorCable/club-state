@@ -33,7 +33,7 @@ const click = () => {
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) => {
 
   const {location} = useDataStore();
-  const recentState = ClubProps.RecentCapture;
+  const recentState = ClubProps.RecentCapture as { artist: string; cleanliness: string; clubId: string; cover: boolean; fullness: string; genre: string; hostility: string; line: boolean; latitude: string; longitude: string; loudness: string; price: string; ratio: string; song: string; aiResponse: string; };
   const ratio = recentState.ratio == "1" ? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
 
   return (
@@ -58,14 +58,14 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
           <IonRow>
             <IonCol></IonCol>
             <IonCol></IonCol>
-            <IonCol><IonChip  className="ion-text-nowrap">{recentState.genre}</IonChip></IonCol>
+            <IonCol><IonChip  className="ion-text-nowrap">{recentState.genre ? recentState.genre : "Unknown Genre"}</IonChip></IonCol>
             <IonCol>
               <IonChip>
-                Cover<IonIcon color={recentState.cover === false? "danger" : "success"} icon={recentState.cover === false ? closeOutline : checkmark}></IonIcon>
+                Cover<IonIcon color={recentState.cover === false ? "danger" : "success"} icon={recentState.cover === false ? closeOutline : checkmark}></IonIcon>
               </IonChip>
             </IonCol>
             <IonCol>
-              <IonChip className="ion-text-nowrap" >{recentState.price === "$" ? "$" : recentState.price === "$$" ? "$$": "$$$"}</IonChip>
+              <IonChip className="ion-text-nowrap">{recentState.price === "$" ? "$" : recentState.price === "$$" ? "$$" : "$$$"}</IonChip>
             </IonCol>
             <IonCol></IonCol>
             <IonCol></IonCol>
@@ -73,9 +73,18 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
         </IonGrid>
       </IonCardHeader>
       <IonCardContent>
-        <div className="club-photo-container" onClick={onClick}>
-          <img src={ClubProps.ImageStoragePath} alt="Club" />
-        </div>
+      <div className="club-photo-container" onClick={onClick}>
+            <img src={ClubProps.ImageStoragePath} alt="Club" />
+            <div className="description-overlay">
+              <IonText className="ion-text-small description-text">
+                <h2>
+                  
+                  {recentState.aiResponse}
+                  
+                </h2>
+              </IonText>
+            </div>
+          </div>
         <div className="ion-padding-bottom">
           <IonGrid>
             <IonRow>
@@ -83,19 +92,29 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
               </IonCol>
             </IonRow>
             <IonRow>
-              <IonButton color="light" href={`https://www.google.com/search?q=${recentState.song}+${recentState.artist}`} className="play-button">
-                  <IonIcon aria-hidden="true" icon={playCircleOutline} />
-              </IonButton>
-              <IonCol>
-                <IonText class="ion-text-small">
-                  <h3><strong> Recently Played: </strong> {recentState.song} - {recentState.artist}</h3>
+              {recentState.song && recentState.artist ? (
+                <>
+                  <IonButton color="light" target="_blank" rel="noopener noreferrer" href={`https://www.google.com/search?q=${recentState.song}+${recentState.artist}`} className="play-button">
+                    <IonIcon aria-hidden="true" icon={playCircleOutline} />
+                  </IonButton>
+                  <IonCol>
+                    <IonText class="ion-text-small">
+                      <h3><strong> Recently Played: </strong> {recentState.song} - {recentState.artist}</h3>
+                    </IonText>
+                  </IonCol>
+                </>
+              ) : (
+                <IonCol>
+                  <IonText class="ion-text-small">
+                    <h3><strong> Recently Played: </strong> Nothing!</h3>
                   </IonText>
-              </IonCol>
+                </IonCol>
+              )}
             </IonRow>
           </IonGrid>
         </div>
       </IonCardContent>
-    </IonCard>
-    </>
+      </IonCard>
+      </>
   );
 };

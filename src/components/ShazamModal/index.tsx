@@ -31,7 +31,7 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
   shazamResponse,
 }) => {
 
-  const { isShazamCorrect, isShazamCaptured, isCompletingForm, setIsShazamCorrect, setIsShazamCaptured, setIsCompletingForm} = useDataStore();
+  const { isShazamCorrect, isShazamCaptured, isCompletingForm, setIsShazamCorrect, setIsShazamCaptured, setIsCompletingForm, setRecordedSong} = useDataStore();
   
 
   const cancelShazam = () => {
@@ -41,7 +41,9 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
   }
 
   const acceptShazam = () => {
-    console.log(isShazamCorrect);
+    setRecordedSong(
+      {artist: shazamResponse.subTitle, song: shazamResponse.title, genre: shazamResponse.genre}
+    );
     setIsShazamCorrect(true);
     setIsCompletingForm(true);
     onClose();
