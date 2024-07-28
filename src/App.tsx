@@ -135,7 +135,7 @@ const App: React.FC = () => {
                 <Tab2 />
               </Route>
               <Route path="/tab3">
-                <FakeAdminPage />
+                <AdminPage />
               </Route>
               <Route exact path="/">
                 <Redirect to="/tab1" />
@@ -211,7 +211,7 @@ const App: React.FC = () => {
                   <IonRange
                     label-placement="end"
                     min={5}
-                    max={200}
+                    max={20000}
                     defaultValue={75}
                     color="secondary"
                     onIonInput={(e) => setRadius(e.detail.value as number)}
