@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   IonCard,
   IonCardHeader,
@@ -35,6 +35,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
   const {location} = useDataStore();
   const recentState = ClubProps.RecentCapture as { artist: string; cleanliness: string; clubId: string; cover: boolean; fullness: string; genre: string; hostility: string; line: boolean; latitude: string; longitude: string; loudness: string; price: string; ratio: string; song: string; aiResponse: string; };
   const ratio = recentState.ratio == "1" ? "Bad" : recentState.ratio == "2" ? "Okay" : "Good"
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   return (
     
@@ -77,13 +78,25 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
       <IonCardHeader onClick={onClick} class="ion-no-padding">
         {/* Other content */}
       </IonCardHeader>
+      
       <IonCardContent>
         <div className="club-photo-container" onClick={onClick}>
           <img 
             src={ClubProps.ImageStoragePath} 
             alt="Club" 
-            loading="lazy" // Native lazy loading
+            onLoad={() => setIsLoading(false)}
+            onError={() => setIsLoading(false)}
+            loading="lazy"
           />
+          <div className="description-overlay">
+              <IonText className="ion-text-small description-text">
+                <h3>
+                  
+                  {recentState.aiResponse}
+                  
+                </h3>
+              </IonText>
+            </div>
           {/* Description overlay */}
         </div>
         {/* Other content */}
