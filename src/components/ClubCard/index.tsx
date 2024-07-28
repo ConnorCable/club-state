@@ -73,9 +73,18 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
         </IonGrid>
       </IonCardHeader>
       <IonCardContent>
-        <div className="club-photo-container" onClick={onClick}>
-          <img src={ClubProps.ImageStoragePath} alt="Club" />
-        </div>
+      <div className="club-photo-container" onClick={onClick}>
+            <img src={ClubProps.ImageStoragePath} alt="Club" />
+            <div className="description-overlay">
+              <IonText className="ion-text-small description-text">
+                <h2>
+                  
+                  {recentState.aiResponse}
+                  
+                </h2>
+              </IonText>
+            </div>
+          </div>
         <div className="ion-padding-bottom">
           <IonGrid>
             <IonRow>
@@ -101,14 +110,6 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
                   </IonText>
                 </IonCol>
               )}
-            </IonRow>
-            <IonRow>
-            <IonCol>
-                    <IonText class="ion-text-small" color={"dark"}>
-                      <h3><strong> Description:  </strong> {recentState.aiResponse}</h3>
-                    </IonText>
-                </IonCol>
-                
             </IonRow>
           </IonGrid>
         </div>
