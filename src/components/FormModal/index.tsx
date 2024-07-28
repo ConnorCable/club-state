@@ -18,10 +18,12 @@ import {
   IonRange,
   IonFooter,
   IonButtons,
+  IonText,
 } from "@ionic/react";
 import {
   closeOutline,
   femaleOutline,
+  informationCircle,
   maleOutline,
   personAddOutline,
   personRemoveOutline,
@@ -187,28 +189,72 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
       className="custom-modal"
     >
       <div className="modal-wrapper">
-        <div className="lava-lamp-background"></div>
         <IonHeader>
           <IonToolbar>
-            <IonTitle
-              size="large"
-              style={{
-                textAlign: "center",
-                fontSize: "1.5em",
-                paddingLeft: "40px",
-                fontFamily: "Inter",
-                fontWeight: "bold",
-              }}
-            >
-              Your State
-            </IonTitle>
-            <IonButton slot="end" fill="clear" onClick={onClose}>
-              <IonIcon icon={closeOutline} />
-            </IonButton>
+            <div className="toolbar-buttons-container">
+              <IonButton slot="start" fill="clear" onClick={onClose}>
+                <IonIcon icon={closeOutline} />
+              </IonButton>
+              <IonButton className="toolbar-button" color="light">
+                <IonIcon icon={informationCircle}></IonIcon>
+              </IonButton>
+            </div>
           </IonToolbar>
         </IonHeader>
         <IonContent className="modal-content">
           <IonList className="admin-grid ion-padding-top">
+          <div style={{height: "65px", width: "500px"}}>
+          <IonItem className="compact-item-10">
+              <IonCol size="2">
+                <IonLabel>
+                  <h6>
+                    <sup>FULLNESS?</sup>
+                  </h6>
+                </IonLabel>
+              </IonCol>
+              <IonCol size="8" class="ion-padding-bottom">
+                <IonRange
+                color="dark"
+                  defaultValue={50}
+                  pin={true}
+                  pinFormatter={(value: number) => `${value}%`}
+                  style={{ width: "100%", maxWidth: "264px" }}
+                  onIonChange={(e) => {
+                    setFullness(e.detail.value as number);
+                  }}
+                >
+                  <IonIcon slot="start" icon={personRemoveOutline} />
+                  <IonIcon slot="end" icon={personAddOutline} />
+                </IonRange>
+              </IonCol>
+            </IonItem>
+            </div>
+            <div style={{height: "80px", width: "500px"}}>
+            <IonItem className="compact-item-10">
+              <IonCol size="2">
+                <IonLabel>
+                  <h6>
+                    <sup>RATIO?</sup>
+                  </h6>
+                </IonLabel>
+              </IonCol>
+              <IonCol size="8" className="ion-padding-bottom">
+                <IonRange
+                color="dark"
+                  defaultValue={50}
+                  pin={true}
+                  pinFormatter={(value: number) => `${value}%`}
+                  style={{ width: "100%", maxWidth: "264px",}}
+                  onIonChange={(e) => {
+                    setRatio(e.detail.value as number);
+                  }}
+                >
+                  <IonIcon slot="start" icon={maleOutline} color="secondary" />
+                  <IonIcon slot="end" icon={femaleOutline} color="danger" />
+                </IonRange>
+              </IonCol>
+            </IonItem>
+            </div>
             <IonItem className="compact-item">
               <IonCol size="4">
                 <IonLabel>
@@ -389,52 +435,6 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
                     </IonLabel>
                   </IonSegmentButton>
                 </IonSegment>
-              </IonCol>
-            </IonItem>
-            <IonItem className="compact-item-3">
-              <IonCol size="4">
-                <IonLabel>
-                  <h6>
-                    <sup>FULLNESS?</sup>
-                  </h6>
-                </IonLabel>
-              </IonCol>
-              <IonCol size="8">
-                <IonRange
-                  defaultValue={50}
-                  pin={true}
-                  pinFormatter={(value: number) => `${value}%`}
-                  style={{ width: "100%", maxWidth: "200px" }}
-                  onIonChange={(e) => {
-                    setFullness(e.detail.value as number);
-                  }}
-                >
-                  <IonIcon slot="start" icon={personRemoveOutline} />
-                  <IonIcon slot="end" icon={personAddOutline} />
-                </IonRange>
-              </IonCol>
-            </IonItem>
-            <IonItem className="compact-item-3">
-              <IonCol size="4">
-                <IonLabel>
-                  <h6>
-                    <sup>RATIO?</sup>
-                  </h6>
-                </IonLabel>
-              </IonCol>
-              <IonCol size="8">
-                <IonRange
-                  defaultValue={50}
-                  pin={true}
-                  pinFormatter={(value: number) => `${value}%`}
-                  style={{ width: "100%", maxWidth: "200px" }}
-                  onIonChange={(e) => {
-                    setRatio(e.detail.value as number);
-                  }}
-                >
-                  <IonIcon slot="start" icon={maleOutline} color="secondary" />
-                  <IonIcon slot="end" icon={femaleOutline} color="danger" />
-                </IonRange>
               </IonCol>
             </IonItem>
           </IonList>
