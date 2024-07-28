@@ -135,7 +135,7 @@ const App: React.FC = () => {
                 <Tab2 />
               </Route>
               <Route path="/tab3">
-                <AdminPage />
+                <FakeAdminPage />
               </Route>
               <Route exact path="/">
                 <Redirect to="/tab1" />
@@ -162,7 +162,7 @@ const App: React.FC = () => {
               <IonRow>
                 <IonCol>
                   <div style={{ textAlign: "center", paddingTop: "0%"}}>
-                    <em style={{fontSize: "1.8em"}}>Clubs Within</em>
+                    <em style={{fontSize: "1.8em", color: "white"}}>Clubs Within</em>
                   </div>
                 </IonCol>
               </IonRow>
