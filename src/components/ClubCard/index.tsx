@@ -73,19 +73,23 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
         </IonGrid>
       </IonCardHeader>
       <IonCardContent>
-      <div className="club-photo-container" onClick={onClick}>
-            <img src={ClubProps.ImageStoragePath} alt="Club" />
-            <div className="description-overlay">
-              <IonText className="ion-text-small description-text">
-                <h2>
-                  
-                  {recentState.aiResponse}
-                  
-                </h2>
-              </IonText>
-            </div>
-          </div>
-        <div className="ion-padding-bottom">
+      <IonCard>
+      <IonCardHeader onClick={onClick} class="ion-no-padding">
+        {/* Other content */}
+      </IonCardHeader>
+      <IonCardContent>
+        <div className="club-photo-container" onClick={onClick}>
+          <img 
+            src={ClubProps.ImageStoragePath} 
+            alt="Club" 
+            loading="lazy" // Native lazy loading
+          />
+          {/* Description overlay */}
+        </div>
+        {/* Other content */}
+      </IonCardContent>
+    </IonCard>
+        <div className="">
           <IonGrid>
             <IonRow>
               <IonCol>
