@@ -78,6 +78,13 @@ const HomePage: React.FC = () => {
     
   }
 
+  const transformCoordinates = (coords: any) => {
+    return {
+      latitude: coords._lat as number,
+      longitude: coords._long as number,
+    };
+  };
+
 
   const removeFilter = () => {
     setFilteredClubs(currentClubs)
@@ -96,7 +103,26 @@ const HomePage: React.FC = () => {
         return a.recentCapture.cover - b.recentCapture.cover;
       } else if (setting === "distance") {
         // Assuming getDistance is a synchronous function that returns a number
-        return getDistance(location!.coords, a.coordinates) - getDistance(location!.coords, b.coordinates);
+      console.log('Location:', location!.coords);
+      console.log('Club A Coordinates:', a.coordinates);
+      console.log('Club B Coordinates:', b.coordinates);
+      
+      const transformedLocation = {
+        latitude: location!.coords.latitude,
+        longitude: location!.coords.longitude
+      }
+      const transformedA = transformCoordinates(a.coordinates);
+      const transformedB = transformCoordinates(b.coordinates);
+      console.log('transFormedA:', transformedA)
+      console.log('transformedB:', transformedB)
+      const distanceA = getDistance(transformedLocation, transformedA);
+      const distanceB = getDistance(transformedLocation, transformedB);
+
+      console.log('Distance A:', distanceA);
+      console.log('Distance B:', distanceB);
+
+      return distanceA - distanceB;
+        
       }
       return 0; // Default return value of 0
     });
