@@ -18,13 +18,10 @@ import ClubModal from "../../components/ClubStateModal";
 import React, { useRef } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 import { useDataStore } from "../../models/DataStore";
 import LoadingOverlay from "../../components/LoadingOverlay";
-import useClubStore from "../../models/ClubStore";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { getDistance } from "geolib";
 import { getClubCardCollection } from "../../helpers/getClubCardCollection";
 import { LazySwiper } from "../../helpers/LazerSwiper";
@@ -33,28 +30,15 @@ import { LazySwiper } from "../../helpers/LazerSwiper";
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [clubStats, setClubStats] = useState({});
-  const [userLocation, setUserLocation]: any = useState({lat: 0, lng: 0});
-  const {location, setLocation, currentClubs, setCurrentClubs, radius, setChosenClub} = useDataStore();
-  const [clubCards, setClubCards] = useState([]);
+  const {location, currentClubs, setCurrentClubs, radius, setChosenClub} = useDataStore();
   const [filteredClubs, setFilteredClubs] = useState<any>([]);
   const [genres, setGenres] = useState<string[]>([]);
   const [activeClub, setActiveClub] = useState<string | undefined>();
-  const [filterSetting , setFilterSetting] = useState<string>("")
   const [activeButton , setActiveButton] = useState<number | null>(null)
   const [activeFilter , setActiveFilter] = useState<string>("")
   
   
-  function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
-    setTimeout(() => {
-      // Any calls to load data go here
-      event.detail.complete();
-    }, 2000);
-  }
 
-  const closeModal = () => {
-    setIsOpen(false)
-  }
 
   // TODO: Use a dictionary instead of a list of dictionaries
   
@@ -90,7 +74,6 @@ const HomePage: React.FC = () => {
     setFilteredClubs(currentClubs)
     setActiveButton(null)
     setActiveFilter("")
-    setFilterSetting("")
   }
 
   const filterSettings = (setting: string) => {
@@ -122,7 +105,6 @@ const HomePage: React.FC = () => {
     setActiveFilter(setting) // Logging the new sorted array
 }
 
-  const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
   
   useIonViewWillEnter(() => {
     if (!filteredClubs || filteredClubs.length === 0) {
