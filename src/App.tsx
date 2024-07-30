@@ -108,6 +108,7 @@ const App: React.FC = () => {
       setShowProgressBar(true);
       if (await Geolocation.checkPermissions()) {
         const coordinates = await Geolocation.getCurrentPosition();
+        console.log(coordinates)
         setLocation(coordinates);
         setGeolocationFetched(true);
       }
