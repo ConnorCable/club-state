@@ -5,6 +5,7 @@ import MapGL from "../../components/Map/index";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useDataStore } from "../../models/DataStore";
 import { earOutline } from "ionicons/icons";
+import firebase from "firebase/compat";
 
 const Tab2: React.FC = () => {
   const { location, setLocation } = useDataStore();
@@ -16,6 +17,8 @@ const Tab2: React.FC = () => {
     };
     fetchUserLocation();
   });
+
+
 
   return (
     <IonPage>

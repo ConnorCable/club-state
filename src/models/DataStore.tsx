@@ -20,6 +20,8 @@ interface StoreState
     googleGenerativeAI: GenerativeModel | null
     googleAPIKey: string
     aiPrompt: string
+    currentClubStateCoords : Array<any>
+    setCurrentClubStateCoords: (currentClubStateCoords: Array<any>) => void
     setLocation: (location: Position) => void
     setRecordedSong: (recordedSong: RecordedSongProps) => void
     setCurrentClubs: (currentClubs: Array<any>) => void
@@ -52,7 +54,9 @@ export const useDataStore = create<StoreState>()((set) => ({
     recordedSong: null,
     googleGenerativeAI: null,
     aiPrompt: promptString,
+    currentClubStateCoords: [],
     googleAPIKey: "AIzaSyDJDA_8BQU_RM0_jOpbH22_FPg0aVFNp54",
+    setCurrentClubStateCoords: (currentClubStateCoords: any) => set({currentClubStateCoords}),
     setIsLocationLoading: (isLocationLoading: boolean) => set({ isLocationLoading }),
     setIsRecordingLoading: (isRecordingLoading: boolean) => set({ isRecordingLoading }),
     setCurrentClubs: (currentClubs: any) => set({currentClubs}),

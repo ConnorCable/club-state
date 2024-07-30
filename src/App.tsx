@@ -108,6 +108,7 @@ const App: React.FC = () => {
       setShowProgressBar(true);
       if (await Geolocation.checkPermissions()) {
         const coordinates = await Geolocation.getCurrentPosition();
+        console.log(coordinates)
         setLocation(coordinates);
         setGeolocationFetched(true);
       }
@@ -135,7 +136,7 @@ const App: React.FC = () => {
                 <Tab2 />
               </Route>
               <Route path="/tab3">
-                <FakeAdminPage />
+                <AdminPage />
               </Route>
               <Route exact path="/">
                 <Redirect to="/tab1" />
