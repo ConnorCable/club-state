@@ -27,6 +27,8 @@ import useClubStore from "../../models/ClubStore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { getDistance } from "geolib";
 import { getClubCardCollection } from "../../helpers/getClubCardCollection";
+import { LazySwiper } from "../../helpers/LazerSwiper";
+
 
 
 const HomePage: React.FC = () => {
@@ -158,28 +160,28 @@ const HomePage: React.FC = () => {
         {/* CLUB CARD SWIPABLE*/}
         <div className="swiperContainer">
           {(currentClubs!.length > 0) ? (
-            <Swiper direction={"horizontal"} className="cardSwiper">
-              {filteredClubs?.map((club: any) => (
-                <SwiperSlide key={club.name}>
-                  <ClubCard
-                    onClick={() => {
-                      setActiveClub(club.id);
-                      setIsOpen(true);
-                      setChosenClub(club.id);
-                    }}
-                    ClubProps={{
-                      Id: club.id,
-                      Name: club.name,
-                      Address: club.address,
-                      Coordinates: club.coordinates,
-                      ImageStoragePath: club.imagePath,
-                      RecentCapture: club.recentCapture,
-                      ResidingState: club.residingState
-                    }}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <LazySwiper direction={"horizontal"} className="cardSwiper">
+            {filteredClubs.map((club: any) => (
+              <SwiperSlide key={club.id}>
+                <ClubCard
+                  onClick={() => {
+                    setActiveClub(club.id);
+                    setIsOpen(true);
+                    setChosenClub(club.id);
+                  }}
+                  ClubProps={{
+                    Id: club.id,
+                    Name: club.name,
+                    Address: club.address,
+                    Coordinates: club.coordinates,
+                    ImageStoragePath: club.imagePath,
+                    RecentCapture: club.recentCapture,
+                    ResidingState: club.residingState
+                  }}
+                />
+              </SwiperSlide>
+            ))}
+          </LazySwiper>
           ) : (
             <LoadingOverlay isOpen={true} message="Retrieving Clubs" />
           )}
