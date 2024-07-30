@@ -1,6 +1,6 @@
 import firebase from "firebase/compat/app";
 import * as geofirestore from "geofirestore";
-import { FeatureCollection, FeatureCollectionm, Position } from "geojson";
+import { FeatureCollection, Position } from "geojson";
 
 export const getClubStateCoords = async (
   location: any,
