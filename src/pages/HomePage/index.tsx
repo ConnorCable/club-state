@@ -103,9 +103,6 @@ const HomePage: React.FC = () => {
         return a.recentCapture.cover - b.recentCapture.cover;
       } else if (setting === "distance") {
         // Assuming getDistance is a synchronous function that returns a number
-      console.log('Location:', location!.coords);
-      console.log('Club A Coordinates:', a.coordinates);
-      console.log('Club B Coordinates:', b.coordinates);
       
       const transformedLocation = {
         latitude: location!.coords.latitude,
@@ -113,14 +110,9 @@ const HomePage: React.FC = () => {
       }
       const transformedA = transformCoordinates(a.coordinates);
       const transformedB = transformCoordinates(b.coordinates);
-      console.log('transFormedA:', transformedA)
-      console.log('transformedB:', transformedB)
+
       const distanceA = getDistance(transformedLocation, transformedA);
       const distanceB = getDistance(transformedLocation, transformedB);
-
-      console.log('Distance A:', distanceA);
-      console.log('Distance B:', distanceB);
-
       return distanceA - distanceB;
         
       }
