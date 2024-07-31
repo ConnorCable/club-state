@@ -155,7 +155,7 @@ const ClubStateModal2: React.FC<ClubStateModalProps> = ({
               <IonButton slot="start" fill="clear" onClick={onClose}>
                 <IonIcon icon={closeOutline} />
               </IonButton>
-              <IonButton className="toolbar-button" color="light">
+              <IonButton className="toolbar-button" color="light" onClick={() => navigator.vibrate(300)}>
                 <IonIcon icon={informationCircle}></IonIcon>
               </IonButton>
             </div>
