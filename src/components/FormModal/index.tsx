@@ -195,7 +195,7 @@ export const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose }) => {
               <IonButton slot="start" fill="clear" onClick={onClose}>
                 <IonIcon icon={closeOutline} />
               </IonButton>
-              <IonButton className="toolbar-button" color="light">
+              <IonButton className="toolbar-button" color="light" onClick={() => navigator.vibrate(200)}>
                 <IonIcon icon={informationCircle}></IonIcon>
               </IonButton>
             </div>
