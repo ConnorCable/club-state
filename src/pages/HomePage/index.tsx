@@ -3,11 +3,8 @@ import {
   IonCardTitle,
   IonChip,
   IonContent,
-  IonHeader,
   IonPage,
   useIonViewWillEnter,
-  RefresherEventDetail,
-  IonCardSubtitle,
 } from "@ionic/react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,7 +13,7 @@ import "./index.css";
 import { ClubCard } from "../../components/ClubCard";
 import { useState } from "react";
 import ClubModal from "../../components/ClubStateModal";
-import React, { useRef } from "react";
+import React from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "firebase/compat/firestore";
@@ -117,7 +114,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <IonPage className="ion-safe-area">
+    <IonPage>
       <IonContent fullscreen={true}>
         <Swiper
           className="genreSwiper "

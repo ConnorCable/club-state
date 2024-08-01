@@ -29,7 +29,7 @@
 }
 
 
-.genreSwiper {
+ .genreSwiper {
   padding-right: 1.1em;
   padding-left: -2em;
   align-items: center;
@@ -37,6 +37,8 @@
   background-size: 300% 300%;
   animation: lavaLamp 10s ease infinite;
 }
+
+
 
 @keyframes lavaLamp {
   0% {
@@ -48,7 +50,9 @@
   100% {
     background-position: 0% 50%;
   }
-}
+} 
+
+
 
 @media screen and (max-height: 700px) {
   .genreCard{
@@ -79,31 +83,12 @@
 
 
 
-.filterButtons{
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 5px;
-  background-color: var(--ion-color-light);
-
-}
 
 .swiperContainer {
   overflow: hidden !important;
 
 }
 
-
-
-/* .genreSwiper {
-  padding-top: calc(var(--sat) + 0.0vh);
-}
-
-.filterButtons {
-  padding-left: calc(var(--sal) + 12px);
-  padding-right: var(--sar);
-} */
 
 .genreSwiper {
   position: sticky;
@@ -114,10 +99,14 @@
 .filterButtons {
   display: flex;
   align-items: space-between;
+  justify-content: space-between;
   position: sticky;
   top: 120px; /* Adjust this value based on the height of the genreSwiper */
   z-index: 2500; 
-  border: 1px solid #ccc;
+  border-bottom: 1px solid #ccc; /* Change border to bottom only */
+  padding-left: 5px;
+  background-color: var(--ion-color-light);
+  
   
 }
 
