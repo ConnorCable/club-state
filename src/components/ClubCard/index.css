@@ -36,3 +36,11 @@
   .price-chip {
     background-color: chartreuse;
   }
+
+  /* .statChips {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    justify-content: flex-end; /* Align elements to the right */
+    gap: 30px; /* Space between each chip */
+  } */

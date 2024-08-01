@@ -1,5 +1,5 @@
 :root {
-  --swiper-background-color: #ffffff; /* Default background color for light mode */
+  --swiper-background-color: #4d4949; /* Default background color for light mode */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -10,9 +10,11 @@
 
 .genreCard {
     width: 100%;
-    height: 50px;
+    height: 60px;
     text-align: center;
     align-items: center;
+    white-space: nowrap;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
     /* margin-left: 2px;
     margin-right: 2px; */
     
@@ -23,16 +25,29 @@
 
 .genreTitle {
     position: relative;
-    top: 7%;
+    top: 20%;
 }
 
 
 .genreSwiper {
-    padding-right: 10px;
-    padding-top: 0.2vh;
-    align-items: center;
-    background-color: var(--swiper-background-color);
-    
+  padding-right: 1.1em;
+  padding-left: -2em;
+  align-items: center;
+  background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa, #339af0, #22b8cf, #20c997, #51cf66, #94d82d, #fcc419, #ff922b);
+  background-size: 300% 300%;
+  animation: lavaLamp 10s ease infinite;
+}
+
+@keyframes lavaLamp {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @media screen and (max-height: 700px) {
@@ -46,7 +61,7 @@
 
 @media screen and (min-height: 701px) {
   .genreSwiper {
-    padding-top: 2vh;
+    padding-top: 3vh;
   }
 }
 
@@ -65,40 +80,48 @@
 
 
 .filterButtons{
-  align-content: center;
+
   display: flex;
   align-items: center;
-  padding-left: 12px;
-  padding-top: 0px;
-  padding-bottom: 2px;
+  justify-content: space-between;
+  padding-left: 5px;
   background-color: var(--ion-color-light);
-  margin-bottom: 2px;
-  border-radius: 3px;
 
 }
 
 .swiperContainer {
- 
-  overflow: hidden;
-}
+  overflow: hidden !important;
 
-.cardSwiper {
-  height: 100%;
-  align-items: center;
 }
 
 
-.genreSwiper {
+
+/* .genreSwiper {
   padding-top: calc(var(--sat) + 0.0vh);
 }
 
 .filterButtons {
   padding-left: calc(var(--sal) + 12px);
   padding-right: var(--sar);
+} */
+
+.genreSwiper {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure it stays above other content */
 }
 
+.filterButtons {
+  display: flex;
+  align-items: space-between;
+  position: sticky;
+  top: 120px; /* Adjust this value based on the height of the genreSwiper */
+  z-index: 2500; 
+  border: 1px solid #ccc;
+  
+}
 
-ion-tab-bar {
+/* ion-tab-bar {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -112,4 +135,8 @@ padding-bottom: var(--sab);
 
 ion-content {
   --padding-bottom: 56px; /* Adjust this value based on your tab bar height */
+
+
+.filterHeader {
+  max-height: 100px !important;
 }
