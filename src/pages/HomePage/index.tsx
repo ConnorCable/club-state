@@ -124,7 +124,7 @@ const HomePage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen={true}>
+      <IonContent fullscreen={true} forceOverscroll={false}>
         <Swiper
           className="genreSwiper "
           spaceBetween={7}
