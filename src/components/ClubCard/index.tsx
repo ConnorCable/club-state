@@ -26,9 +26,6 @@ interface ClickableClubCard {
   ClubProps: ClubProps
 }
 
-const click = () => {
-  console.log("Clicked");
-}
 
 export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) => {
 
@@ -58,7 +55,6 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
           </IonRow>
           <IonRow>
             <IonCol></IonCol>
-            <IonCol></IonCol>
             <IonCol><IonChip  className="ion-text-nowrap">{recentState.genre ? recentState.genre : "Unknown Genre"}</IonChip></IonCol>
             <IonCol>
               <IonChip>
@@ -68,8 +64,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
             <IonCol>
               <IonChip className="ion-text-nowrap">{recentState.price === "$" ? "$" : recentState.price === "$$" ? "$$" : "$$$"}</IonChip>
             </IonCol>
-            <IonCol></IonCol>
-            <IonCol></IonCol>
+              <IonCol></IonCol>
           </IonRow>
         </IonGrid>
       </IonCardHeader>
@@ -102,7 +97,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
         {/* Other content */}
       </IonCardContent>
     </IonCard>
-        <div className="">
+        <div>
           <IonGrid>
             <IonRow>
               <IonCol>

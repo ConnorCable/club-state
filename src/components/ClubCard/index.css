@@ -4,19 +4,47 @@
     height: auto;
   }
   
+ /* Base style for all screens */
+.club-photo-container img {
+  display: block;
+  max-width: 100%;
+  object-fit: fill;
+}
+
+/* For screens with a minimum height of 400px */
+@media only screen and (min-height: 400px) {
   .club-photo-container img {
-    display: block;
-    max-width: 100%;
-    max-height: 255px;
-    object-fit: cover;
+    height: 22svh; /* Adjust as needed */
+    object-fit: cover; /* This might give you better results than 'fill' */
   }
+}
+
+/* For screens with a minimum height of 600px */
+@media only screen and (min-height: 700px) {
+  .club-photo-container img {
+    height: 28vh; /* Adjust as needed */
+  }
+}
+
+/* For screens with a minimum height of 800px */
+@media only screen and (min-height: 844px) {
+  .club-photo-container img {
+    height: 41vh; /* Adjust as needed */
+  }
+}
+
+@media only screen and (min-height: 900px) {
+  .club-photo-container img {
+    height: 43vh; /* Adjust as needed */
+  }
+}
   
   .description-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    padding: 10px 17px 7px;
+    padding: 5px 17px 7px;
     background: rgba(9, 10, 34, 0.8);
     color: #000;
     z-index: 10;

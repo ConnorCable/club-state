@@ -123,7 +123,7 @@ const App: React.FC = () => {
   return (
     
     <IonApp
-      style={{ maxWidth: 450, maxHeight: 730, margin: "auto", padding: "70px" }}
+      style={{ maxWidth: 450, margin: "auto", padding: "70px" }}
     >
       <IonReactRouter>
         {geolocationFetched ? (
@@ -142,7 +142,7 @@ const App: React.FC = () => {
                 <Redirect to="/tab1" />
               </Route>
             </IonRouterOutlet>
-            <IonTabBar className="" slot="bottom"style={{ position: 'relative', bottom: "0px", width: '100%' }}>
+            <IonTabBar className="" slot="bottom" >
               <IonTabButton tab="tab1" href="/tab1">
                 <IonIcon icon={homeOutline} />
                 <IonLabel>Home</IonLabel>
@@ -212,7 +212,7 @@ const App: React.FC = () => {
                   <IonRange
                     label-placement="end"
                     min={5}
-                    max={20000}
+                    max={200}
                     defaultValue={75}
                     color="secondary"
                     onIonInput={(e) => setRadius(e.detail.value as number)}

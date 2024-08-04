@@ -1,5 +1,5 @@
 :root {
-  --swiper-background-color: #ffffff; /* Default background color for light mode */
+  --swiper-background-color: #4d4949; /* Default background color for light mode */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -9,51 +9,61 @@
 }
 
 .genreCard {
-    width: 100%;
-    height: 50px;
-    text-align: center;
-    align-items: center;
-    /* margin-left: 2px;
-    margin-right: 2px; */
-    
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  align-items: center;
+  white-space: nowrap;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.1s ease, transform 0.4s ease;
 }
 
-
-
+.genreCard:active {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+}
 
 .genreTitle {
     position: relative;
-    top: 7%;
+    top: 20%;
 }
 
 
-.genreSwiper {
-    padding-right: 10px;
-    padding-top: 0.2vh;
-    align-items: center;
-    background-color: var(--swiper-background-color);
-    
+ .genreSwiper {
+  padding-right: 1.1em;
+  padding-left: -2em;
+  align-items: center;
+  background: linear-gradient(45deg, #373737, hsl(190, 12%, 19%), #394045, #5e666f, #27292b, #2d3236, #33373c, #393e42, #332929, #30373c, #51636b, #0a0b11);
+  background-size: 300% 300%;
+  animation: lavaLamp 20s ease infinite;
 }
+
+@keyframes lavaLamp {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+} 
+
+
 
 @media screen and (max-height: 700px) {
   .genreCard{
-    height: 58px;
-  }
-  .genreSwiper {
-    padding-top: 1vh;
+    height: 53px;
   }
 }
 
 @media screen and (min-height: 701px) {
   .genreSwiper {
-    padding-top: 2vh;
+    padding-top: 3vh;
   }
 }
 
-.clubDivider {
-    height: 1px;
-    background-color: #0163aa;
-}
 
 .club-subtitle {
     display: flex;
@@ -62,54 +72,39 @@
     align-items: center; /* Adjust alignment as needed */
   }
 
-
-
-.filterButtons{
-  align-content: center;
-  display: flex;
-  align-items: center;
-  padding-left: 12px;
-  padding-top: 0px;
-  padding-bottom: 2px;
-  background-color: var(--ion-color-light);
-  margin-bottom: 2px;
-  border-radius: 3px;
-
-}
-
 .swiperContainer {
- 
-  overflow: hidden;
-}
-
-.cardSwiper {
+  overflow: hidden !important;  
+  background: linear-gradient(45deg, #373737, hsl(190, 12%, 19%), #394045, #5e666f, #27292b, #2d3236, #33373c, #393e42, #332929, #30373c, #51636b, #0a0b11);
+  animation: lavaLamp 20s ease infinite;
   height: 100%;
-  align-items: center;
-}
 
+}
 
 .genreSwiper {
-  padding-top: calc(var(--sat) + 0.0vh);
+  padding-top: 0;
+  position: sticky;
+  top: 0;
+  z-index: 5000; 
 }
 
 .filterButtons {
-  padding-left: calc(var(--sal) + 12px);
-  padding-right: var(--sar);
+  display: flex;
+  align-items: space-between;
+  justify-content: space-between;
+  position: sticky;
+  width: auto;
+  top: 10px;
+  z-index: 2500; 
+  
+  margin-left: 17px;
+  background-color: var(--ion-color-light);
+  
 }
 
-
-ion-tab-bar {
-  padding-bottom: env(safe-area-inset-bottom);
+.filterHeader {
+  max-height: 100px !important;
 }
 
-ion-header {
-  padding-top: var(--sat);
-}
-
-ion-footer, ion-tab-bar {
-padding-bottom: var(--sab);
-}
-
-ion-content {
-  --padding-bottom: 56px; /* Adjust this value based on your tab bar height */
+.filter-chip {
+  border-radius: 1px;
 }
