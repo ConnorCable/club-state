@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   IonModal,
   IonContent,
@@ -18,6 +18,8 @@ import { closeOutline } from "ionicons/icons";
 import { ShazamResponse } from "../../models/ShazamResponse";
 import "./index.css";
 import { useDataStore } from "../../models/DataStore";
+import confetti from "canvas-confetti";
+
 
 interface ShazamModalProps {
   isOpen: boolean;
@@ -48,7 +50,20 @@ export const ShazamModal: React.FC<ShazamModalProps> = ({
     setIsCompletingForm(true);
     onClose();
     
+    
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      confetti({
+        angle: 90,
+        spread: 360,
+        particleCount: 100,
+        origin: { y: 0.6 }
+      });
+    }
+  }, [isOpen]);
+
   
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onClose} className="custom-modal" backdropDismiss={false}>
