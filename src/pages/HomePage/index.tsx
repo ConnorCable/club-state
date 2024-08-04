@@ -125,8 +125,9 @@ const HomePage: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen={true} forceOverscroll={false}>
+
         <Swiper
-          className="genreSwiper "
+          className="genreSwiper"
           spaceBetween={7}
           slidesPerView={4}
           loop={true}
@@ -140,7 +141,7 @@ const HomePage: React.FC = () => {
           {genres.map((genre: any) => {
             if (!genre.genre) return null;
             return (
-              <SwiperSlide key={genre.index}>
+              <SwiperSlide key={genre.index} style={{height: "85px"}}>
                 <IonCard
                   className="genreCard"
                   color={genre.index === activeButton ? "dark" : "light"}
@@ -164,6 +165,7 @@ const HomePage: React.FC = () => {
             );
           })}
         </Swiper>
+
 
         {/* CLUB CARD SOCIAL FILTERS */}
         <div className="filterButtons">
@@ -212,7 +214,7 @@ const HomePage: React.FC = () => {
         {/* CLUB CARD SWIPABLE*/}
         <div className="swiperContainer">
           {currentClubs!.length > 0 ? (
-            <LazySwiper direction={"horizontal"} className="cardSwiper">
+            <LazySwiper direction={"horizontal"}>
               {filteredClubs.map((club: any) => (
                 <SwiperSlide key={club.id}>
                   <ClubCard

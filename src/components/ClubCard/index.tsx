@@ -97,7 +97,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
         {/* Other content */}
       </IonCardContent>
     </IonCard>
-        <div className="">
+        <div>
           <IonGrid>
             <IonRow>
               <IonCol>
