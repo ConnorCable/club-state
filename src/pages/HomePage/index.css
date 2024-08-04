@@ -15,19 +15,13 @@
   align-items: center;
   white-space: nowrap;
   box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
-  /* margin-left: 2px;
-  margin-right: 2px; */
   transition: box-shadow 0.1s ease, transform 0.4s ease;
 }
-
-
 
 .genreCard:active {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transform: translateY(20px);
 }
-
-
 
 .genreTitle {
     position: relative;
@@ -39,12 +33,10 @@
   padding-right: 1.1em;
   padding-left: -2em;
   align-items: center;
-  background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa, #339af0, #22b8cf, #20c997, #51cf66, #94d82d, #fcc419, #ff922b);
+  background: linear-gradient(45deg, #373737, hsl(190, 12%, 19%), #394045, #5e666f, #27292b, #2d3236, #33373c, #393e42, #332929, #30373c, #51636b, #2b47ff);
   background-size: 300% 300%;
-  animation: lavaLamp 10s ease infinite;
+  animation: lavaLamp 20s ease infinite;
 }
-
-
 
 @keyframes lavaLamp {
   0% {
@@ -62,10 +54,7 @@
 
 @media screen and (max-height: 700px) {
   .genreCard{
-    height: 58px;
-  }
-  .genreSwiper {
-    padding-top: 1vh;
+    height: 53px;
   }
 }
 
@@ -87,19 +76,20 @@
     align-items: center; /* Adjust alignment as needed */
   }
 
-
-
-
 .swiperContainer {
-  overflow: hidden !important;
+  overflow: hidden !important;  
+  background: linear-gradient(45deg, #373737, hsl(190, 12%, 19%), #394045, #5e666f, #27292b, #2d3236, #33373c, #393e42, #332929, #30373c, #51636b, #0a0b11);
+  animation: lavaLamp 20s ease infinite;
+  height: 100%;
 
 }
 
-
 .genreSwiper {
+  padding-top: 0;
+  padding-bottom: 3px;
   position: sticky;
   top: 0;
-  z-index: 1000; /* Ensure it stays above other content */
+  z-index: 5000; 
 }
 
 .filterButtons {
@@ -107,30 +97,12 @@
   align-items: space-between;
   justify-content: space-between;
   position: sticky;
-  top: 120px; /* Adjust this value based on the height of the genreSwiper */
+  top: 10px;
   z-index: 2500; 
-  border-bottom: 1px solid #ccc; /* Change border to bottom only */
   padding-left: 5px;
   background-color: var(--ion-color-light);
   
-  
 }
-
-/* ion-tab-bar {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-ion-header {
-  padding-top: var(--sat);
-}
-
-ion-footer, ion-tab-bar {
-padding-bottom: var(--sab);
-}
-
-ion-content {
-  --padding-bottom: 56px; /* Adjust this value based on your tab bar height */
-
 
 .filterHeader {
   max-height: 100px !important;
