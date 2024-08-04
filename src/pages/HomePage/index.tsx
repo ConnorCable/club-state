@@ -125,7 +125,7 @@ const HomePage: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen={true} forceOverscroll={false}>
-
+      
         <Swiper
           className="genreSwiper"
           spaceBetween={7}
@@ -164,52 +164,54 @@ const HomePage: React.FC = () => {
               </SwiperSlide>
             );
           })}
+
+          <div className="filterButtons">
+            <IonChip
+              className="ion-text-center ion-text-capitalize "
+              outline={true}
+              color={activeFilter == "money" ? "success" : "dark"}
+              onClick={() => filterSettings("money")}
+            >
+              $$$
+            </IonChip>
+            <IonChip
+              className="ion-text-center ion-text-capitalize "
+              outline={true}
+              color={activeFilter == "fullness" ? "success" : "dark"}
+              onClick={() => filterSettings("fullness")}
+            >
+              Fullness
+            </IonChip>
+            <IonChip
+              className="ion-text-center ion-text-capitalize "
+              outline={true}
+              color={activeFilter == "hostility" ? "success" : "dark"}
+              onClick={() => filterSettings("hostility")}
+            >
+              Hostility
+            </IonChip>
+            <IonChip
+              className="ion-text-center ion-text-capitalize "
+              outline={true}
+              color={activeFilter == "distance" ? "success" : "dark"}
+              onClick={() => filterSettings("distance")}
+            >
+              Distance
+            </IonChip>
+            <IonChip
+              color="danger"
+              className="ion-text-center ion-text-capitalize "
+              outline={true}
+              onClick={removeFilter}
+            >
+              X
+            </IonChip>
+          </div>
         </Swiper>
 
 
         {/* CLUB CARD SOCIAL FILTERS */}
-        <div className="filterButtons">
-          <IonChip
-            className="ion-text-center ion-text-capitalize "
-            outline={true}
-            color={activeFilter == "money" ? "success" : "dark"}
-            onClick={() => filterSettings("money")}
-          >
-            $$$
-          </IonChip>
-          <IonChip
-            className="ion-text-center ion-text-capitalize "
-            outline={true}
-            color={activeFilter == "fullness" ? "success" : "dark"}
-            onClick={() => filterSettings("fullness")}
-          >
-            Fullness
-          </IonChip>
-          <IonChip
-            className="ion-text-center ion-text-capitalize "
-            outline={true}
-            color={activeFilter == "hostility" ? "success" : "dark"}
-            onClick={() => filterSettings("hostility")}
-          >
-            Hostility
-          </IonChip>
-          <IonChip
-            className="ion-text-center ion-text-capitalize "
-            outline={true}
-            color={activeFilter == "distance" ? "success" : "dark"}
-            onClick={() => filterSettings("distance")}
-          >
-            Distance
-          </IonChip>
-          <IonChip
-            color="danger"
-            className="ion-text-center ion-text-capitalize "
-            outline={true}
-            onClick={removeFilter}
-          >
-            X
-          </IonChip>
-        </div>
+        
 
         {/* CLUB CARD SWIPABLE*/}
         <div className="swiperContainer">
