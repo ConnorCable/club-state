@@ -167,40 +167,40 @@ const HomePage: React.FC = () => {
 
           <div className="filterButtons">
             <IonChip
-              className="ion-text-center ion-text-capitalize "
+              className={`ion-text-center ion-text-capitalize filter-chip ${activeFilter === "money" ? "active" : ""}`}
               outline={true}
-              color={activeFilter == "money" ? "success" : "dark"}
+              color={activeFilter === "money" ? "success" : "warning"}
               onClick={() => filterSettings("money")}
             >
               $$$
             </IonChip>
             <IonChip
-              className="ion-text-center ion-text-capitalize "
+              className={`ion-text-center ion-text-capitalize filter-chip ${activeFilter === "fullness" ? "active" : ""}`}
               outline={true}
-              color={activeFilter == "fullness" ? "success" : "dark"}
+              color={activeFilter === "fullness" ? "success" : "warning"}
               onClick={() => filterSettings("fullness")}
             >
               Fullness
             </IonChip>
             <IonChip
-              className="ion-text-center ion-text-capitalize "
+              className={`ion-text-center ion-text-capitalize filter-chip ${activeFilter === "hostility" ? "active" : ""}`}
               outline={true}
-              color={activeFilter == "hostility" ? "success" : "dark"}
+              color={activeFilter === "hostility" ? "success" : "warning"}
               onClick={() => filterSettings("hostility")}
             >
               Hostility
             </IonChip>
             <IonChip
-              className="ion-text-center ion-text-capitalize "
+              className={`ion-text-center ion-text-capitalize filter-chip ${activeFilter === "distance" ? "active" : ""}`}
               outline={true}
-              color={activeFilter == "distance" ? "success" : "dark"}
+              color={activeFilter === "distance" ? "success" : "warning"}
               onClick={() => filterSettings("distance")}
             >
               Distance
             </IonChip>
             <IonChip
               color="danger"
-              className="ion-text-center ion-text-capitalize "
+              className="ion-text-center ion-text-capitalize"
               outline={true}
               onClick={removeFilter}
             >
