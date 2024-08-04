@@ -6,7 +6,7 @@
 * React
 * Typescript
 * Firebase
-* SHAZAM
+
 
 Purpose: Anonymous geofenced capturing of music @ night life venues such that others can find points of resonation
 
