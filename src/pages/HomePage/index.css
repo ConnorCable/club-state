@@ -39,7 +39,7 @@
   padding-right: 1.1em;
   padding-left: -2em;
   align-items: center;
-  background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa, #339af0, #22b8cf, #20c997, #51cf66, #94d82d, #fcc419, #ff922b);
+  background: linear-gradient(45deg, #d3d3d3, #a9a9a9, #808080, #696969, #505050, #383838, #303030, #282828, #202020, #181818, #101010, #080808);
   background-size: 300% 300%;
   animation: lavaLamp 10s ease infinite;
 }
