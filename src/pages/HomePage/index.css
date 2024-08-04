@@ -33,7 +33,7 @@
   padding-right: 1.1em;
   padding-left: -2em;
   align-items: center;
-  background: linear-gradient(45deg, #373737, hsl(190, 12%, 19%), #394045, #5e666f, #27292b, #2d3236, #33373c, #393e42, #332929, #30373c, #51636b, #2b47ff);
+  background: linear-gradient(45deg, #373737, hsl(190, 12%, 19%), #394045, #5e666f, #27292b, #2d3236, #33373c, #393e42, #332929, #30373c, #51636b, #0a0b11);
   background-size: 300% 300%;
   animation: lavaLamp 20s ease infinite;
 }
@@ -97,6 +97,7 @@
   align-items: space-between;
   justify-content: space-between;
   position: sticky;
+  width: auto;
   top: 10px;
   z-index: 2500; 
   padding-left: 5px;
@@ -108,3 +109,6 @@
   max-height: 100px !important;
 }
 
+.filter-chip {
+  border-radius: 1px;
+}
