@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Map, { Marker, Popup, Source, Layer } from 'react-map-gl';
 import { pinSharp, navigateCircleOutline, layers } from 'ionicons/icons';
-import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton } from '@ionic/react';
+import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
@@ -26,10 +26,12 @@ const MapGL: React.FC = () => {
   const [locationChips, setLocationChips] = useState<any>([]);
   const { location, radius} = useDataStore();
   const [isLoading, setIsLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [popupInfo, setPopupInfo] = useState<any>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [geoJson, setGeoJson] = useState<any>(null);
   const [geoJsonLoaded, setGeoJsonLoaded] = useState(false);
+  
 
   const getChipCollection = useCallback(async () => {
     const firestore = firebase.firestore();
@@ -87,7 +89,7 @@ const MapGL: React.FC = () => {
         longitude={chip.coordinates._long}
         latitude={chip.coordinates._lat}
         anchor="bottom"
-        onClick={(e) => { e.originalEvent.stopPropagation(); setPopupInfo(chip) }}
+        onClick={(e) => { e.originalEvent.stopPropagation(); setIsOpen(true) }}
       >
         <IonIcon icon={pinSharp} size="large" color='tertiary' style={{ cursor: 'pointer' }} />
       </Marker>
@@ -104,7 +106,7 @@ const MapGL: React.FC = () => {
   }
 
   return (
-    <div id="map-container" style={{ height: "65vh", width: "90vh", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
+    <div id="map-container" style={{ height: "90vh", width: "90vh", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
       <Map
         mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsdng1bTZwczBnbWoydm82bTE1MXN5YmEifQ.jVrPQmWmp5xMxQamxdASVA"
         initialViewState={{
@@ -123,39 +125,41 @@ const MapGL: React.FC = () => {
           </Source>
         )}
         {mapLoaded && memoizedMarkers}
-        {popupInfo && (
-          <Popup
-            anchor='top'
-            longitude={popupInfo.coordinates._long}
-            latitude={popupInfo.coordinates._lat}
-            closeButton={true}
-            closeOnClick={false}
-            onClose={() => setPopupInfo(null)}
-            className='mapPinPopup'
-          >
-            <IonCardTitle className='mapPinSubtitle'>{popupInfo.name}</IonCardTitle>
-            <IonCardSubtitle>{popupInfo.address.toUpperCase()}</IonCardSubtitle>
-            <IonCardContent>
-              <IonButton className="getDirections" color="warning">
-                <a
-                  className='directionsButton'
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${popupInfo.coordinates._lat},${popupInfo.coordinates._long}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <h2>Get Directions</h2>
-                </a>
-              </IonButton>
-            </IonCardContent>
-          </Popup>
-        )}
-        
         {mapLoaded && location?.coords.longitude != undefined && location.coords.latitude != undefined && (
-          <Marker latitude={location.coords.latitude} longitude={location.coords.longitude}>
+          <Marker latitude={location.coords.latitude} longitude={location.coords.longitude} onClick={() => {console.log("Hello")}}>
             <IonIcon icon={navigateCircleOutline} size="large" color='tertiary' />
           </Marker>
         )}
       </Map>
+
+      <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
+        <IonHeader>
+          <IonToolbar>
+            <IonButton slot='end' onClick={()=> setIsOpen(false)}>BACK</IonButton>
+            <IonTitle>Details</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          {popupInfo && (
+            <>
+              <IonCardTitle className='mapPinSubtitle'>{popupInfo.name}</IonCardTitle>
+              <IonCardSubtitle>{popupInfo.address.toUpperCase()}</IonCardSubtitle>
+              <IonCardContent>
+                <IonButton className="getDirections" color="warning">
+                  <a
+                    className='directionsButton'
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${popupInfo.coordinates._lat},${popupInfo.coordinates._long}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <h2>Get Directions</h2>
+                  </a>
+                </IonButton>
+              </IonCardContent>
+            </>
+          )}
+        </IonContent>
+      </IonModal>
     </div>
   );
 };
