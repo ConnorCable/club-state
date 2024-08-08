@@ -50,3 +50,17 @@
   border-radius: 10px;
 }
 
+.map-modal-footer {
+  height: 95px;
+  animation: lavaLamp 20s ease infinite;
+  padding-bottom: 5svh;
+  display: flex;
+  flex-direction: column;  
+  
+}
+
+.main-map-modal-content {
+  padding-top: 4svh;
+  width: 95%;
+  height: 30%;
+}
