@@ -22,6 +22,7 @@ interface StoreState
     googleAPIKey: string
     aiPrompt: string
     currentClubStateCoords : Array<any>
+    genres: string[]
     setCurrentClubStateCoords: (currentClubStateCoords: Array<any>) => void
     setLocation: (location: Position) => void
     setRecordedSong: (recordedSong: RecordedSongProps) => void
@@ -36,6 +37,7 @@ interface StoreState
     setIsCaptureEligibile: (isCaptureEligible: boolean) => void
     setRadius: (radius: number) => void
     setGoogleGenerativeAI: (googleGenerativeAI: GenerativeModel) => void
+    setGenres: (genres: string[]) => void
 
 
 
@@ -59,6 +61,7 @@ export const useDataStore = create<StoreState>()((set) => ({
     aiPrompt: promptString,
     currentClubStateCoords: [],
     googleAPIKey: "AIzaSyDJDA_8BQU_RM0_jOpbH22_FPg0aVFNp54",
+    genres: [],
     setCurrentClubStateCoords: (currentClubStateCoords: any) => set({currentClubStateCoords}),
     setIsLocationLoading: (isLocationLoading: boolean) => set({ isLocationLoading }),
     setIsRecordingLoading: (isRecordingLoading: boolean) => set({ isRecordingLoading }),
@@ -72,6 +75,7 @@ export const useDataStore = create<StoreState>()((set) => ({
     setIsCompletingForm: (isCompletingForm: boolean) => set({isCompletingForm}),
     setIsCaptureEligibile: (isCaptureEligible: boolean) => set({isCaptureEligible}),
     setIsMapModalOpen: (isMapModalOpen: boolean) => set({isMapModalOpen}),
-    setGoogleGenerativeAI: (googleGenerativeAI: GenerativeModel) => set({googleGenerativeAI})
+    setGoogleGenerativeAI: (googleGenerativeAI: GenerativeModel) => set({googleGenerativeAI}),
+    setGenres: (genres: string[]) => set({genres}),
 
 }));
