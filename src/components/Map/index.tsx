@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'; // Import from react-router-dom
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp } from 'ionicons/icons';
-import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText } from '@ionic/react';
+import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonFooter, IonGrid, IonRow, IonCol, IonSearchbar } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
@@ -159,9 +159,25 @@ const MapGL: React.FC = () => {
         className="floating-modal"
         showBackdrop={false}
       >
-        
-          <IonText> Hello </IonText>
-        
+        <IonHeader>
+          Put time here / other simple metrics
+        </IonHeader>        
+        <IonContent className="main-map-modal-content">
+          <IonSearchbar></IonSearchbar>
+        </IonContent>
+        <IonFooter className='map-modal-footer'>
+          <IonButton fill="outline" color="warning" onClick={() => {
+            console.log("DIRECTION BUTTON CLICKED");
+          }}>
+            <IonGrid>
+              <IonRow>
+                <IonCol size='3'></IonCol>
+                <IonCol size='2'> <IonText className="ion-text-justify" color="dark"> <h6>Directions</h6> </IonText></IonCol>
+                <IonCol> <IonIcon className="ion-padding" size='small' icon={navigateCircleOutline} color='dark'></IonIcon></IonCol>
+              </IonRow>
+            </IonGrid>
+          </IonButton>
+        </IonFooter>
       </IonModal>
     </div>
   );
