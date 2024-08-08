@@ -27,16 +27,14 @@ import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { location, currentClubs, setCurrentClubs, radius, setChosenClub } =
+  const { location, currentClubs, setCurrentClubs, radius, setChosenClub, genres, setGenres } =
     useDataStore();
   const [filteredClubs, setFilteredClubs] = useState<any>([]);
-  const [genres, setGenres] = useState<string[]>([]);
   const [activeClub, setActiveClub] = useState<string | undefined>();
   const [activeButton, setActiveButton] = useState<number | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("");
 
-  // TODO: Use a dictionary instead of a list of dictionaries
-
+  
   const filterClubs = (genre: any) => {
     const filtered = currentClubs?.filter(
       (club: any) => club.recentCapture.genre === genre.genre
