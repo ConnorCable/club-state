@@ -1,13 +1,14 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import Map, { Marker, Popup, Source, Layer } from 'react-map-gl';
-import { pinSharp, navigateCircleOutline, layers } from 'ionicons/icons';
-import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent } from '@ionic/react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import { useLocation, useHistory } from 'react-router-dom'; // Import from react-router-dom
+import Map, { Marker, Source, Layer } from 'react-map-gl';
+import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp } from 'ionicons/icons';
+import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
 import { useDataStore } from '../../models/DataStore';
 import logo from "../../../assets/clubStateLogo.gif";
-import './index.css'
+import './index.css';
 import type { CircleLayer } from 'react-map-gl';
 import { getClubStateCoords } from '../../helpers/getClubStateCoords';
 import { heatmapLayer } from './map-style';
@@ -21,31 +22,31 @@ const layerStyle: CircleLayer = {
   }
 };
 
-
 const MapGL: React.FC = () => {
   const [locationChips, setLocationChips] = useState<any>([]);
-  const { location, radius} = useDataStore();
+  const { location, radius, isMapModalOpen, setIsMapModalOpen } = useDataStore();
   const [isLoading, setIsLoading] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [popupInfo, setPopupInfo] = useState<any>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [geoJson, setGeoJson] = useState<any>(null);
   const [geoJsonLoaded, setGeoJsonLoaded] = useState(false);
-  
+  const [isInteractingWithMap, setIsInteractingWithMap] = useState(false); // State to track map interaction
+  const modal = useRef<HTMLIonModalElement>(null);
+  const locationHook = useLocation(); 
+  const history = useHistory(); 
 
   const getChipCollection = useCallback(async () => {
     const firestore = firebase.firestore();
     const GeoFirestore = geofirestore.initializeApp(firestore);
     const geocollection = GeoFirestore.collection('geo-clubs');
-    const query = geocollection.near({ center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude), radius: radius }).limit(50); // Limit added
+    const query = geocollection.near({
+      center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude),
+      radius: radius
+    }).limit(50); // Limit added
     const snapshot = await query.get();
-
-    return snapshot.docs.map((doc: any) => {
-
-      return doc.data();
-    });
-  }, [location, radius,]);
-
+    return snapshot.docs.map((doc: any) => doc.data());
+  }, [location, radius]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,25 +55,15 @@ const MapGL: React.FC = () => {
       setIsLoading(false);
       const geoJsonData = await getClubStateCoords(location, radius);
       setGeoJson(geoJsonData);
-      console.log(geoJsonData);
       setGeoJsonLoaded(true);
-      
-      
     };
-
-    
-
     fetchData();
   }, [getChipCollection, location, radius]);
 
-  
-
   const handleMapLoad = useCallback(() => {
-    console.log('GeoJSON Loaded:', geoJsonLoaded);
     if (geoJsonLoaded) {
       setMapLoaded(true);
     }
-    
   }, [geoJsonLoaded]);
 
   useEffect(() => {
@@ -81,7 +72,6 @@ const MapGL: React.FC = () => {
     }
   }, [geoJsonLoaded, handleMapLoad]);
 
-
   const memoizedMarkers = useMemo(() =>
     locationChips.map((chip: any) => (
       <Marker
@@ -89,12 +79,37 @@ const MapGL: React.FC = () => {
         longitude={chip.coordinates._long}
         latitude={chip.coordinates._lat}
         anchor="bottom"
-        onClick={(e) => { e.originalEvent.stopPropagation(); setIsOpen(true) }}
+        onClick={(e) => {
+          e.originalEvent.stopPropagation();
+          setIsOpen(true);
+          if (modal.current) {
+            modal.current.setCurrentBreakpoint(0.95); // Open to full size
+          }
+        }}
       >
-        <IonIcon icon={pinSharp} size="large" color='tertiary' style={{ cursor: 'pointer' }} />
+        <IonIcon icon={micCircleOutline} size="large" color='danger' style={{ cursor: 'pointer' }} />
       </Marker>
     ))
     , [locationChips]);
+
+  // Handle interactions with the map
+  const handleMapInteraction = () => {
+    setIsInteractingWithMap(true);
+    if (modal.current) {
+      modal.current.setCurrentBreakpoint(0.05); // Set to smallest breakpoint
+    }
+  };
+
+  // Close the modal on route change
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (isOpen) {
+        setIsMapModalOpen(false); // Close the modal
+      }
+    };
+
+    return history.listen(() => handleRouteChange());
+  }, [history, isOpen]);
 
   if (isLoading) {
     return (
@@ -116,9 +131,10 @@ const MapGL: React.FC = () => {
         }}
         mapStyle="mapbox://styles/mukkoi/clvx641jj01qd01q1dh0074ny"
         scrollZoom={true}
-        onRender={(event) => event.target.resize()}
+        onRender={() => handleMapInteraction()} // Track map interaction
         onLoad={handleMapLoad}
       >
+        
         {mapLoaded && geoJsonLoaded && (
           <Source type="geojson" data={geoJson}>
             <Layer {...heatmapLayer} />
@@ -126,39 +142,26 @@ const MapGL: React.FC = () => {
         )}
         {mapLoaded && memoizedMarkers}
         {mapLoaded && location?.coords.longitude != undefined && location.coords.latitude != undefined && (
-          <Marker latitude={location.coords.latitude} longitude={location.coords.longitude} onClick={() => {console.log("Hello")}}>
-            <IonIcon icon={navigateCircleOutline} size="large" color='tertiary' />
+          <Marker latitude={location.coords.latitude} longitude={location.coords.longitude}>
+            <IonIcon icon={walkSharp} size="large" color='success' />
           </Marker>
         )}
       </Map>
 
-      <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
-        <IonHeader>
-          <IonToolbar>
-            <IonButton slot='end' onClick={()=> setIsOpen(false)}>BACK</IonButton>
-            <IonTitle>Details</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          {popupInfo && (
-            <>
-              <IonCardTitle className='mapPinSubtitle'>{popupInfo.name}</IonCardTitle>
-              <IonCardSubtitle>{popupInfo.address.toUpperCase()}</IonCardSubtitle>
-              <IonCardContent>
-                <IonButton className="getDirections" color="warning">
-                  <a
-                    className='directionsButton'
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${popupInfo.coordinates._lat},${popupInfo.coordinates._long}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <h2>Get Directions</h2>
-                  </a>
-                </IonButton>
-              </IonCardContent>
-            </>
-          )}
-        </IonContent>
+      <IonModal
+        ref={modal}
+        isOpen={isMapModalOpen}
+        onDidDismiss={() => setIsOpen(false)}
+        backdropDismiss={false}
+        initialBreakpoint={0.05}
+        breakpoints={[0.05, 0.50, 0.95]}
+        backdropBreakpoint={0.05}
+        className="floating-modal"
+        showBackdrop={false}
+      >
+        
+          <IonText> Hello </IonText>
+        
       </IonModal>
     </div>
   );
