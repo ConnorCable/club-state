@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'; // Import from react-router-dom
 import Map, { Marker, Source, Layer } from 'react-map-gl';
 import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp } from 'ionicons/icons';
-import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonFooter, IonGrid, IonRow, IonCol, IonSearchbar } from '@ionic/react';
+import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonFooter, IonGrid, IonRow, IonCol, IonSearchbar, IonCard } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
@@ -12,6 +12,10 @@ import './index.css';
 import type { CircleLayer } from 'react-map-gl';
 import { getClubStateCoords } from '../../helpers/getClubStateCoords';
 import { heatmapLayer } from './map-style';
+import { ClubCard } from '../ClubCard';
+import { ClubProps } from '../../models/ClubProps';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
 
 const layerStyle: CircleLayer = {
   id: 'point',
@@ -22,9 +26,35 @@ const layerStyle: CircleLayer = {
   }
 };
 
+
+const FakeClubCardData: ClubProps = {
+    Name: "MAP CARD NAME",
+    Address: "MAP CARD ADDRESS",
+    Coordinates: {latitude: 120, longitude: 120},
+    Id: "CLUB ID",
+    ImageStoragePath: "/path",
+    RecentCapture: {
+      artist: "ARTIST",
+      cleanliness: "",
+      clubId: "",
+      cover: true,
+      fullness: "str",
+      genre: "string",
+      hostility: "string",
+      line: true,
+      latitude: "string",
+      longitude: "string",
+      loudness: "string",
+      price: "string",
+      ratio: "string",
+      song: "string",
+    },
+    ResidingState: "CA"
+}
+
 const MapGL: React.FC = () => {
   const [locationChips, setLocationChips] = useState<any>([]);
-  const { location, radius, isMapModalOpen, setIsMapModalOpen } = useDataStore();
+  const { location, radius, isMapModalOpen, setIsMapModalOpen, currentClubs, genres } = useDataStore();
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
   const [popupInfo, setPopupInfo] = useState<any>(null);
@@ -35,6 +65,7 @@ const MapGL: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const locationHook = useLocation(); 
   const history = useHistory(); 
+  const [activeButton, setActiveButton] = useState<number | null>(null);
 
   const getChipCollection = useCallback(async () => {
     const firestore = firebase.firestore();
@@ -83,7 +114,7 @@ const MapGL: React.FC = () => {
           e.originalEvent.stopPropagation();
           setIsOpen(true);
           if (modal.current) {
-            modal.current.setCurrentBreakpoint(0.95); // Open to full size
+            modal.current.setCurrentBreakpoint(.95);
           }
         }}
       >
@@ -122,6 +153,46 @@ const MapGL: React.FC = () => {
 
   return (
     <div id="map-container" style={{ height: "90vh", width: "90vh", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
+
+      <Swiper className="mapGenreSwiper"
+        spaceBetween={7}
+        slidesPerView={5}
+        loop={true}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: false,
+        }}
+        modules={[Autoplay]}
+      >
+      {genres.map((genre: any) => {
+            if (!genre.genre) return null;
+            return (
+              <SwiperSlide key={genre.index} className='mapGenreSwiperElement'>
+                <IonCard
+                  className="mapGenreCard"
+                  color={genre.index === activeButton ? "dark" : "light"}
+                  onClick={() => { console.log("Clicked Genre Filter Map")}}
+                >
+                  <IonCardTitle className="genreTitle ">
+                    {genre.genre.length > 5 ? (
+                      <sup>
+                        <h3>{genre.genre.substring(0, 7)}</h3>
+                      </sup>
+                    ) : (
+                      <sup>
+                        <sup>
+                          <h1>{genre.genre}</h1>
+                        </sup>
+                      </sup>
+                    )}
+                  </IonCardTitle>
+                </IonCard>
+              </SwiperSlide>
+            );
+          })}
+      </Swiper>
+      
       <Map
         mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsdng1bTZwczBnbWoydm82bTE1MXN5YmEifQ.jVrPQmWmp5xMxQamxdASVA"
         initialViewState={{
@@ -154,7 +225,7 @@ const MapGL: React.FC = () => {
         onDidDismiss={() => setIsOpen(false)}
         backdropDismiss={false}
         initialBreakpoint={0.05}
-        breakpoints={[0.05, 0.50, 0.95]}
+        breakpoints={[0.05, .95]}
         backdropBreakpoint={0.05}
         className="floating-modal"
         showBackdrop={false}
@@ -163,16 +234,18 @@ const MapGL: React.FC = () => {
           Put time here / other simple metrics
         </IonHeader>        
         <IonContent className="main-map-modal-content">
-          <IonSearchbar></IonSearchbar>
+          <IonSearchbar></IonSearchbar>     
+          <h1 className='map-card-title'>CLUB NAME</h1>
         </IonContent>
         <IonFooter className='map-modal-footer'>
-          <IonButton fill="outline" color="warning" onClick={() => {
+          <IonButton fill="clear" color="warning" onClick={() => {
             console.log("DIRECTION BUTTON CLICKED");
           }}>
             <IonGrid>
               <IonRow>
-                <IonCol size='3'></IonCol>
-                <IonCol size='2'> <IonText className="ion-text-justify" color="dark"> <h6>Directions</h6> </IonText></IonCol>
+                <IonCol size='2'></IonCol>
+                <IonCol size='2'></IonCol>
+                <IonCol size='0'> <IonText className="ion-text-justify" color="dark"> <h6>Directions</h6> </IonText></IonCol>
                 <IonCol> <IonIcon className="ion-padding" size='small' icon={navigateCircleOutline} color='dark'></IonIcon></IonCol>
               </IonRow>
             </IonGrid>
