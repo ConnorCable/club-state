@@ -7,7 +7,7 @@ import { useDataStore } from "../../models/DataStore";
 import { earOutline } from "ionicons/icons";
 import firebase from "firebase/compat";
 
-const Tab2: React.FC = () => {
+const Map: React.FC = () => {
   const { location, setLocation } = useDataStore();
 
   useIonViewWillEnter(() => {
@@ -17,8 +17,6 @@ const Tab2: React.FC = () => {
     };
     fetchUserLocation();
   });
-
-
 
   return (
     <IonPage>
@@ -34,4 +32,4 @@ const Tab2: React.FC = () => {
   );
 };
 
-export default Tab2;
+export default Map;
