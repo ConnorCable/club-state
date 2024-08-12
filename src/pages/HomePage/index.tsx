@@ -46,11 +46,17 @@ const HomePage: React.FC = () => {
   const setClubGenres = (nearbyClubs: any) => {
     let index = 0;
     const newGenres: any[] = [];
+    const seenGenres = new Set();
     nearbyClubs?.forEach((club: any) => {
       let genre = club.recentCapture.genre;
-
-      newGenres.push({ genre: genre, index: index });
-      index++;
+      
+      if(!seenGenres.has(genre))
+      {
+        newGenres.push({ genre: genre, index: index });
+        seenGenres.add(genre);
+        index++;
+      }
+      
     });
     setGenres(newGenres);
   };
@@ -116,7 +122,6 @@ const HomePage: React.FC = () => {
       setCurrentClubs(nearbyClubs);
       setFilteredClubs(nearbyClubs);
       setClubGenres(nearbyClubs);
-      console.log(filteredClubs);
     }
   };
 
