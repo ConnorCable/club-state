@@ -29,6 +29,14 @@ ion-footer, ion-tab-bar {
   padding-bottom: var(--sab);
 }
 
+ion-content {
+  --overflow: hidden;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
   
   *,
   *::before,
