@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
 
 body{ position: fixed; height: 100% }
 
