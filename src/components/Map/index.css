@@ -42,7 +42,7 @@
   margin: auto;
   max-height: 85%;
   width: 96%;
-  margin-bottom: 9.5svh;
+  margin-bottom: 58px;
   transform: none;
   border-radius: 10px;
 }
@@ -101,10 +101,21 @@
 }
 
 .chip-container {
-  position: absolute; /* Position the container absolutely */
-  bottom: 83svh; /* Adjust as needed to position it below the Swiper */
+  position: absolute; 
+  top: 119px; /* Adjust this value to your desired distance from the top */
   left: 90%;
-  transform: translateX(-50%); /* Center the container horizontally */
-  z-index: 3000; /* Ensure it's above the map */
-  background-color: transparent; /* Make the background transparent */
+  transform: translateX(-50%); 
+  z-index: 4000; 
+  background-color: transparent; 
+}
+
+.map-controls {
+  position: absolute; /* Position it relative to its nearest positioned ancestor */
+  top: 70px; /* Adjust the distance from the bottom as needed */
+  left: 50%;
+  width: 30px;
+  transform: translateX(393%); /* Center it horizontally */
+  padding: 10px;
+  z-index: 5000; 
+  
 }
