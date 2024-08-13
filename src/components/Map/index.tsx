@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom'; // Import from react-router-dom
 import Map, { Marker, Source, Layer } from 'react-map-gl';
-import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp, add } from 'ionicons/icons';
+import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp, add, locateOutline, addCircleOutline, removeCircleOutline } from 'ionicons/icons';
 import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonFooter, IonGrid, IonRow, IonCol, IonSearchbar, IonCard, IonChip } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -9,7 +9,7 @@ import * as geofirestore from 'geofirestore';
 import { useDataStore } from '../../models/DataStore';
 import logo from "../../../assets/clubStateLogo.gif";
 import './index.css';
-import type { CircleLayer } from 'react-map-gl';
+import type { CircleLayer, MapboxMap, MapRef } from 'react-map-gl';
 import { getClubStateCoords } from '../../helpers/getClubStateCoords';
 import { heatmapLayer } from './map-style';
 import { ClubCard } from '../ClubCard';
@@ -58,6 +58,7 @@ const MapGL: React.FC = () => {
   const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
   const [activeGenre, setActiveGenre] = useState<string | null>(null);
   const [filteredChips, setFilteredChips] = useState<any[]>([]);
+  const mapRef = useRef<MapRef>(null); 
 
   const getChipCollection = useCallback(async () => {
     const firestore = firebase.firestore();
@@ -95,15 +96,12 @@ const MapGL: React.FC = () => {
     return chipArray;
   }, [location, radius]);
 
-  const mapRef = useRef<Map>(null); // Create a ref to access the map instance
-
-  // ... other parts of your component
-
+  
   const handleCenterOnMyLocation = () => {
     if (mapRef.current && location) {
       mapRef.current.flyTo({
         center: [location.coords.longitude, location.coords.latitude], // Center on user's location
-        zoom: 14, // Adjust the zoom level as needed
+        zoom: 15, // Adjust the zoom level as needed
         duration: 2000 // Adjust the animation duration as needed
       });
     }
@@ -215,7 +213,7 @@ const MapGL: React.FC = () => {
   }
 
   return (
-    <div id="map-container" style={{ height: "100%", width: "90vh", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
+    <div id="map-container" style={{ height: "100%", width: "100%", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
 
       <Swiper className="mapGenreSwiper"
         spaceBetween={7}
@@ -273,11 +271,12 @@ const MapGL: React.FC = () => {
     </div>
       
       <Map
+        ref={mapRef}
         mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsdng1bTZwczBnbWoydm82bTE1MXN5YmEifQ.jVrPQmWmp5xMxQamxdASVA"
         initialViewState={{
           longitude: location?.coords.longitude,
           latitude: location?.coords.latitude,
-          zoom: 12.5
+          zoom: 14.5
         }}
         mapStyle="mapbox://styles/mukkoi/clvx641jj01qd01q1dh0074ny"
         scrollZoom={true}
@@ -296,16 +295,24 @@ const MapGL: React.FC = () => {
             <IonIcon icon={walkSharp} size="large" color='success' />
           </Marker>
         )}
+
       </Map>
+
+      <div className="map-controls">
+        <IonButton onClick={handleCenterOnMyLocation} size='small'>
+          <IonIcon icon={locateOutline} /> {/* Center on my location icon */}
+        </IonButton>
+
+      </div>
 
       <IonModal
         ref={modal}
         isOpen={isMapModalOpen}
         onDidDismiss={() => setIsOpen(false)}
         backdropDismiss={false}
-        initialBreakpoint={0.05}
-        breakpoints={[0.05, .95]}
-        backdropBreakpoint={0.05}
+        initialBreakpoint={0.01}
+        breakpoints={[0.01, .95]}
+        backdropBreakpoint={0.01}
         className="floating-modal"
         showBackdrop={false}
       >
@@ -323,12 +330,9 @@ const MapGL: React.FC = () => {
               />
             )
           }
-
         </IonContent>
         <IonFooter className='map-modal-footer'>
           <IonButton fill="clear" color="warning" onClick={() => {
-            console.log(popupInfo);
-            
           }}>
             <IonGrid>
               <IonRow>
