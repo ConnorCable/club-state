@@ -1,21 +1,110 @@
 .mapboxgl-popup-close-button {
-    font-size: 30px;
-    color: goldenrod;
-    
-  }
-
+  font-size: 30px;
+  color: goldenrod;
+}
 
 .mapPinSubtitle {
-    padding-top: 10px;
-    color: black;
+  padding-top: 10px;
+  color: black;
 }
 
 .directionsButton {
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
 }
 
 .mapPinPopup {
-    text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 60vh;
+  background-color: white;
+  z-index: 1000;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mapPinPopup .mapPinSubtitle, .mapPinPopup .mapPinContent {
+  margin: 1rem;
+}
+
+.floating-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  max-height: 80%;
+  width: 96%;
+  margin-bottom: 9.5svh;
+  transform: none;
+  border-radius: 10px;
+}
+
+.map-modal-footer {
+  height: 95px;
+  animation: lavaLamp 20s ease infinite;
+  padding-bottom: 5svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-map-modal-content {
+  padding-top: 4svh;
+  width: 100%;
+  height: 30%;
+}
+
+.map-card-title {
+  width: 100%;
+  padding-bottom: 42svh;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.mapGenreSwiper {
+  padding-top: 20px;
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  left: 0;
+  width: 100%;
+  height: 20%;
+  z-index: 2000; /* Ensure it's above the map */
+  padding-right: 1.1em;
+  padding-left: -2em;
+  display: flex;
+  justify-content: center; /* Center Swiper horizontally */
+}
+
+.mapGenreCard {
+  padding-bottom: 20px;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  align-items: center;
+  white-space: nowrap;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.1s ease, transform 0.4s ease;
+}
+
+.mapCard {
+  align-items: center;
+  display: flex;
+}
+
+.chip-container {
+  position: absolute; /* Position the container absolutely */
+  bottom: 79svh; /* Adjust as needed to position it below the Swiper */
+  left: 90%;
+  transform: translateX(-50%); /* Center the container horizontally */
+  z-index: 3000; /* Ensure it's above the map */
+  background-color: transparent; /* Make the background transparent */
 }

@@ -14,6 +14,7 @@ interface StoreState
     isShazamCorrect: boolean
     isCompletingForm: boolean
     isCaptureEligible: boolean
+    isMapModalOpen: boolean
     chosenClub: string | undefined
     radius: number
     recordedSong: RecordedSongProps | null
@@ -21,12 +22,14 @@ interface StoreState
     googleAPIKey: string
     aiPrompt: string
     currentClubStateCoords : Array<any>
+    genres: string[]
     setCurrentClubStateCoords: (currentClubStateCoords: Array<any>) => void
     setLocation: (location: Position) => void
     setRecordedSong: (recordedSong: RecordedSongProps) => void
     setCurrentClubs: (currentClubs: Array<any>) => void
     setIsLocationLoading: (isLocationLoading: boolean) => void
     setIsRecordingLoading: (isRecordingLoading: boolean) => void
+    setIsMapModalOpen: (isMapModalOpen: boolean) => void
     setChosenClub: (chosenClub: string) => void
     setIsShazamCaptured: (isShazamCaptured: boolean) => void
     setIsShazamCorrect: (isShazamCorrect: boolean) => void
@@ -34,6 +37,7 @@ interface StoreState
     setIsCaptureEligibile: (isCaptureEligible: boolean) => void
     setRadius: (radius: number) => void
     setGoogleGenerativeAI: (googleGenerativeAI: GenerativeModel) => void
+    setGenres: (genres: string[]) => void
 
 
 
@@ -51,11 +55,13 @@ export const useDataStore = create<StoreState>()((set) => ({
     isShazamCorrect: false,
     isCompletingForm: false,
     isCaptureEligible: false,
+    isMapModalOpen: true,
     recordedSong: null,
     googleGenerativeAI: null,
     aiPrompt: promptString,
     currentClubStateCoords: [],
     googleAPIKey: "AIzaSyDJDA_8BQU_RM0_jOpbH22_FPg0aVFNp54",
+    genres: [],
     setCurrentClubStateCoords: (currentClubStateCoords: any) => set({currentClubStateCoords}),
     setIsLocationLoading: (isLocationLoading: boolean) => set({ isLocationLoading }),
     setIsRecordingLoading: (isRecordingLoading: boolean) => set({ isRecordingLoading }),
@@ -68,6 +74,8 @@ export const useDataStore = create<StoreState>()((set) => ({
     setIsShazamCorrect: (isShazamCorrect: boolean) => set({isShazamCorrect}),
     setIsCompletingForm: (isCompletingForm: boolean) => set({isCompletingForm}),
     setIsCaptureEligibile: (isCaptureEligible: boolean) => set({isCaptureEligible}),
-    setGoogleGenerativeAI: (googleGenerativeAI: GenerativeModel) => set({googleGenerativeAI})
+    setIsMapModalOpen: (isMapModalOpen: boolean) => set({isMapModalOpen}),
+    setGoogleGenerativeAI: (googleGenerativeAI: GenerativeModel) => set({googleGenerativeAI}),
+    setGenres: (genres: string[]) => set({genres}),
 
 }));

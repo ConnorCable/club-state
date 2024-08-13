@@ -37,7 +37,7 @@ import {
   triangle,
 } from "ionicons/icons";
 import HomePage from "./pages/HomePage";
-import Tab2 from "./pages/MapPage";
+import Map from "./pages/MapPage";
 import Tab3 from "./pages/AdminPage";
 import FakeAdminPage from "./pages/FakeAdminPage";
 
@@ -76,7 +76,7 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const [geolocationFetched, setGeolocationFetched] = useState(false);
-  const { location, setLocation, radius, setRadius, googleAPIKey, setGoogleGenerativeAI } = useDataStore();
+  const { location, setLocation, radius, setRadius, googleAPIKey, setGoogleGenerativeAI, isMapModalOpen, setIsMapModalOpen } = useDataStore();
   const [showProgressBar, setShowProgressBar] = useState(false);
  // const {setGoogleGenerativeAI, googleGenerativeAI, googleAPIKey} = useDataStore();
 
@@ -133,7 +133,7 @@ const App: React.FC = () => {
                 <HomePage />
               </Route>
               <Route exact path="/tab2">
-                <Tab2 />
+                <Map />
               </Route>
               <Route path="/tab3">
                 <AdminPage />
@@ -142,12 +142,12 @@ const App: React.FC = () => {
                 <Redirect to="/tab1" />
               </Route>
             </IonRouterOutlet>
-            <IonTabBar className="" slot="bottom" >
-              <IonTabButton tab="tab1" href="/tab1">
+            <IonTabBar className="" slot="bottom">
+              <IonTabButton tab="tab1" href="/tab1" onClick={() => setIsMapModalOpen(false)}>
                 <IonIcon icon={homeOutline} />
                 <IonLabel>Home</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="tab2" href="/tab2">
+              <IonTabButton tab="tab2" href="/tab2" onClick={ () => {setIsMapModalOpen(true)}}>
                 <IonIcon icon={mapOutline} />
                 <IonLabel>Map</IonLabel>
               </IonTabButton>
@@ -212,7 +212,7 @@ const App: React.FC = () => {
                   <IonRange
                     label-placement="end"
                     min={5}
-                    max={200}
+                    max={1000}
                     defaultValue={75}
                     color="secondary"
                     onIonInput={(e) => setRadius(e.detail.value as number)}

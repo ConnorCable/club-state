@@ -27,16 +27,14 @@ import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { location, currentClubs, setCurrentClubs, radius, setChosenClub } =
+  const { location, currentClubs, setCurrentClubs, radius, setChosenClub, genres, setGenres } =
     useDataStore();
   const [filteredClubs, setFilteredClubs] = useState<any>([]);
-  const [genres, setGenres] = useState<string[]>([]);
   const [activeClub, setActiveClub] = useState<string | undefined>();
   const [activeButton, setActiveButton] = useState<number | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("");
 
-  // TODO: Use a dictionary instead of a list of dictionaries
-
+  
   const filterClubs = (genre: any) => {
     const filtered = currentClubs?.filter(
       (club: any) => club.recentCapture.genre === genre.genre
@@ -48,11 +46,17 @@ const HomePage: React.FC = () => {
   const setClubGenres = (nearbyClubs: any) => {
     let index = 0;
     const newGenres: any[] = [];
+    const seenGenres = new Set();
     nearbyClubs?.forEach((club: any) => {
       let genre = club.recentCapture.genre;
-
-      newGenres.push({ genre: genre, index: index });
-      index++;
+      
+      if(!seenGenres.has(genre))
+      {
+        newGenres.push({ genre: genre, index: index });
+        seenGenres.add(genre);
+        index++;
+      }
+      
     });
     setGenres(newGenres);
   };
@@ -118,7 +122,6 @@ const HomePage: React.FC = () => {
       setCurrentClubs(nearbyClubs);
       setFilteredClubs(nearbyClubs);
       setClubGenres(nearbyClubs);
-      console.log(filteredClubs);
     }
   };
 
@@ -167,40 +170,40 @@ const HomePage: React.FC = () => {
 
           <div className="filterButtons">
             <IonChip
-              className="ion-text-center ion-text-capitalize "
+              className={`ion-text-center ion-text-capitalize filter-chip ${activeFilter === "money" ? "active" : ""}`}
               outline={true}
-              color={activeFilter == "money" ? "success" : "dark"}
+              color={activeFilter === "money" ? "success" : "warning"}
               onClick={() => filterSettings("money")}
             >
               $$$
             </IonChip>
             <IonChip
-              className="ion-text-center ion-text-capitalize "
+              className={`ion-text-center ion-text-capitalize filter-chip ${activeFilter === "fullness" ? "active" : ""}`}
               outline={true}
-              color={activeFilter == "fullness" ? "success" : "dark"}
+              color={activeFilter === "fullness" ? "success" : "warning"}
               onClick={() => filterSettings("fullness")}
             >
               Fullness
             </IonChip>
             <IonChip
-              className="ion-text-center ion-text-capitalize "
+              className={`ion-text-center ion-text-capitalize filter-chip ${activeFilter === "hostility" ? "active" : ""}`}
               outline={true}
-              color={activeFilter == "hostility" ? "success" : "dark"}
+              color={activeFilter === "hostility" ? "success" : "warning"}
               onClick={() => filterSettings("hostility")}
             >
               Hostility
             </IonChip>
             <IonChip
-              className="ion-text-center ion-text-capitalize "
+              className={`ion-text-center ion-text-capitalize filter-chip ${activeFilter === "distance" ? "active" : ""}`}
               outline={true}
-              color={activeFilter == "distance" ? "success" : "dark"}
+              color={activeFilter === "distance" ? "success" : "warning"}
               onClick={() => filterSettings("distance")}
             >
               Distance
             </IonChip>
             <IonChip
               color="danger"
-              className="ion-text-center ion-text-capitalize "
+              className="ion-text-center ion-text-capitalize"
               outline={true}
               onClick={removeFilter}
             >
