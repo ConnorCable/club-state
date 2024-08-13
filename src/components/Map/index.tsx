@@ -16,6 +16,8 @@ import { ClubCard } from '../ClubCard';
 import { ClubProps } from '../../models/ClubProps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
+import { getStorageURL } from '../../helpers/getClubCardCollection';
+import useClubStore from '../../models/ClubStore';
 
 
 
@@ -32,7 +34,6 @@ const MapCard: React.FC<any> = ({ name, address, photo, imagePath, recentCapture
   
   return (
     <ClubCard onClick={function (): void {
-      
     } } ClubProps={{Name: name, Address: address, ImageStoragePath: imagePath, RecentCapture: recentCapture, Coordinates: {latitude: lat, longitude: long}, Id: id, ResidingState: residingState}}></ClubCard>
   );
 };
@@ -61,14 +62,52 @@ const MapGL: React.FC = () => {
   const getChipCollection = useCallback(async () => {
     const firestore = firebase.firestore();
     const GeoFirestore = geofirestore.initializeApp(firestore);
-    const geocollection = GeoFirestore.collection('geo-clubs');
+    const geocollection = GeoFirestore.collection('geo-clubs');  
+   
+  
     const query = geocollection.near({
       center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude),
-      radius: radius
-    }).limit(50); // Limit added
+      radius:  
+   radius
+    }).limit(50); 
+  
     const snapshot = await query.get();
-    return snapshot.docs.map((doc: any) => doc.data());
+  
+    const chipPromises = snapshot.docs.map(async (doc) => {
+      const chipData = doc.data(); 
+      const clubId = doc.id; // Assuming each chip is also associated with a club
+  
+      // Fetch the clubURL (adjust `getStorageURL` and storage path as needed)
+      const clubUrl = await getStorageURL(chipData['imageStoragePath']); // Assuming a field like 'clubImageStoragePath' exists in your chip data
+  
+      // Optionally, update clubRefs if needed (similar to getClubCardCollection)
+      const clubRef = firestore.collection('geo-clubs').doc(clubId);
+      useClubStore.getState().updateClubRefs(clubId, clubRef); 
+  
+      return { 
+        ...chipData, // Include all the original chip data
+        id: doc.id, 
+        clubURL: clubUrl 
+      };
+    });
+  
+    const chipArray = await Promise.all(chipPromises);
+    return chipArray;
   }, [location, radius]);
+
+  const mapRef = useRef<Map>(null); // Create a ref to access the map instance
+
+  // ... other parts of your component
+
+  const handleCenterOnMyLocation = () => {
+    if (mapRef.current && location) {
+      mapRef.current.flyTo({
+        center: [location.coords.longitude, location.coords.latitude], // Center on user's location
+        zoom: 14, // Adjust the zoom level as needed
+        duration: 2000 // Adjust the animation duration as needed
+      });
+    }
+  };
 
   const handleMarkerClick = (chip: any) => {
     setPopupInfo(chip);
@@ -279,7 +318,7 @@ const MapGL: React.FC = () => {
                 recentCapture={popupInfo.recentCapture}
                 lat={popupInfo.coordinates._lat}
                 long={popupInfo.coordinates._long} 
-                imagePath={popupInfo.imagePath}
+                imagePath={popupInfo.clubURL}
                 residingState={popupInfo.residingState}
               />
             )
