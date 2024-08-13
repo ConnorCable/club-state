@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom'; // Import from react-router-dom
 import Map, { Marker, Source, Layer } from 'react-map-gl';
-import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp } from 'ionicons/icons';
-import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonFooter, IonGrid, IonRow, IonCol, IonSearchbar, IonCard } from '@ionic/react';
+import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp, add } from 'ionicons/icons';
+import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonFooter, IonGrid, IonRow, IonCol, IonSearchbar, IonCard, IonChip } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import * as geofirestore from 'geofirestore';
@@ -17,6 +17,8 @@ import { ClubProps } from '../../models/ClubProps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 
+
+
 const layerStyle: CircleLayer = {
   id: 'point',
   type: 'circle',
@@ -26,31 +28,16 @@ const layerStyle: CircleLayer = {
   }
 };
 
+const MapCard: React.FC<any> = ({ name, address, photo, imagePath, recentCapture, lat, long, id, residingState }) => {
+  
+  return (
+    <ClubCard onClick={function (): void {
+      
+    } } ClubProps={{Name: name, Address: address, ImageStoragePath: imagePath, RecentCapture: recentCapture, Coordinates: {latitude: lat, longitude: long}, Id: id, ResidingState: residingState}}></ClubCard>
+  );
+};
 
-const FakeClubCardData: ClubProps = {
-    Name: "MAP CARD NAME",
-    Address: "MAP CARD ADDRESS",
-    Coordinates: {latitude: 120, longitude: 120},
-    Id: "CLUB ID",
-    ImageStoragePath: "/path",
-    RecentCapture: {
-      artist: "ARTIST",
-      cleanliness: "",
-      clubId: "",
-      cover: true,
-      fullness: "str",
-      genre: "string",
-      hostility: "string",
-      line: true,
-      latitude: "string",
-      longitude: "string",
-      loudness: "string",
-      price: "string",
-      ratio: "string",
-      song: "string",
-    },
-    ResidingState: "CA"
-}
+
 
 const MapGL: React.FC = () => {
   const [locationChips, setLocationChips] = useState<any>([]);
@@ -66,6 +53,10 @@ const MapGL: React.FC = () => {
   const locationHook = useLocation(); 
   const history = useHistory(); 
   const [activeButton, setActiveButton] = useState<number | null>(null);
+  const [selectedClub, setSelectedClub] = useState<any | null>(null);
+  const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
+  const [activeGenre, setActiveGenre] = useState<string | null>(null);
+  const [filteredChips, setFilteredChips] = useState<any[]>([]);
 
   const getChipCollection = useCallback(async () => {
     const firestore = firebase.firestore();
@@ -79,10 +70,40 @@ const MapGL: React.FC = () => {
     return snapshot.docs.map((doc: any) => doc.data());
   }, [location, radius]);
 
+  const handleMarkerClick = (chip: any) => {
+    setPopupInfo(chip);
+    setIsOpen(true);
+    setSelectedMarkerId(chip.g.geohash); 
+    if (modal.current) {
+      modal.current.setCurrentBreakpoint(.95);
+    }
+  };
+
+  useEffect(() => {
+    // Filter locationChips based on activeGenre
+    const newFilteredChips = activeGenre
+      ? locationChips.filter((chip: any) => {
+          return chip.recentCapture && chip.recentCapture.genre && chip.recentCapture.genre === activeGenre;
+        })
+      : locationChips; // If no activeGenre, show all chips
+
+    setFilteredChips(newFilteredChips);
+  }, [locationChips, activeGenre]);
+
+
+  const handleGenreClick = (genre: string) => {
+    setActiveGenre(genre); 
+    const genreIndex = genres.findIndex((g: any) => g.genre === genre);
+    setActiveButton(genreIndex);
+    
+  };
+
+  
   useEffect(() => {
     const fetchData = async () => {
       const chips = await getChipCollection();
       setLocationChips(chips);
+      setFilteredChips(chips);
       setIsLoading(false);
       const geoJsonData = await getClubStateCoords(location, radius);
       setGeoJson(geoJsonData);
@@ -104,24 +125,23 @@ const MapGL: React.FC = () => {
   }, [geoJsonLoaded, handleMapLoad]);
 
   const memoizedMarkers = useMemo(() =>
-    locationChips.map((chip: any) => (
+    filteredChips.map((chip: any) => (
       <Marker
         key={chip.g.geohash}
         longitude={chip.coordinates._long}
         latitude={chip.coordinates._lat}
         anchor="bottom"
-        onClick={(e) => {
-          e.originalEvent.stopPropagation();
-          setIsOpen(true);
-          if (modal.current) {
-            modal.current.setCurrentBreakpoint(.95);
-          }
-        }}
+        onClick={() => handleMarkerClick(chip)}
       >
-        <IonIcon icon={micCircleOutline} size="large" color='danger' style={{ cursor: 'pointer' }} />
+      <IonIcon 
+          icon={micCircleOutline} 
+          size="large" 
+          color={selectedMarkerId === chip.g.geohash ? '' : 'danger'} 
+          style={{ cursor: 'pointer' }} 
+        />
       </Marker>
     ))
-    , [locationChips]);
+    , [filteredChips, selectedMarkerId]);
 
   // Handle interactions with the map
   const handleMapInteraction = () => {
@@ -137,6 +157,10 @@ const MapGL: React.FC = () => {
       if (isOpen) {
         setIsMapModalOpen(false); // Close the modal
       }
+      setSelectedMarkerId(null);
+      setActiveGenre(null);
+      setPopupInfo(null);
+      setActiveButton(null);
     };
 
     return history.listen(() => handleRouteChange());
@@ -152,7 +176,7 @@ const MapGL: React.FC = () => {
   }
 
   return (
-    <div id="map-container" style={{ height: "90vh", width: "90vh", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
+    <div id="map-container" style={{ height: "100%", width: "90vh", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
 
       <Swiper className="mapGenreSwiper"
         spaceBetween={7}
@@ -172,7 +196,7 @@ const MapGL: React.FC = () => {
                 <IonCard
                   className="mapGenreCard"
                   color={genre.index === activeButton ? "dark" : "light"}
-                  onClick={() => { console.log("Clicked Genre Filter Map")}}
+                  onClick={() => { handleGenreClick(genre.genre)}}
                 >
                   <IonCardTitle className="genreTitle ">
                     {genre.genre.length > 5 ? (
@@ -192,6 +216,22 @@ const MapGL: React.FC = () => {
             );
           })}
       </Swiper>
+
+      <div className="chip-container"> {/* Add a container for the chip */}
+      <IonChip
+        color="danger"
+        className="ion-text-center ion-text-capitalize"
+        outline={true}
+        onClick={() => { 
+          setSelectedMarkerId(null); 
+          setActiveGenre(null);
+          setPopupInfo(null);
+          setActiveButton(null);
+        }}
+      >
+        X
+      </IonChip>
+    </div>
       
       <Map
         mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsdng1bTZwczBnbWoydm82bTE1MXN5YmEifQ.jVrPQmWmp5xMxQamxdASVA"
@@ -230,16 +270,26 @@ const MapGL: React.FC = () => {
         className="floating-modal"
         showBackdrop={false}
       >
-        <IonHeader>
-          Put time here / other simple metrics
-        </IonHeader>        
         <IonContent className="main-map-modal-content">
-          <IonSearchbar></IonSearchbar>     
-          <h1 className='map-card-title'>CLUB NAME</h1>
+          {popupInfo != null && 
+            (<MapCard 
+                name={popupInfo.name} 
+                address={popupInfo.address} 
+                genre={popupInfo.genre}
+                recentCapture={popupInfo.recentCapture}
+                lat={popupInfo.coordinates._lat}
+                long={popupInfo.coordinates._long} 
+                imagePath={popupInfo.imagePath}
+                residingState={popupInfo.residingState}
+              />
+            )
+          }
+
         </IonContent>
         <IonFooter className='map-modal-footer'>
           <IonButton fill="clear" color="warning" onClick={() => {
-            console.log("DIRECTION BUTTON CLICKED");
+            console.log(popupInfo);
+            
           }}>
             <IonGrid>
               <IonRow>
