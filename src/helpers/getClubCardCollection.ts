@@ -30,7 +30,7 @@ export const getClubCardCollection = async (location: { coords: { latitude: numb
 };
 
 
-const getStorageURL = async (imagePath: string): Promise<string> => {
+export const getStorageURL = async (imagePath: string): Promise<string> => {
 
     const storage = getStorage();
     try {
