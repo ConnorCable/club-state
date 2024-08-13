@@ -55,7 +55,7 @@ export const ClubCard: React.FC<ClickableClubCard> = ({ onClick,  ClubProps}) =>
           </IonRow>
           <IonRow>
             <IonCol></IonCol>
-            <IonCol><IonChip  className="ion-text-nowrap">{recentState.genre ? recentState.genre : "Unknown Genre"}</IonChip></IonCol>
+            <IonCol><IonChip  className="ion-text-nowrap">{recentState.genre ? recentState.genre : "N/A"}</IonChip></IonCol>
             <IonCol>
               <IonChip>
                 Cover<IonIcon color={recentState.cover === false ? "danger" : "success"} icon={recentState.cover === false ? closeOutline : checkmark}></IonIcon>
