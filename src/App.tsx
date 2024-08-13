@@ -122,7 +122,7 @@ const App: React.FC = () => {
   return (
     
     <IonApp
-      style={{ maxWidth: 450, margin: "auto", padding: "70px" }}
+      style={{ maxWidth: 450, maxHeight: 1050, margin: "auto", padding: "70px" }}
     >
       <IonReactRouter>
         {geolocationFetched ? (
