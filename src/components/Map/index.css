@@ -70,10 +70,10 @@
   justify-content: center;
 }
 
-.mapGenreSwiper {
-  padding-top: 20px;
+
+
+.mapGenreSwiper {  
   position: absolute;
-  top: 10px; /* Adjust as needed */
   left: 0;
   width: 100%;
   height: 20%;
@@ -102,7 +102,7 @@
 
 .chip-container {
   position: absolute; /* Position the container absolutely */
-  bottom: 79svh; /* Adjust as needed to position it below the Swiper */
+  bottom: 83svh; /* Adjust as needed to position it below the Swiper */
   left: 90%;
   transform: translateX(-50%); /* Center the container horizontally */
   z-index: 3000; /* Ensure it's above the map */
