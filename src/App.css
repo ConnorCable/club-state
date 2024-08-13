@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
 
 body{ position: fixed; height: 100% }
 
@@ -27,6 +30,14 @@ body{ position: fixed; height: 100% }
 
 ion-footer, ion-tab-bar {
   padding-bottom: var(--sab);
+}
+
+ion-content {
+  --overflow: hidden;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
   

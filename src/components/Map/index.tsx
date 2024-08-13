@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom'; // Import from react-router-dom
 import Map, { Marker, Source, Layer } from 'react-map-gl';
-import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp, add } from 'ionicons/icons';
+import { pinSharp, navigateCircleOutline, musicalNoteSharp, musicalNotesSharp, micOutline, micCircleOutline, walkSharp, add, locateOutline, addCircleOutline, removeCircleOutline } from 'ionicons/icons';
 import { IonIcon, IonProgressBar, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonFooter, IonGrid, IonRow, IonCol, IonSearchbar, IonCard, IonChip } from '@ionic/react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -9,13 +9,15 @@ import * as geofirestore from 'geofirestore';
 import { useDataStore } from '../../models/DataStore';
 import logo from "../../../assets/clubStateLogo.gif";
 import './index.css';
-import type { CircleLayer } from 'react-map-gl';
+import type { CircleLayer, MapboxMap, MapRef } from 'react-map-gl';
 import { getClubStateCoords } from '../../helpers/getClubStateCoords';
 import { heatmapLayer } from './map-style';
 import { ClubCard } from '../ClubCard';
 import { ClubProps } from '../../models/ClubProps';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
+import { getStorageURL } from '../../helpers/getClubCardCollection';
+import useClubStore from '../../models/ClubStore';
 
 
 
@@ -32,7 +34,6 @@ const MapCard: React.FC<any> = ({ name, address, photo, imagePath, recentCapture
   
   return (
     <ClubCard onClick={function (): void {
-      
     } } ClubProps={{Name: name, Address: address, ImageStoragePath: imagePath, RecentCapture: recentCapture, Coordinates: {latitude: lat, longitude: long}, Id: id, ResidingState: residingState}}></ClubCard>
   );
 };
@@ -57,18 +58,54 @@ const MapGL: React.FC = () => {
   const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(null);
   const [activeGenre, setActiveGenre] = useState<string | null>(null);
   const [filteredChips, setFilteredChips] = useState<any[]>([]);
+  const mapRef = useRef<MapRef>(null); 
 
   const getChipCollection = useCallback(async () => {
     const firestore = firebase.firestore();
     const GeoFirestore = geofirestore.initializeApp(firestore);
-    const geocollection = GeoFirestore.collection('geo-clubs');
+    const geocollection = GeoFirestore.collection('geo-clubs');  
+   
+  
     const query = geocollection.near({
       center: new firebase.firestore.GeoPoint(location!.coords.latitude, location!.coords.longitude),
-      radius: radius
-    }).limit(50); // Limit added
+      radius:  
+   radius
+    }).limit(50); 
+  
     const snapshot = await query.get();
-    return snapshot.docs.map((doc: any) => doc.data());
+  
+    const chipPromises = snapshot.docs.map(async (doc) => {
+      const chipData = doc.data(); 
+      const clubId = doc.id; // Assuming each chip is also associated with a club
+  
+      // Fetch the clubURL (adjust `getStorageURL` and storage path as needed)
+      const clubUrl = await getStorageURL(chipData['imageStoragePath']); // Assuming a field like 'clubImageStoragePath' exists in your chip data
+  
+      // Optionally, update clubRefs if needed (similar to getClubCardCollection)
+      const clubRef = firestore.collection('geo-clubs').doc(clubId);
+      useClubStore.getState().updateClubRefs(clubId, clubRef); 
+  
+      return { 
+        ...chipData, // Include all the original chip data
+        id: doc.id, 
+        clubURL: clubUrl 
+      };
+    });
+  
+    const chipArray = await Promise.all(chipPromises);
+    return chipArray;
   }, [location, radius]);
+
+  
+  const handleCenterOnMyLocation = () => {
+    if (mapRef.current && location) {
+      mapRef.current.flyTo({
+        center: [location.coords.longitude, location.coords.latitude], // Center on user's location
+        zoom: 15, // Adjust the zoom level as needed
+        duration: 2000 // Adjust the animation duration as needed
+      });
+    }
+  };
 
   const handleMarkerClick = (chip: any) => {
     setPopupInfo(chip);
@@ -176,7 +213,7 @@ const MapGL: React.FC = () => {
   }
 
   return (
-    <div id="map-container" style={{ height: "100%", width: "90vh", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
+    <div id="map-container" style={{ height: "100%", width: "100%", visibility: mapLoaded ? 'visible' : 'hidden', overflow: "hidden" }}>
 
       <Swiper className="mapGenreSwiper"
         spaceBetween={7}
@@ -234,11 +271,12 @@ const MapGL: React.FC = () => {
     </div>
       
       <Map
+        ref={mapRef}
         mapboxAccessToken="pk.eyJ1IjoibXVra29pIiwiYSI6ImNsdng1bTZwczBnbWoydm82bTE1MXN5YmEifQ.jVrPQmWmp5xMxQamxdASVA"
         initialViewState={{
           longitude: location?.coords.longitude,
           latitude: location?.coords.latitude,
-          zoom: 12.5
+          zoom: 14.5
         }}
         mapStyle="mapbox://styles/mukkoi/clvx641jj01qd01q1dh0074ny"
         scrollZoom={true}
@@ -257,16 +295,24 @@ const MapGL: React.FC = () => {
             <IonIcon icon={walkSharp} size="large" color='success' />
           </Marker>
         )}
+
       </Map>
+
+      <div className="map-controls">
+        <IonButton onClick={handleCenterOnMyLocation} size='small'>
+          <IonIcon icon={locateOutline} /> {/* Center on my location icon */}
+        </IonButton>
+
+      </div>
 
       <IonModal
         ref={modal}
         isOpen={isMapModalOpen}
         onDidDismiss={() => setIsOpen(false)}
         backdropDismiss={false}
-        initialBreakpoint={0.05}
-        breakpoints={[0.05, .95]}
-        backdropBreakpoint={0.05}
+        initialBreakpoint={0.01}
+        breakpoints={[0.01, .95]}
+        backdropBreakpoint={0.01}
         className="floating-modal"
         showBackdrop={false}
       >
@@ -279,17 +325,14 @@ const MapGL: React.FC = () => {
                 recentCapture={popupInfo.recentCapture}
                 lat={popupInfo.coordinates._lat}
                 long={popupInfo.coordinates._long} 
-                imagePath={popupInfo.imagePath}
+                imagePath={popupInfo.clubURL}
                 residingState={popupInfo.residingState}
               />
             )
           }
-
         </IonContent>
         <IonFooter className='map-modal-footer'>
           <IonButton fill="clear" color="warning" onClick={() => {
-            console.log(popupInfo);
-            
           }}>
             <IonGrid>
               <IonRow>

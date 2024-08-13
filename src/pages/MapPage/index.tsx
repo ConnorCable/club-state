@@ -19,12 +19,7 @@ const Map: React.FC = () => {
   });
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle><sup>Clubs Nearby</sup></IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    <IonPage>  
       <IonContent fullscreen={true}>
         <MapGL />
       </IonContent>

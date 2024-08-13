@@ -104,7 +104,6 @@ const App: React.FC = () => {
 
   const fetchGeolocation = async () => {
     try {
-      // HOME ACCESS GEOFENCE
       setShowProgressBar(true);
       if (await Geolocation.checkPermissions()) {
         const coordinates = await Geolocation.getCurrentPosition();
@@ -136,7 +135,7 @@ const App: React.FC = () => {
                 <Map />
               </Route>
               <Route path="/tab3">
-                <AdminPage />
+                <FakeAdminPage />
               </Route>
               <Route exact path="/">
                 <Redirect to="/tab1" />
@@ -151,7 +150,7 @@ const App: React.FC = () => {
                 <IonIcon icon={mapOutline} />
                 <IonLabel>Map</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="tab3" href="/tab3">
+              <IonTabButton tab="tab3" href="/tab3" onClick={() => setIsMapModalOpen(false)}>
                 <IonIcon  icon={personOutline} />
                 <IonLabel>Admin</IonLabel>
               </IonTabButton>
@@ -177,29 +176,27 @@ const App: React.FC = () => {
               >
                 <div style={{ position: "relative", display: "inline-block", height: "100px" }}>
                   {" "}
-                  {/* Parent div with relative positioning */}
+                  {}
                   <div
                     className="radius-circle"
                     style={{
-                      width: `170px`, // Ensure minimum size of 50px
-                      height: `150px`, // Ensure minimum size of 50px
+                      width: `170px`, 
+                      height: `150px`,
                       borderRadius: "20%",
                       backgroundColor: "transparent",
-                      border: "4px solid var(--glow-color)", // Example color
+                      border: "4px solid var(--glow-color)", 
                       transition: "width 0.7s, height 0.7s",
-
-                      // Smooth transition for size change
                     }}
                   ></div>
                   <h1
                     style={{
                       fontSize: "3.0em",
-                      position: "absolute", // Absolute positioning inside the parent div
-                      top: "70%", // Center vertically
-                      left: radius === 200 ? "58%" : "53%", // Center horizontally
-                      transform: "translate(-50%, -50%)", // Adjust the centering
+                      position: "absolute",
+                      top: "70%", 
+                      left: radius === 200 ? "58%" : "53%", 
+                      transform: "translate(-50%, -50%)", 
                       margin: 1, // Remove default margin
-                      color: "var(--ion-color-secondary)", // Example text color, adjust as needed
+                      color: "var(--ion-color-secondary)", 
                     }}
                   >
                     {radius} miles
