@@ -59,6 +59,7 @@ const MapGL: React.FC = () => {
   const [activeGenre, setActiveGenre] = useState<string | null>(null);
   const [filteredChips, setFilteredChips] = useState<any[]>([]);
   const mapRef = useRef<MapRef>(null); 
+  const [isFlying, setIsFlying] = useState<boolean>(false);
 
   const getChipCollection = useCallback(async () => {
     const firestore = firebase.firestore();
@@ -108,12 +109,40 @@ const MapGL: React.FC = () => {
   };
 
   const handleMarkerClick = (chip: any) => {
+
+    if(!isMapModalOpen)
+    {
+      setIsMapModalOpen(true);
+      modal.current?.setCurrentBreakpoint(0.35);
+    }
+    
     setPopupInfo(chip);
     setIsOpen(true);
     setSelectedMarkerId(chip.g.geohash); 
-    if (modal.current) {
-      modal.current.setCurrentBreakpoint(.95);
+
+    if (mapRef.current) {
+      
+      setIsFlying(true);
+
+      mapRef.current.flyTo({
+        center: [chip.coordinates._long, chip.coordinates._lat,],
+        zoom: 15,
+        duration: 2000 
+      },);
+
+      setTimeout(() => {
+        setIsFlying(false);
+      }, 4000);
+
+    setTimeout(() => {
+      if (modal.current) {
+        modal.current.setCurrentBreakpoint(.30);
+      }  
+    }, 300)
+
     }
+
+    
   };
 
   useEffect(() => {
@@ -180,11 +209,15 @@ const MapGL: React.FC = () => {
     ))
     , [filteredChips, selectedMarkerId]);
 
-  // Handle interactions with the map
+
   const handleMapInteraction = () => {
-    setIsInteractingWithMap(true);
+
+    if(!isFlying)
+    {
+      setIsInteractingWithMap(true);
     if (modal.current) {
-      modal.current.setCurrentBreakpoint(0.05); // Set to smallest breakpoint
+      modal.current.setCurrentBreakpoint(0.01); // Set to smallest breakpoint
+    }
     }
   };
 
@@ -308,14 +341,18 @@ const MapGL: React.FC = () => {
       <IonModal
         ref={modal}
         isOpen={isMapModalOpen}
-        onDidDismiss={() => setIsOpen(false)}
+        onDidDismiss={() => setIsMapModalOpen(false)}
         backdropDismiss={false}
         initialBreakpoint={0.01}
-        breakpoints={[0.01, .95]}
+        breakpoints={[0.01, .30]}
         backdropBreakpoint={0.01}
         className="floating-modal"
         showBackdrop={false}
       >
+        <div 
+    slot="backdrop" 
+    onClick={() => modal.current?.setCurrentBreakpoint(0.01)} 
+  />
         <IonContent className="main-map-modal-content">
           {popupInfo != null && 
             (<MapCard 
