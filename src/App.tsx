@@ -26,6 +26,7 @@ import {
   IonItem,
   IonChip,
   IonRange,
+  IonAlert,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import {
@@ -70,6 +71,7 @@ import "./App.css";
 import { doc, onSnapshot } from "firebase/firestore";
 import AdminPage from "./pages/AdminPage";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { BubbleTransition } from "./components/BubbleTransition";
 
 
 setupIonicReact();
@@ -78,6 +80,7 @@ const App: React.FC = () => {
   const [geolocationFetched, setGeolocationFetched] = useState(false);
   const { location, setLocation, radius, setRadius, googleAPIKey, setGoogleGenerativeAI, isMapModalOpen, setIsMapModalOpen } = useDataStore();
   const [showProgressBar, setShowProgressBar] = useState(false);
+  const [isEntering, setIsEntering] = useState(false);
  // const {setGoogleGenerativeAI, googleGenerativeAI, googleAPIKey} = useDataStore();
 
 
@@ -102,18 +105,23 @@ const App: React.FC = () => {
 
   const firestore = firebase.firestore();
 
+  const handleEnterClick = async () => {
+
+    setIsEntering(true);
+    fetchGeolocation();
+
+  }
+
   const fetchGeolocation = async () => {
     try {
-      setShowProgressBar(true);
+
       if (await Geolocation.checkPermissions()) {
         const coordinates = await Geolocation.getCurrentPosition();
-        console.log(coordinates)
         setLocation(coordinates);
         setGeolocationFetched(true);
+        setIsEntering(false);
       }
-      setTimeout(() => {
-        setShowProgressBar(false);
-      }, 1000);
+
     } catch (error) {
       console.error("Error fetching geolocation:", error);
     }
@@ -209,7 +217,7 @@ const App: React.FC = () => {
                   <IonRange
                     label-placement="end"
                     min={5}
-                    max={1000}
+                    max={200}
                     defaultValue={75}
                     color="secondary"
                     onIonInput={(e) => setRadius(e.detail.value as number)}
@@ -221,7 +229,7 @@ const App: React.FC = () => {
               <IonRow>
                 <IonCol></IonCol>
                 <IonCol className="button-container">
-                  <button className="glowing-btn" onClick={fetchGeolocation}>
+                  <button className="glowing-btn" onClick={handleEnterClick}>
                     <span className="glowing-txt">
                       E<span className="faulty-letter">N</span>TER
                     </span>
