@@ -332,7 +332,7 @@ const MapGL: React.FC = () => {
       </Map>
 
       <div className="map-controls">
-        <IonButton onClick={handleCenterOnMyLocation} size='small'>
+        <IonButton onClick={handleCenterOnMyLocation} size='small' color="dark">
           <IonIcon icon={locateOutline} /> {/* Center on my location icon */}
         </IonButton>
 
