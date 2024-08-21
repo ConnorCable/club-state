@@ -18,7 +18,9 @@ import { closeOutline } from "ionicons/icons";
 import { ShazamResponse } from "../../models/ShazamResponse";
 import "./index.css";
 import { useDataStore } from "../../models/DataStore";
-import confetti from "canvas-confetti";
+
+
+declare const confetti: (options?: any) => void;
 
 
 interface ShazamModalProps {
