@@ -71,7 +71,7 @@ import "./App.css";
 import { doc, onSnapshot } from "firebase/firestore";
 import AdminPage from "./pages/AdminPage";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { BubbleTransition } from "./components/BubbleTransition";
+
 
 
 setupIonicReact();
@@ -136,29 +136,29 @@ const App: React.FC = () => {
         {geolocationFetched ? (
           <IonTabs>
             <IonRouterOutlet className="ion-page">
-              <Route exact path="/tab1">
+              <Route exact path="/Main">
                 <HomePage />
               </Route>
-              <Route exact path="/tab2">
+              <Route exact path="/Map">
                 <Map />
               </Route>
-              <Route path="/tab3">
+              <Route path="/Admin">
                 <FakeAdminPage />
               </Route>
               <Route exact path="/">
-                <Redirect to="/tab1" />
+                <Redirect to="/Main" />
               </Route>
             </IonRouterOutlet>
             <IonTabBar className="" slot="bottom">
-              <IonTabButton tab="tab1" href="/tab1" onClick={() => setIsMapModalOpen(false)}>
+              <IonTabButton tab="Main" href="/Main" onClick={() => setIsMapModalOpen(false)}>
                 <IonIcon icon={homeOutline} />
                 <IonLabel>Home</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="tab2" href="/tab2" onClick={ () => {setIsMapModalOpen(true)}}>
+              <IonTabButton tab="Map" href="/Map" onClick={ () => {setIsMapModalOpen(true)}}>
                 <IonIcon icon={mapOutline} />
                 <IonLabel>Map</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="tab3" href="/tab3" onClick={() => setIsMapModalOpen(false)}>
+              <IonTabButton tab="Admin" href="/Admin" onClick={() => setIsMapModalOpen(false)}>
                 <IonIcon  icon={personOutline} />
                 <IonLabel>Admin</IonLabel>
               </IonTabButton>
