@@ -14,7 +14,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 
 
-const Tab3: React.FC = () => {
+const Admin: React.FC = () => {
   const [isAddingClub, setIsAddingClub] = useState(false);
   const [isAddingState, setIsAddingState] = useState(false);
   const [newClubForm, setNewClubForm] = useState<ClubProps>();
@@ -136,7 +136,7 @@ const Tab3: React.FC = () => {
   );
 };
 
-export default Tab3;
+export default Admin;
 
 interface NewStateFormProps {
   onSubmit: (stateProps: ClubStateProps) => void;
