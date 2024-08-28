@@ -23,7 +23,7 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import { getDistance } from "geolib";
 import { getClubCardCollection } from "../../helpers/getClubCardCollection";
 import { LazySwiper } from "../../helpers/LazerSwiper";
-import { Haptics, ImpactStyle } from '@capacitor/haptics';
+
 
 const HomePage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,14 +73,6 @@ const HomePage: React.FC = () => {
     setActiveButton(null);
     setActiveFilter("");
   };
-
-  const vibrateCard = async () => {
-    await Haptics.impact({ style: ImpactStyle.Light });
-  }
-
-  const vibrateHard = async () => {
-    await Haptics.impact({ style: ImpactStyle.Medium });
-  }
 
   const filterSettings = (setting: string) => {
     let copy_filtered = [...filteredClubs].sort((a: any, b: any) => {
@@ -148,7 +140,7 @@ const HomePage: React.FC = () => {
                 <IonCard
                   className="genreCard"
                   color={genre.index === activeButton ? "dark" : "light"}
-                  onClick={() => { filterClubs(genre); vibrateCard(); }}
+                  onClick={() => { filterClubs(genre)}}
                 >
                   <IonCardTitle className="genreTitle ">
                     {genre.genre.length > 5 ? (
@@ -227,7 +219,6 @@ const HomePage: React.FC = () => {
                       setActiveClub(club.id);
                       setIsOpen(true);
                       setChosenClub(club.id);
-                      vibrateHard();
                     }}
                     ClubProps={{
                       Id: club.id,
