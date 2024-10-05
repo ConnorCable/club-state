@@ -23,6 +23,7 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import { getDistance } from "geolib";
 import { getClubCardCollection } from "../../helpers/getClubCardCollection";
 import { LazySwiper } from "../../helpers/LazerSwiper";
+import { ne } from "@faker-js/faker";
 
 
 const HomePage: React.FC = () => {
@@ -111,6 +112,7 @@ const HomePage: React.FC = () => {
   const fetchClubCardCollection = async () => {
     if (location) {
       var nearbyClubs: any = await getClubCardCollection(location, radius);
+      console.log(nearbyClubs);
       setCurrentClubs(nearbyClubs);
       setFilteredClubs(nearbyClubs);
       setClubGenres(nearbyClubs);
